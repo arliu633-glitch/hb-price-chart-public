@@ -375,7 +375,7 @@
         "<script><![CDATA[",
         "function showTip(evt, zone){const svg=zone.ownerSVGElement;const p=svg.createSVGPoint();p.x=evt.clientX;p.y=evt.clientY;const m=p.matrixTransform(svg.getScreenCTM().inverse());const line=svg.getElementById('hover-line');const tip=svg.getElementById('tooltip');const x=Number(zone.dataset.x);line.setAttribute('x1',x);line.setAttribute('x2',x);line.style.opacity=1;svg.getElementById('tip-time').textContent='时刻点：'+zone.dataset.time;svg.getElementById('tip-output').textContent='机组出力：'+zone.dataset.output;svg.getElementById('tip-price').textContent='实时电价：'+zone.dataset.actualPrice;svg.getElementById('tip-forecast').textContent='预测电价：'+zone.dataset.forecastPrice;const tipW=220;const tipH=122;const plotTop=Number(svg.dataset.plotTop);const plotBottom=Number(svg.dataset.plotBottom);const plotLeft=Number(svg.dataset.plotLeft);const plotRight=Number(svg.dataset.plotRight);const curveY=Number(zone.dataset.curveY);let tx=m.x+18;if(tx+tipW>plotRight)tx=m.x-tipW-18;tx=Math.min(Math.max(tx,plotLeft+8),plotRight-tipW-8);let ty=m.y-tipH/2;if(!Number.isNaN(curveY)&&curveY>=ty-10&&curveY<=ty+tipH+10){ty=curveY>(plotTop+plotBottom)/2?curveY-tipH-18:curveY+18;}ty=Math.min(Math.max(ty,plotTop+8),plotBottom-tipH-8);if(!Number.isNaN(curveY)&&curveY>=ty-10&&curveY<=ty+tipH+10){ty=Math.max(46,plotTop-tipH-18);}tip.setAttribute('transform',`translate(${tx},${ty})`);tip.style.opacity=1;}",
         "function hideTip(evt){const svg=evt.target.ownerSVGElement;svg.getElementById('hover-line').style.opacity=0;svg.getElementById('tooltip').style.opacity=0;}",
-        "]]><\\/script>",
+        "]]><\/script>",
       ];
 
       for (const value of outputTicks) {
