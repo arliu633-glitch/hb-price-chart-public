@@ -230,14 +230,23 @@
         const textContent = await page.getTextContent();
         const lines = groupTextItems(textContent.items);
         let pendingRows = [];
+        let activeHeader = null;
+        let activeRowsRemaining = 0;
         for (const line of lines) {
           const rowMatch = line.match(/(\d{2}-\d{2}\s+\d{2}:\d{2})\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/);
           if (rowMatch) {
-            pendingRows.push({
+            const row = {
               slot: rowMatch[1],
               output: Number(rowMatch[2]),
               price: Number(rowMatch[3]),
-            });
+            };
+            if (activeHeader && activeRowsRemaining > 0) {
+              pushRecord(records, activeHeader.seq, activeHeader.predictionTime, row);
+              activeRowsRemaining -= 1;
+              if (activeRowsRemaining === 0) activeHeader = null;
+            } else {
+              pendingRows.push(row);
+            }
           }
 
           const headerMatch = line.match(/(?:^|\s)(\d{1,3})\s+(?:\d{4}-\d{2}-\d{2}\s+)?(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2})(?!\s+[-\d])/);
@@ -245,15 +254,10 @@
             const seq = Number(headerMatch[1]);
             const predictionTime = headerMatch[2];
             for (const row of pendingRows) {
-              records.push({
-                seq,
-                predictionTime,
-                slot: row.slot,
-                slotDate: parseSlot(predictionTime, row.slot),
-                output: row.output,
-                price: row.price,
-              });
+              pushRecord(records, seq, predictionTime, row);
             }
+            activeHeader = { seq, predictionTime };
+            activeRowsRemaining = Math.max(0, 8 - pendingRows.length);
             pendingRows = [];
           }
         }
@@ -262,6 +266,17 @@
         throw new Error("未能从 PDF 中解析到表格数据。");
       }
       return records;
+    }
+
+    function pushRecord(records, seq, predictionTime, row) {
+      records.push({
+        seq,
+        predictionTime,
+        slot: row.slot,
+        slotDate: parseSlot(predictionTime, row.slot),
+        output: row.output,
+        price: row.price,
+      });
     }
 
     function groupTextItems(items) {
