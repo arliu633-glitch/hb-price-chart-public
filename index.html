@@ -5,40 +5,470 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>河北南网实时机组滚动发电计划</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
+    * { box-sizing: border-box; }
+    html, body {
       width: 100%;
       height: 100%;
       margin: 0;
       background: #f8fafc;
+      color: #1f2937;
       font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif;
       overflow: hidden;
     }
-
-    main {
+    body {
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+    .chart-area {
       width: 100dvw;
-      height: 100dvh;
+      height: 100%;
       display: grid;
       place-items: center;
       overflow: hidden;
     }
-
     object {
-      width: min(100dvw, calc(100dvh * 28 / 9));
-      height: min(100dvh, calc(100dvw * 9 / 28));
+      width: min(100dvw, calc((100dvh - 172px) * 28 / 9));
+      height: min(calc(100dvh - 172px), calc(100dvw * 9 / 28));
       aspect-ratio: 28 / 9;
       display: block;
       background: #ffffff;
     }
+    .upload-panel {
+      min-height: 172px;
+      padding: 12px 18px;
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      border-top: 1px solid #d8dee8;
+      background: #ffffff;
+    }
+    .drop-zone {
+      min-height: 116px;
+      display: grid;
+      place-items: center;
+      padding: 10px 14px;
+      border: 1.5px dashed #9aa7b8;
+      background: #f8fafc;
+      cursor: pointer;
+    }
+    .drop-zone.is-dragging {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+    .drop-content {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .upload-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .file-name {
+      display: block;
+      margin-top: 4px;
+      color: #64748b;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: auto;
+      gap: 6px;
+      justify-items: end;
+    }
+    button {
+      height: 40px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #ffffff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    .status {
+      min-height: 18px;
+      color: #475569;
+      font-size: 13px;
+      text-align: right;
+    }
+    .status.error { color: #dc2626; }
+    .status.success { color: #15803d; }
+    input[type="file"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 760px) {
+      .upload-panel { grid-template-columns: 1fr; }
+      .actions {
+        grid-template-columns: auto 1fr;
+        justify-items: start;
+      }
+      .status { text-align: left; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <object type="image/svg+xml" data="chart.svg" aria-label="河北南网实时机组滚动发电计划"></object>
+  <main class="chart-area">
+    <object id="chartObject" type="image/svg+xml" data="chart.svg" aria-label="河北南网实时机组滚动发电计划"></object>
   </main>
+
+  <section class="upload-panel">
+    <label class="drop-zone" id="dropZone" for="fileInput">
+      <span class="drop-content">
+        <span class="upload-icon">+</span>
+        <span>
+          <strong>选择或拖入文件</strong>
+          <span class="file-name" id="fileName">未导入index.pdf</span>
+        </span>
+      </span>
+    </label>
+    <div class="actions">
+      <button id="uploadButton" type="button" disabled>确认上传</button>
+      <div class="status" id="status">上传后将在浏览器内解析并更新图表</div>
+    </div>
+    <input id="fileInput" type="file" accept="application/pdf,.pdf">
+  </section>
+
+  <script type="module">
+    import * as pdfjsLib from "https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.min.mjs";
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
+
+    const fileInput = document.getElementById("fileInput");
+    const dropZone = document.getElementById("dropZone");
+    const fileName = document.getElementById("fileName");
+    const uploadButton = document.getElementById("uploadButton");
+    const statusText = document.getElementById("status");
+    const chartObject = document.getElementById("chartObject");
+    let selectedFile = null;
+    let chartUrl = null;
+
+    function setStatus(message, type = "") {
+      statusText.textContent = message;
+      statusText.className = `status ${type}`.trim();
+    }
+
+    function setFile(file) {
+      selectedFile = file;
+      fileName.textContent = file ? "已导入index.pdf" : "未导入index.pdf";
+      uploadButton.disabled = !file;
+      setStatus(file ? "等待确认上传" : "上传后将在浏览器内解析并更新图表");
+    }
+
+    fileInput.addEventListener("change", () => setFile(fileInput.files[0] || null));
+
+    ["dragenter", "dragover"].forEach((eventName) => {
+      dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        dropZone.classList.add("is-dragging");
+      });
+    });
+
+    ["dragleave", "drop"].forEach((eventName) => {
+      dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        dropZone.classList.remove("is-dragging");
+      });
+    });
+
+    dropZone.addEventListener("drop", (event) => {
+      const file = event.dataTransfer.files[0];
+      if (!file) return;
+      if (!file.name.toLowerCase().endsWith(".pdf")) {
+        setStatus("请选择 PDF 文件", "error");
+        return;
+      }
+      setFile(file);
+    });
+
+    uploadButton.addEventListener("click", async () => {
+      if (!selectedFile) return;
+      uploadButton.disabled = true;
+      setStatus("正在解析 PDF...");
+      try {
+        const records = await parsePdf(selectedFile);
+        const { actual, forecast } = buildSeries(records);
+        const svg = makeSvg(actual, forecast);
+        if (chartUrl) URL.revokeObjectURL(chartUrl);
+        chartUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+        chartObject.data = chartUrl;
+        fileInput.value = "";
+        setFile(null);
+        setStatus(`更新完成：${actual.length} 个实时点，${forecast.length} 个预测点`, "success");
+      } catch (error) {
+        setStatus(error.message || "解析失败，请确认上传的是 index.pdf", "error");
+        uploadButton.disabled = false;
+      }
+    });
+
+    async function parsePdf(file) {
+      const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+      const records = [];
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const textContent = await page.getTextContent();
+        const lines = groupTextItems(textContent.items);
+        let pendingRows = [];
+        for (const line of lines) {
+          const rowMatch = line.match(/(\d{2}-\d{2}\s+\d{2}:\d{2})\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/);
+          if (rowMatch) {
+            pendingRows.push({
+              slot: rowMatch[1],
+              output: Number(rowMatch[2]),
+              price: Number(rowMatch[3]),
+            });
+          }
+
+          const headerMatch = line.match(/(?:^|\s)(\d{1,3})\s+(?:\d{4}-\d{2}-\d{2}\s+)?(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2})(?!\s+[-\d])/);
+          if (headerMatch && pendingRows.length) {
+            const seq = Number(headerMatch[1]);
+            const predictionTime = headerMatch[2];
+            for (const row of pendingRows) {
+              records.push({
+                seq,
+                predictionTime,
+                slot: row.slot,
+                slotDate: parseSlot(predictionTime, row.slot),
+                output: row.output,
+                price: row.price,
+              });
+            }
+            pendingRows = [];
+          }
+        }
+      }
+      if (!records.length) {
+        throw new Error("未能从 PDF 中解析到表格数据。");
+      }
+      return records;
+    }
+
+    function groupTextItems(items) {
+      const rows = [];
+      for (const item of items) {
+        const text = item.str.trim();
+        if (!text) continue;
+        const x = item.transform[4];
+        const y = item.transform[5];
+        let row = rows.find((candidate) => Math.abs(candidate.y - y) < 3);
+        if (!row) {
+          row = { y, items: [] };
+          rows.push(row);
+        }
+        row.items.push({ x, text });
+      }
+      return rows
+        .sort((a, b) => b.y - a.y)
+        .map((row) => row.items.sort((a, b) => a.x - b.x).map((item) => item.text).join(" ").replace(/\s+/g, " ").trim());
+    }
+
+    function parseSlot(predictionTime, slot) {
+      const year = Number(predictionTime.slice(0, 4));
+      const [, month, day, hour, minute] = slot.match(/(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/).map(Number);
+      return new Date(year, month - 1, day, hour, minute);
+    }
+
+    function parseDateTime(value) {
+      const [date, time] = value.split(" ");
+      const [year, month, day] = date.split("-").map(Number);
+      const [hour, minute] = time.split(":").map(Number);
+      return new Date(year, month - 1, day, hour, minute);
+    }
+
+    function buildSeries(records) {
+      const actual = records
+        .filter((record) => record.slotDate.getTime() === parseDateTime(record.predictionTime).getTime())
+        .sort((a, b) => a.slotDate - b.slotDate);
+      const forecast = records
+        .filter((record) => record.seq === 1)
+        .sort((a, b) => a.slotDate - b.slotDate)
+        .slice(1, 8);
+      if (!actual.length) {
+        throw new Error("未能解析到实时点。");
+      }
+      return { actual, forecast };
+    }
+
+    function makeSvg(actualInput, forecastInput) {
+      const width = 2800;
+      const height = 900;
+      const left = 108;
+      const right = 64;
+      const top = 190;
+      const bottom = 112;
+      const plotW = width - left - right;
+      const plotH = height - top - bottom;
+      const day = startOfDay(actualInput[0].slotDate);
+      const start = day;
+      const end = new Date(day.getTime() + (23 * 60 + 45) * 60000);
+      const actual = actualInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
+      const forecast = forecastInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
+      const forecastLine = [actual[actual.length - 1], ...forecast];
+      const allPoints = [...actual, ...forecast];
+      const title = `${formatDate(day)} 河北南网实时机组滚动发电计划`;
+      const priceMin = Math.min(...allPoints.map((point) => point.price));
+      const priceMax = Math.max(...allPoints.map((point) => point.price));
+      const pricePad = Math.max((priceMax - priceMin) * 0.12, 10);
+      const priceFloor = Math.floor((priceMin - pricePad) / 50) * 50;
+      const priceCeil = Math.ceil((priceMax + pricePad) / 50) * 50;
+      const outputMin = actual.length ? Math.min(...actual.map((point) => point.output)) : 0;
+      const outputMax = actual.length ? Math.max(...actual.map((point) => point.output)) : 0;
+      let outputFloor = Math.min(0, Math.floor(outputMin / 10) * 10);
+      let outputCeil = Math.max(0, Math.ceil(outputMax / 10) * 10);
+      if (outputFloor === outputCeil) {
+        outputFloor -= 10;
+        outputCeil += 10;
+      }
+      const x = (dt) => left + ((dt - start) / (end - start)) * plotW;
+      const yPrice = (price) => top + ((priceCeil - price) / (priceCeil - priceFloor)) * plotH;
+      const yOutput = (output) => top + ((outputCeil - output) / (outputCeil - outputFloor)) * plotH;
+      const points = (series) => series.map((point) => `${x(point.slotDate).toFixed(2)},${yPrice(point.price).toFixed(2)}`).join(" ");
+      const ticks = tickTimes(start, end);
+      const actualByTime = new Map(actual.map((point) => [point.slotDate.getTime(), point]));
+      const forecastByTime = new Map(forecast.map((point) => [point.slotDate.getTime(), point]));
+      const hoverWidth = plotW / Math.max(ticks.length - 1, 1);
+      const priceTicks = range(priceFloor, priceCeil, 50);
+      const outputTicks = range(outputFloor, outputCeil, 20);
+      if (!outputTicks.includes(0)) outputTicks.push(0);
+      outputTicks.sort((a, b) => a - b);
+      if (outputTicks[outputTicks.length - 1] !== outputCeil) outputTicks.push(outputCeil);
+
+      const parts = [
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" data-plot-left="${left}" data-plot-right="${width - right}" data-plot-top="${top}" data-plot-bottom="${height - bottom}">`,
+        "<style>",
+        "text{font-family:'Microsoft YaHei','SimHei',Arial,sans-serif;fill:#1f2937}",
+        ".axis{stroke:#374151;stroke-width:1.5}",
+        ".grid{stroke:#e5e7eb;stroke-width:1}",
+        ".minor{stroke:#f3f4f6;stroke-width:0.8}",
+        ".actual{fill:none;stroke:#2563eb;stroke-width:3.2}",
+        ".forecast{fill:none;stroke:#dc2626;stroke-width:3.2;stroke-dasharray:10 8}",
+        ".bar{fill:#16a34a;fill-opacity:0.28}",
+        ".hover-zone{fill:#ffffff;fill-opacity:0;cursor:crosshair}",
+        ".hover-line{stroke:#111827;stroke-width:1.4;stroke-dasharray:6 5;opacity:0}",
+        ".tooltip{opacity:0;pointer-events:none}",
+        ".tooltip-bg{fill:#111827;fill-opacity:.72;stroke:#ffffff;stroke-width:1.2}",
+        ".tooltip text{fill:#ffffff;font-size:15px}",
+        "</style>",
+        '<rect width="100%" height="100%" fill="#ffffff"/>',
+        `<text x="${width / 2}" y="36" text-anchor="middle" font-size="26" font-weight="700">${escapeHtml(title)}</text>`,
+        "<script><![CDATA[",
+        "function showTip(evt, zone){const svg=zone.ownerSVGElement;const p=svg.createSVGPoint();p.x=evt.clientX;p.y=evt.clientY;const m=p.matrixTransform(svg.getScreenCTM().inverse());const line=svg.getElementById('hover-line');const tip=svg.getElementById('tooltip');const x=Number(zone.dataset.x);line.setAttribute('x1',x);line.setAttribute('x2',x);line.style.opacity=1;svg.getElementById('tip-time').textContent='时刻点：'+zone.dataset.time;svg.getElementById('tip-output').textContent='机组出力：'+zone.dataset.output;svg.getElementById('tip-price').textContent='实时电价：'+zone.dataset.actualPrice;svg.getElementById('tip-forecast').textContent='预测电价：'+zone.dataset.forecastPrice;const tipW=220;const tipH=122;const plotTop=Number(svg.dataset.plotTop);const plotBottom=Number(svg.dataset.plotBottom);const plotLeft=Number(svg.dataset.plotLeft);const plotRight=Number(svg.dataset.plotRight);const curveY=Number(zone.dataset.curveY);let tx=m.x+18;if(tx+tipW>plotRight)tx=m.x-tipW-18;tx=Math.min(Math.max(tx,plotLeft+8),plotRight-tipW-8);let ty=m.y-tipH/2;if(!Number.isNaN(curveY)&&curveY>=ty-10&&curveY<=ty+tipH+10){ty=curveY>(plotTop+plotBottom)/2?curveY-tipH-18:curveY+18;}ty=Math.min(Math.max(ty,plotTop+8),plotBottom-tipH-8);if(!Number.isNaN(curveY)&&curveY>=ty-10&&curveY<=ty+tipH+10){ty=Math.max(46,plotTop-tipH-18);}tip.setAttribute('transform',`translate(${tx},${ty})`);tip.style.opacity=1;}",
+        "function hideTip(evt){const svg=evt.target.ownerSVGElement;svg.getElementById('hover-line').style.opacity=0;svg.getElementById('tooltip').style.opacity=0;}",
+        "]]></script>",
+      ];
+
+      for (const value of outputTicks) {
+        const yy = yOutput(value);
+        parts.push(`<text x="${width - right + 12}" y="${(yy + 5).toFixed(2)}" text-anchor="start" font-size="13" fill="#166534">${value}</text>`);
+      }
+      for (const value of priceTicks) {
+        const yy = yPrice(value);
+        parts.push(`<line class="grid" x1="${left}" y1="${yy.toFixed(2)}" x2="${width - right}" y2="${yy.toFixed(2)}"/>`);
+        parts.push(`<text x="${left - 12}" y="${(yy + 5).toFixed(2)}" text-anchor="end" font-size="13">${value}</text>`);
+      }
+      for (const tick of ticks) {
+        const xx = x(tick);
+        const gridClass = tick.getMinutes() === 0 ? "grid" : "grid minor";
+        const labelY = height - bottom + 28;
+        parts.push(`<line class="${gridClass}" x1="${xx.toFixed(2)}" y1="${top}" x2="${xx.toFixed(2)}" y2="${height - bottom}"/>`);
+        parts.push(`<text x="${xx.toFixed(2)}" y="${labelY}" text-anchor="end" font-size="10" transform="rotate(-60 ${xx.toFixed(2)} ${labelY})">${formatTime(tick)}</text>`);
+      }
+      for (const point of actual) {
+        parts.push(`<rect class="bar" x="${(x(point.slotDate) - 4).toFixed(2)}" y="${Math.min(yOutput(point.output), yOutput(0)).toFixed(2)}" width="8" height="${Math.abs(yOutput(point.output) - yOutput(0)).toFixed(2)}"/>`);
+      }
+      parts.push(`<line class="axis" x1="${left}" y1="${yOutput(0).toFixed(2)}" x2="${width - right}" y2="${yOutput(0).toFixed(2)}"/>`);
+      parts.push(`<line class="axis" x1="${left}" y1="${top}" x2="${left}" y2="${height - bottom}"/>`);
+      parts.push(`<line class="axis" x1="${width - right}" y1="${top}" x2="${width - right}" y2="${height - bottom}"/>`);
+      parts.push(`<text x="${width / 2}" y="${height - 28}" text-anchor="middle" font-size="16">时刻点</text>`);
+      parts.push(`<text x="24" y="${height / 2}" text-anchor="middle" font-size="16" transform="rotate(-90 24 ${height / 2})">机组价格（元/MWh）</text>`);
+      parts.push(`<text x="${width - 22}" y="${height / 2}" text-anchor="middle" font-size="16" fill="#166534" transform="rotate(90 ${width - 22} ${height / 2})">机组出力（MW）</text>`);
+      parts.push(`<polyline class="actual" points="${points(actual)}"/>`);
+      parts.push(`<polyline class="forecast" points="${points(forecastLine)}"/>`);
+      for (const point of actual) parts.push(`<circle cx="${x(point.slotDate).toFixed(2)}" cy="${yPrice(point.price).toFixed(2)}" r="3" fill="#2563eb"/>`);
+      for (const point of forecast) parts.push(`<circle cx="${x(point.slotDate).toFixed(2)}" cy="${yPrice(point.price).toFixed(2)}" r="4" fill="#dc2626"/>`);
+
+      const legendX = width - right - 560;
+      const legendY = 112;
+      parts.push(`<line x1="${legendX}" y1="${legendY}" x2="${legendX + 54}" y2="${legendY}" class="actual"/>`);
+      parts.push(`<text x="${legendX + 66}" y="${legendY + 5}" font-size="15">实时出清电价</text>`);
+      parts.push(`<line x1="${legendX + 184}" y1="${legendY}" x2="${legendX + 238}" y2="${legendY}" class="forecast"/>`);
+      parts.push(`<text x="${legendX + 250}" y="${legendY + 5}" font-size="15">实时滚动预测电价</text>`);
+      parts.push(`<rect class="bar" x="${legendX + 410}" y="${legendY - 9}" width="22" height="14"/>`);
+      parts.push(`<text x="${legendX + 442}" y="${legendY + 5}" font-size="15">机组出力</text>`);
+      parts.push(`<line id="hover-line" class="hover-line" x1="${left}" y1="${top}" x2="${left}" y2="${height - bottom}"/>`);
+      parts.push('<g id="tooltip" class="tooltip"><rect class="tooltip-bg" x="0" y="0" width="220" height="122" rx="8"/><text id="tip-time" x="14" y="30"></text><text id="tip-output" x="14" y="57"></text><text id="tip-price" x="14" y="84"></text><text id="tip-forecast" x="14" y="111"></text></g>');
+
+      for (const tick of ticks) {
+        const actualPoint = actualByTime.get(tick.getTime());
+        const forecastPoint = forecastByTime.get(tick.getTime());
+        const xx = x(tick);
+        const zoneX = Math.max(left, xx - hoverWidth / 2);
+        const zoneW = Math.min(width - right, xx + hoverWidth / 2) - zoneX;
+        const outputLabel = actualPoint ? `${actualPoint.output.toFixed(0)} MW` : "--";
+        const actualPriceLabel = actualPoint ? `${actualPoint.price.toFixed(2)} 元/MWh` : "--";
+        const forecastPriceLabel = forecastPoint ? `${forecastPoint.price.toFixed(2)} 元/MWh` : "--";
+        const curvePoint = actualPoint || forecastPoint;
+        const curveY = curvePoint ? yPrice(curvePoint.price).toFixed(2) : "";
+        parts.push(`<rect class="hover-zone" x="${zoneX.toFixed(2)}" y="${top}" width="${zoneW.toFixed(2)}" height="${plotH}" data-x="${xx.toFixed(2)}" data-time="${escapeHtml(formatTime(tick))}" data-output="${escapeHtml(outputLabel)}" data-actual-price="${escapeHtml(actualPriceLabel)}" data-forecast-price="${escapeHtml(forecastPriceLabel)}" data-curve-y="${curveY}" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>`);
+      }
+      parts.push("</svg>");
+      return parts.join("\n");
+    }
+
+    function startOfDay(date) {
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+    function tickTimes(start, end) {
+      const ticks = [];
+      for (let tick = new Date(start); tick <= end; tick = new Date(tick.getTime() + 15 * 60000)) {
+        ticks.push(tick);
+      }
+      return ticks;
+    }
+    function range(start, end, step) {
+      const values = [];
+      for (let value = start; value <= end; value += step) values.push(value);
+      return values;
+    }
+    function formatDate(date) {
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+    }
+    function formatTime(date) {
+      return `${date.getHours()}:${pad(date.getMinutes())}`;
+    }
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[char]));
+    }
+  </script>
 </body>
 </html>
