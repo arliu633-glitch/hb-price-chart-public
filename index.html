@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>河北南网实时机组滚动发电计划</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #f8fafc;
+      font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    main {
+      width: 100dvw;
+      height: 100dvh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    object {
+      width: min(100dvw, calc(100dvh * 28 / 9));
+      height: min(100dvh, calc(100dvw * 9 / 28));
+      aspect-ratio: 28 / 9;
+      display: block;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <object type="image/svg+xml" data="chart.svg" aria-label="河北南网实时机组滚动发电计划"></object>
+  </main>
+</body>
+</html>
