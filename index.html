@@ -424,7 +424,7 @@
       for (const point of forecast) parts.push(`<circle cx="${x(point.slotDate).toFixed(2)}" cy="${yPrice(point.price).toFixed(2)}" r="4" fill="#dc2626"/>`);
 
       const legendX = width - right - 560;
-      const legendY = 112;
+      const legendY = 158;
       parts.push(`<line x1="${legendX}" y1="${legendY}" x2="${legendX + 54}" y2="${legendY}" class="actual"/>`);
       parts.push(`<text x="${legendX + 66}" y="${legendY + 5}" font-size="15">实时出清电价</text>`);
       parts.push(`<line x1="${legendX + 184}" y1="${legendY}" x2="${legendX + 238}" y2="${legendY}" class="forecast"/>`);
