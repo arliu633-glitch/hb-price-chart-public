@@ -395,8 +395,8 @@
       const plotW = width - left - right;
       const plotH = height - top - bottom;
       const day = startOfDay(actualInput[0].slotDate);
-      const start = day;
-      const end = new Date(day.getTime() + (23 * 60 + 45) * 60000);
+      const start = new Date(day.getTime() + 15 * 60000);
+      const end = new Date(day.getTime() + 24 * 60 * 60000);
       const actual = actualInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
       const forecast = forecastInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
       const forecastLine = [actual[actual.length - 1], ...forecast];
