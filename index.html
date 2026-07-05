@@ -221,7 +221,7 @@
       try {
         const records = await parsePdf(selectedFile);
         const { actual, forecast } = buildSeries(records);
-        const svg = makeSvg(actual, forecast);
+        const svg = makeSvg(actual, forecast, buildOutputSeries(actual, forecast));
         await publishSvg(svg);
         if (chartUrl) URL.revokeObjectURL(chartUrl);
         chartUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
@@ -399,7 +399,14 @@
       return { actual, forecast };
     }
 
-    function makeSvg(actualInput, forecastInput) {
+    function buildOutputSeries(actual, forecast) {
+      const byTime = new Map();
+      for (const point of forecast) byTime.set(point.slotDate.getTime(), point);
+      for (const point of actual) byTime.set(point.slotDate.getTime(), point);
+      return [...byTime.values()].sort((a, b) => a.slotDate - b.slotDate);
+    }
+
+    function makeSvg(actualInput, forecastInput, outputInput = buildOutputSeries(actualInput, forecastInput)) {
       const width = 2800;
       const height = 900;
       const left = 108;
@@ -413,6 +420,7 @@
       const end = new Date(day.getTime() + 24 * 60 * 60000);
       const actual = actualInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
       const forecast = forecastInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
+      const outputSeries = outputInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
       const forecastLine = [actual[actual.length - 1], ...forecast];
       const allPoints = [...actual, ...forecast];
       const title = `${formatDate(day)} 河北南网实时机组滚动发电计划`;
@@ -421,8 +429,8 @@
       const pricePad = Math.max((priceMax - priceMin) * 0.12, 10);
       const priceFloor = Math.floor((priceMin - pricePad) / 50) * 50;
       const priceCeil = Math.ceil((priceMax + pricePad) / 50) * 50;
-      const outputMin = actual.length ? Math.min(...actual.map((point) => point.output)) : 0;
-      const outputMax = actual.length ? Math.max(...actual.map((point) => point.output)) : 0;
+      const outputMin = outputSeries.length ? Math.min(...outputSeries.map((point) => point.output)) : 0;
+      const outputMax = outputSeries.length ? Math.max(...outputSeries.map((point) => point.output)) : 0;
       let outputFloor = Math.min(0, Math.floor(outputMin / 10) * 10);
       let outputCeil = Math.max(0, Math.ceil(outputMax / 10) * 10);
       if (outputFloor === outputCeil) {
@@ -436,6 +444,7 @@
       const ticks = tickTimes(start, end);
       const actualByTime = new Map(actual.map((point) => [point.slotDate.getTime(), point]));
       const forecastByTime = new Map(forecast.map((point) => [point.slotDate.getTime(), point]));
+      const outputByTime = new Map(outputSeries.map((point) => [point.slotDate.getTime(), point]));
       const hoverWidth = plotW / Math.max(ticks.length - 1, 1);
       const priceTicks = range(priceFloor, priceCeil, 50);
       const outputTicks = range(outputFloor, outputCeil, 20);
@@ -483,7 +492,7 @@
         parts.push(`<line class="${gridClass}" x1="${xx.toFixed(2)}" y1="${top}" x2="${xx.toFixed(2)}" y2="${height - bottom}"/>`);
         parts.push(`<text x="${xx.toFixed(2)}" y="${labelY}" text-anchor="end" font-size="10" transform="rotate(-60 ${xx.toFixed(2)} ${labelY})">${formatTime(tick)}</text>`);
       }
-      for (const point of actual) {
+      for (const point of outputSeries) {
         parts.push(`<rect class="bar" x="${(x(point.slotDate) - 4).toFixed(2)}" y="${Math.min(yOutput(point.output), yOutput(0)).toFixed(2)}" width="8" height="${Math.abs(yOutput(point.output) - yOutput(0)).toFixed(2)}"/>`);
       }
       parts.push(`<line class="axis" x1="${left}" y1="${yOutput(0).toFixed(2)}" x2="${width - right}" y2="${yOutput(0).toFixed(2)}"/>`);
@@ -511,10 +520,11 @@
       for (const tick of ticks) {
         const actualPoint = actualByTime.get(tick.getTime());
         const forecastPoint = forecastByTime.get(tick.getTime());
+        const outputPoint = outputByTime.get(tick.getTime());
         const xx = x(tick);
         const zoneX = Math.max(left, xx - hoverWidth / 2);
         const zoneW = Math.min(width - right, xx + hoverWidth / 2) - zoneX;
-        const outputLabel = actualPoint ? `${actualPoint.output.toFixed(0)} MW` : "--";
+        const outputLabel = outputPoint ? `${outputPoint.output.toFixed(0)} MW` : "--";
         const actualPriceLabel = actualPoint ? `${actualPoint.price.toFixed(2)} 元/MWh` : "--";
         const forecastPriceLabel = forecastPoint ? `${forecastPoint.price.toFixed(2)} 元/MWh` : "--";
         const curvePoint = actualPoint || forecastPoint;
