@@ -1687,7 +1687,10 @@
 
     async function loadPublishedImportRows() {
       try {
-        const response = await fetch(`imported-data.json?v=${Date.now()}`, { cache: "no-store" });
+        let response = await fetch(`imported-data.json?v=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) {
+          response = await fetch(`public/imported-data.json?v=${Date.now()}`, { cache: "no-store" });
+        }
         if (!response.ok) return;
         const payload = await response.json();
         if (!restoreImportedDataPayload(payload)) return;
