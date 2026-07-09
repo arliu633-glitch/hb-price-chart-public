@@ -2790,11 +2790,44 @@
         return;
       }
       if (isDailyRollingImportMode()) {
-        const groupedRows = aggregateDailyRowsByPoint(rows).filter((row) => row.recordCount > 0);
+        const groupedMap = new Map();
+        rows.forEach((row) => {
+          const key = `${row.tradeDate || "-"}|${row.runDate || "-"}|${row.dayOffset ?? "-"}|${row.point}`;
+          if (!groupedMap.has(key)) {
+            groupedMap.set(key, {
+              tradeDate: row.tradeDate || "-",
+              runDate: row.runDate || "-",
+              dayOffset: row.dayOffset,
+              point: row.point,
+              label: String(row.point),
+              hour: `${row.point - 1}:00-${row.point}:00`,
+              volume: 0,
+              amount: 0,
+              priceWeight: 0,
+              price: null,
+              recordCount: 0,
+            });
+          }
+          const item = groupedMap.get(key);
+          const volume = Number(row.volume || 0);
+          item.volume += volume;
+          item.amount += volume * row.price;
+          item.priceWeight += volume;
+          item.recordCount += 1;
+        });
+        const groupedRows = Array.from(groupedMap.values())
+          .map((item) => ({
+            ...item,
+            price: calculateWeightedPrice(item.amount, item.priceWeight),
+          }))
+          .sort((a, b) => String(a.runDate).localeCompare(String(b.runDate)) || String(a.tradeDate).localeCompare(String(b.tradeDate)) || a.point - b.point);
         monthlyImportPreview.innerHTML = `
           <table aria-label="日滚动撮合交易导入预览">
             <thead>
               <tr>
+                <th scope="col">交易日期</th>
+                <th scope="col">运行日期</th>
+                <th scope="col">D-N</th>
                 <th scope="col">时点</th>
                 <th scope="col">时间</th>
                 <th scope="col">记录数</th>
@@ -2805,6 +2838,9 @@
             <tbody>
               ${groupedRows.map((row) => `
                 <tr>
+                  <td>${row.tradeDate}</td>
+                  <td>${row.runDate}</td>
+                  <td>${row.dayOffset === null || row.dayOffset === undefined ? "-" : `D-${row.dayOffset}`}</td>
                   <td>${row.label}</td>
                   <td>${row.hour}</td>
                   <td>${row.recordCount}</td>
