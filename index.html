@@ -1863,15 +1863,20 @@
     }
 
     function getDailyRollingRunDates() {
+      const monthValue = getSelectedMonthValue();
       const dates = new Set();
+      const daysInMonth = getDaysInMonth(monthValue);
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        dates.add(`${monthValue}-${String(day).padStart(2, "0")}`);
+      }
       dailyRollingFiles.forEach((record) => {
-        if (record.runDate) dates.add(record.runDate);
+        if (record.runDate?.startsWith(monthValue)) dates.add(record.runDate);
       });
       return Array.from(dates).sort();
     }
 
     function getSelectedDailyRunDate() {
-      return dailyRunDateSelect?.value || getDailyRollingRunDates()[0] || "";
+      return dailyRunDateSelect?.value || getDefaultDateForMonth();
     }
 
     function getDailyRollingRowsForRunDate(runDate) {
@@ -2488,10 +2493,12 @@
     function renderDailyRollingPanel() {
       if (!dailyRollingPanel || !dailyRollingContent || !dailyRunDateSelect) return;
       const runDates = getDailyRollingRunDates();
-      const requestedRunDate = pendingDailyRunDateSelection || dailyRunDateSelect.value;
+      const requestedRunDate = pendingDailyRunDateSelection || dailyRunDateSelect.value || getDefaultDateForMonth();
       dailyRunDateSelect.innerHTML = runDates.map((dateText) => `<option value="${dateText}">${dateText}</option>`).join("");
       if (runDates.includes(requestedRunDate)) {
         dailyRunDateSelect.value = requestedRunDate;
+      } else {
+        dailyRunDateSelect.value = getDefaultDateForMonth();
       }
       pendingDailyRunDateSelection = "";
       const selectedRunDate = getSelectedDailyRunDate();
