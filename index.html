@@ -1312,6 +1312,16 @@
       return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
     }
 
+    function getCurrentDateValue() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    }
+
+    function getDefaultDateForMonth(monthValue = getSelectedMonthValue()) {
+      const today = getCurrentDateValue();
+      return today.startsWith(monthValue) ? today : `${monthValue}-01`;
+    }
+
     function getSelectedMonthValue() {
       const currentMonth = getCurrentMonthValue();
       const [currentYear, currentMonthText] = currentMonth.split("-");
@@ -1323,7 +1333,8 @@
     function updateSummaryRunDateOptions() {
       if (!summaryRunDateInput) return;
       const monthValue = getSelectedMonthValue();
-      const previousValue = summaryRunDateInput.value || `${monthValue}-01`;
+      const defaultDate = getDefaultDateForMonth(monthValue);
+      const previousValue = summaryRunDateInput.value || defaultDate;
       const daysInMonth = getDaysInMonth(monthValue);
       const options = [];
       for (let day = 1; day <= daysInMonth; day += 1) {
@@ -1333,11 +1344,11 @@
       summaryRunDateInput.innerHTML = options.join("");
       summaryRunDateInput.value = Array.from(summaryRunDateInput.options).some((option) => option.value === previousValue)
         ? previousValue
-        : `${monthValue}-01`;
+        : defaultDate;
     }
 
     function getSelectedSummaryRunDate() {
-      return summaryRunDateInput?.value || `${getSelectedMonthValue()}-01`;
+      return summaryRunDateInput?.value || getDefaultDateForMonth();
     }
 
     function setSelectedMonthValue(monthValue) {
@@ -1372,7 +1383,7 @@
       if (!tradeMonthInput || !tradeDayInput) return;
       const monthValue = getSelectedMonthValue();
       if (!tradeDayInput.value || !tradeDayInput.value.startsWith(monthValue)) {
-        tradeDayInput.value = getFirstDayOfMonth(monthValue);
+        tradeDayInput.value = getDefaultDateForMonth(monthValue);
       }
       tradeDayInput.min = getFirstDayOfMonth(monthValue);
       tradeDayInput.max = `${monthValue}-${String(getDaysInMonth(monthValue)).padStart(2, "0")}`;
