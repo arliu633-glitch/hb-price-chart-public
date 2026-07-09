@@ -1646,6 +1646,75 @@
       localStorage.setItem(dailyRollingStorageKey, JSON.stringify(payload));
     }
 
+    function mapToObject(map) {
+      const payload = {};
+      map.forEach((record, fileName) => {
+        payload[fileName] = record;
+      });
+      return payload;
+    }
+
+    function getImportedDataPayload() {
+      return {
+        updatedAt: new Date().toISOString(),
+        monthly: mapToObject(monthlyImportFiles),
+        annual: mapToObject(annualImportFiles),
+        tenDay: mapToObject(tenDayImportFiles),
+        dailyRolling: mapToObject(dailyRollingFiles),
+        selectedPlantName: getSelectedPlantName(),
+      };
+    }
+
+    function restoreImportedDataPayload(payload) {
+      if (!payload || typeof payload !== "object") return false;
+      localStorage.setItem(monthlyImportStorageKey, JSON.stringify(payload.monthly || {}));
+      localStorage.setItem(annualImportStorageKey, JSON.stringify(payload.annual || {}));
+      localStorage.setItem(tenDayImportStorageKey, JSON.stringify(payload.tenDay || {}));
+      localStorage.setItem(dailyRollingStorageKey, JSON.stringify(payload.dailyRolling || {}));
+      if (payload.selectedPlantName) {
+        localStorage.setItem(selectedPlantStorageKey, payload.selectedPlantName);
+      }
+      monthlyImportFiles.clear();
+      annualImportFiles.clear();
+      tenDayImportFiles.clear();
+      dailyRollingFiles.clear();
+      loadMonthlyImportRows();
+      loadAnnualImportRows();
+      loadTenDayImportRows();
+      loadDailyRollingRows();
+      return true;
+    }
+
+    async function loadPublishedImportRows() {
+      try {
+        const response = await fetch(`imported-data.json?v=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const payload = await response.json();
+        if (!restoreImportedDataPayload(payload)) return;
+        updatePlantSelectOptions();
+        syncPlantContext();
+        renderTradeTable();
+      } catch {
+        // The local page can work without a published data snapshot.
+      }
+    }
+
+    async function syncPublicData() {
+      try {
+        const response = await fetch("/sync-public-data", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(getImportedDataPayload()),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || !result.ok) {
+          console.warn(result.message || "公开网页数据同步失败。");
+        }
+      } catch (error) {
+        console.warn(error.message || "公开网页数据同步失败。");
+      }
+    }
+
     function getExpectedMonthlyImportNames() {
       const [year, month] = getSelectedMonthValue().split("-");
       return [
@@ -3028,6 +3097,7 @@
       syncPlantContext();
       closeMonthlyImportModal();
       renderTradeTable();
+      syncPublicData();
     }
 
     plantSelect?.addEventListener("change", () => {
@@ -3156,6 +3226,7 @@
     updatePlantSelectOptions();
     syncPlantContext();
     renderTradeTable();
+    loadPublishedImportRows();
 
     function showPage(pageName) {
       pageTabs.forEach((tab) => {
