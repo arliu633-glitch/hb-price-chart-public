@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>河北南网实时机组滚动发电计划</title>
   <style>
-    * { box-sizing: border-box; }
-    html, body {
+    * {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html,
+    body {
       width: 100%;
       height: 100%;
       margin: 0;
@@ -15,24 +23,72 @@
       font-family: "Microsoft YaHei", "SimHei", Arial, sans-serif;
       overflow: hidden;
     }
+
     body {
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: auto 1fr auto;
     }
-    .chart-area {
-      width: 100dvw;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-    object {
-      width: min(100dvw, calc((100dvh - 172px) * 28 / 9));
-      height: min(calc(100dvh - 172px), calc(100dvw * 9 / 28));
-      aspect-ratio: 28 / 9;
-      display: block;
+
+    .page-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-bottom: 1px solid #d8dee8;
       background: #ffffff;
     }
+
+    .page-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plant-selector {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .plant-selector select {
+      width: min(320px, 38dvw);
+      height: 34px;
+      padding: 0 32px 0 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #0f172a;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .page-tab {
+      height: 34px;
+      padding: 0 14px;
+      border: 1px solid #d8dee8;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .page-tab.is-active {
+      border-color: #2563eb;
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .page[hidden],
+    .upload-panel[hidden] {
+      display: none;
+    }
+
     .upload-panel {
       min-height: 172px;
       padding: 12px 18px;
@@ -43,6 +99,7 @@
       border-top: 1px solid #d8dee8;
       background: #ffffff;
     }
+
     .drop-zone {
       min-height: 116px;
       display: grid;
@@ -52,10 +109,7 @@
       background: #f8fafc;
       cursor: pointer;
     }
-    .drop-zone.is-dragging {
-      border-color: #2563eb;
-      background: #eff6ff;
-    }
+
     .drop-content {
       display: grid;
       grid-template-columns: auto auto;
@@ -64,6 +118,12 @@
       gap: 12px;
       text-align: center;
     }
+
+    .drop-zone.is-dragging {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
     .upload-icon {
       width: 34px;
       height: 34px;
@@ -75,28 +135,23 @@
       font-size: 20px;
       font-weight: 700;
     }
+
     .file-name {
-      display: block;
       margin-top: 4px;
       color: #64748b;
       font-size: 13px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
     .actions {
       display: grid;
       grid-template-columns: auto;
       gap: 6px;
       justify-items: center;
     }
-    .publish-token {
-      width: 220px;
-      height: 36px;
-      padding: 0 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font: inherit;
-      font-size: 13px;
-    }
+
     button {
       height: 40px;
       padding: 0 18px;
@@ -108,18 +163,534 @@
       font-weight: 700;
       cursor: pointer;
     }
+
     button:disabled {
       background: #94a3b8;
       cursor: not-allowed;
     }
+
     .status {
       min-height: 18px;
       color: #475569;
       font-size: 13px;
       text-align: center;
     }
-    .status.error { color: #dc2626; }
-    .status.success { color: #15803d; }
+
+    .status.error {
+      color: #dc2626;
+    }
+
+    .status.success {
+      color: #15803d;
+    }
+
+    .chart-area {
+      width: 100dvw;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .chart-context {
+      width: 100%;
+      padding: 10px 18px 0;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    object {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 28 / 9;
+      display: block;
+      background: #ffffff;
+    }
+
+    .trade-page {
+      width: 100dvw;
+      height: 100%;
+      padding: 0;
+      overflow: auto;
+      background: #f8fafc;
+    }
+
+    .trade-panel {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: #ffffff;
+    }
+
+    .trade-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .trade-header h1 {
+      margin: 0;
+      color: #0f172a;
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .trade-controls {
+      display: block;
+      padding: 18px;
+    }
+
+    .trade-type-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .trade-type-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 72px;
+      height: auto;
+      padding: 10px 12px;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #334155;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .trade-type-button.is-active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .trade-date-controls {
+      display: flex;
+      gap: 10px;
+      align-items: end;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .trade-month-field {
+      display: grid;
+      gap: 6px;
+      font-size: 14px;
+      color: #475569;
+      font-weight: 700;
+    }
+
+    .trade-month-field input,
+    .trade-month-field select {
+      height: 38px;
+      min-width: 110px;
+      padding: 0 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: #0f172a;
+      font: inherit;
+    }
+
+    .trade-ten-day-inline {
+      grid-template-columns: auto auto;
+      align-items: center;
+      gap: 6px;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .trade-ten-day-inline select {
+      height: 32px;
+      min-width: 82px;
+      font-size: 13px;
+    }
+
+    .trade-day-overview {
+      margin: 0 18px 18px;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .trade-day-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #d8dee8;
+      background: #f8fafc;
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .trade-day-summary {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .trade-day-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .trade-day-table th,
+    .trade-day-table td {
+      height: 30px;
+      padding: 6px 10px;
+      border-right: 1px solid #d8dee8;
+      border-bottom: 1px solid #d8dee8;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .trade-day-table th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .trade-day-table th:first-child,
+    .trade-day-table td:first-child,
+    .trade-day-table th:nth-child(2),
+    .trade-day-table td:nth-child(2) {
+      text-align: center;
+    }
+
+    .trade-day-table tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .trade-day-volume {
+      font-weight: 700;
+    }
+
+    .trade-day-volume.is-negative {
+      color: #15803d;
+    }
+
+    .trade-day-volume.is-positive {
+      color: #dc2626;
+    }
+
+    .trade-price-infinite {
+      background: #fef3c7 !important;
+      color: #b45309 !important;
+      font-weight: 800;
+    }
+
+    .trade-chart-tooltip {
+      position: fixed;
+      z-index: 40;
+      min-width: 280px;
+      max-width: 360px;
+      padding: 10px 12px;
+      border: 1px solid rgba(147, 197, 253, 0.85);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.5);
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18);
+      color: #ffffff;
+      font-size: 12px;
+      pointer-events: none;
+      backdrop-filter: blur(3px);
+    }
+
+    .trade-chart-tooltip-title {
+      margin-bottom: 8px;
+      font-weight: 800;
+      color: #bfdbfe;
+    }
+
+    .trade-chart-tooltip table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .trade-chart-tooltip th,
+    .trade-chart-tooltip td {
+      padding: 4px 5px;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.35);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .trade-chart-tooltip th:first-child,
+    .trade-chart-tooltip td:first-child {
+      text-align: left;
+    }
+
+    .trade-chart-tooltip .trade-price-infinite {
+      background: rgba(253, 230, 138, 0.75) !important;
+      color: #78350f !important;
+    }
+
+    .trade-chart-hover-target {
+      fill: transparent;
+      pointer-events: all;
+      cursor: crosshair;
+    }
+
+    .annual-chart-panel {
+      margin: 0 12px 12px;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .annual-chart-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #d8dee8;
+      background: #f8fafc;
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .annual-chart-legend {
+      display: flex;
+      gap: 12px;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .annual-chart-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .trade-import-button,
+    .modal-secondary-button {
+      height: 32px;
+      padding: 0 12px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #1e40af;
+      font-size: 13px;
+    }
+
+    .trade-import-button[hidden] {
+      display: none;
+    }
+
+    .annual-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .annual-legend-swatch {
+      width: 18px;
+      height: 10px;
+      border-radius: 2px;
+      background: #2563eb;
+    }
+
+    .annual-legend-line {
+      width: 22px;
+      height: 3px;
+      border-radius: 999px;
+      background: #dc2626;
+    }
+
+    .annual-chart {
+      width: 100%;
+      height: clamp(420px, calc(100dvh - 300px), 760px);
+      display: block;
+    }
+
+    .trade-table-wrap {
+      margin: 0 12px 12px;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      overflow: auto;
+      background: #ffffff;
+      max-height: calc(100dvh - 250px);
+    }
+
+    .trade-table-caption {
+      position: sticky;
+      left: 0;
+      padding: 10px 12px;
+      border-bottom: 1px solid #d8dee8;
+      background: #ffffff;
+      color: #334155;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .trade-table {
+      width: 100%;
+      min-width: 2200px;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .trade-table th,
+    .trade-table td {
+      height: 24px;
+      padding: 4px 6px;
+      border-right: 1px solid #334155;
+      border-bottom: 1px solid #334155;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .trade-table th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .trade-workspace {
+      display: block;
+    }
+
+    .trade-table th:first-child,
+    .trade-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      min-width: 72px;
+      text-align: center;
+    }
+
+    .trade-table th:nth-child(2),
+    .trade-table td:nth-child(2) {
+      position: sticky;
+      left: 72px;
+      z-index: 2;
+      min-width: 58px;
+      text-align: center;
+    }
+
+    .trade-table th:first-child,
+    .trade-table th:nth-child(2) {
+      z-index: 3;
+      background: #c7d2fe;
+    }
+
+    .trade-table tbody tr:hover {
+      outline: 2px solid #2563eb;
+      outline-offset: -2px;
+    }
+
+    .trade-no-data {
+      color: #94a3b8;
+    }
+
+    .trade-hour-overnight th,
+    .trade-hour-overnight td:nth-child(-n + 3) {
+      background: #fed7aa;
+    }
+
+    .trade-hour-day th,
+    .trade-hour-day td:nth-child(-n + 3) {
+      background: #bbf7d0;
+    }
+
+    .trade-hour-evening th,
+    .trade-hour-evening td:nth-child(-n + 3) {
+      background: #fca5a5;
+    }
+
+    .trade-hour-peak th,
+    .trade-hour-peak td:nth-child(-n + 3) {
+      background: #fdba74;
+    }
+
+    .trade-matrix-cell {
+      background: #fef08a;
+      color: #0f172a;
+      min-width: 62px;
+      padding: 3px 5px;
+    }
+
+    .trade-matrix-cell.trade-no-data {
+      background: #ffffff;
+    }
+
+    .trade-matrix-cell.is-negative {
+      background: #86efac;
+    }
+
+    .trade-matrix-cell.is-positive {
+      background: #f87171;
+    }
+
+    .trade-summary-row th,
+    .trade-summary-row td {
+      background: #f8fafc;
+      font-weight: 700;
+    }
+
+    .trade-cell-button {
+      width: 100%;
+      height: auto;
+      min-height: 34px;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      padding: 2px 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .trade-cell-button:focus-visible {
+      outline: 2px solid #2563eb;
+      outline-offset: -2px;
+    }
+
+    .trade-cell-volume {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .trade-cell-price {
+      color: #475569;
+      font-size: 11px;
+      line-height: 1.1;
+    }
+
+    .trade-empty-cell {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
     input[type="file"] {
       position: absolute;
       width: 1px;
@@ -127,54 +698,2488 @@
       opacity: 0;
       pointer-events: none;
     }
+
+    .modal-backdrop[hidden] {
+      display: none;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(15, 23, 42, 0.38);
+    }
+
+    .trade-import-modal {
+      width: min(1180px, 100%);
+      max-height: calc(100dvh - 48px);
+      display: grid;
+      grid-template-rows: auto auto minmax(180px, 1fr) auto;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.24);
+      overflow: hidden;
+    }
+
+    .modal-header,
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+
+    .modal-footer {
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 0;
+    }
+
+    .modal-title {
+      margin: 0;
+      color: #0f172a;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .modal-close-button {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #334155;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .trade-import-editor {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.72fr) minmax(320px, 1fr);
+      gap: 14px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .trade-import-field {
+      display: grid;
+      gap: 8px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .trade-import-textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: #0f172a;
+      font: 12px/1.5 Consolas, "Microsoft YaHei", monospace;
+    }
+
+    .trade-import-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .trade-import-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      align-self: start;
+    }
+
+    .trade-import-stat {
+      min-height: 72px;
+      padding: 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .trade-import-stat dt {
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .trade-import-stat dd {
+      margin: 8px 0 0;
+      color: #0f172a;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .trade-import-preview {
+      overflow: auto;
+      padding: 0 16px 14px;
+      background: #ffffff;
+    }
+
+    .trade-import-preview table {
+      width: 100%;
+      min-width: 1080px;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .trade-import-preview th,
+    .trade-import-preview td {
+      height: 34px;
+      padding: 6px 8px;
+      border: 1px solid #e2e8f0;
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    .trade-import-preview th {
+      position: sticky;
+      top: 0;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .trade-import-preview td:nth-child(3),
+    .trade-import-preview td:nth-child(4),
+    .trade-import-preview td:nth-child(5),
+    .trade-import-preview td:nth-child(6) {
+      text-align: right;
+    }
+
+    .trade-import-message {
+      min-height: 18px;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .daily-rolling-panel {
+      margin: 0 12px 12px;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .daily-rolling-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid #d8dee8;
+      background: #f8fafc;
+    }
+
+    .daily-rolling-title {
+      color: #0f172a;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .daily-rolling-content {
+      display: grid;
+      gap: 14px;
+      padding: 12px;
+      overflow: auto;
+      max-height: calc(100dvh - 250px);
+    }
+
+    .daily-rolling-table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .daily-rolling-table th,
+    .daily-rolling-table td {
+      height: 30px;
+      padding: 6px 8px;
+      border: 1px solid #d8dee8;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .daily-rolling-table th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .daily-rolling-table th:first-child,
+    .daily-rolling-table td:first-child,
+    .daily-rolling-table th:nth-child(2),
+    .daily-rolling-table td:nth-child(2) {
+      text-align: center;
+    }
+
+    .daily-rolling-section-title {
+      margin: 0 0 6px;
+      color: #0f172a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .trade-import-file-card {
+      min-height: 150px;
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      gap: 10px;
+      padding: 16px;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 8px;
+      background: #f8fafc;
+      cursor: pointer;
+    }
+
+    .trade-import-file-card.is-dragging {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .trade-import-file-name {
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+      word-break: break-all;
+    }
+
     @media (max-width: 760px) {
-      .upload-panel { grid-template-columns: 1fr; }
+      .upload-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .trade-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .trade-header {
+        display: grid;
+        align-items: start;
+      }
+
+      .page-nav {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .page-tabs {
+        overflow-x: auto;
+      }
+
+      .plant-selector {
+        margin-left: 0;
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .plant-selector select {
+        width: 100%;
+      }
+
+      .trade-date-controls {
+        justify-content: flex-start;
+      }
+
+      .trade-type-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trade-table-wrap {
+        max-height: calc(100dvh - 360px);
+      }
+
+      .trade-import-editor,
+      .trade-import-summary {
+        grid-template-columns: 1fr;
+      }
+
       .actions {
         grid-template-columns: auto 1fr;
         justify-items: start;
       }
-      .status { text-align: left; }
+
+      .status {
+        text-align: left;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="chart-area">
-    <object id="chartObject" type="image/svg+xml" data="chart.svg" aria-label="河北南网实时机组滚动发电计划"></object>
+  <nav class="page-nav" aria-label="页面切换">
+    <div class="page-tabs">
+      <button class="page-tab is-active" type="button" data-page-target="rolling">实时机组滚动发电计划</button>
+      <button class="page-tab" type="button" data-page-target="trade">中长期交易结果</button>
+    </div>
+    <label class="plant-selector">
+      电站名称（企业名称）
+      <select id="plantSelect" aria-label="选择电站名称或企业名称">
+        <option value="井陉经开储能（井陉科瑞新能源科技有限公司）" selected>井陉经开储能（井陉科瑞新能源科技有限公司）</option>
+      </select>
+    </label>
+  </nav>
+
+  <main class="chart-area page" data-page="rolling">
+    <div class="chart-context" id="rollingPlantContext">当前目标：井陉经开储能（井陉科瑞新能源科技有限公司）</div>
+    <object id="chartObject" type="image/svg+xml" data="实时滚动电价折线图.svg" aria-label="河北南网实时机组滚动发电计划"></object>
   </main>
 
-  <section class="upload-panel">
+  <main class="trade-page page" data-page="trade" hidden>
+    <section class="trade-panel" aria-labelledby="tradeTitle">
+      <div class="trade-header">
+        <h1 id="tradeTitle">中长期交易结果</h1>
+        <div class="trade-date-controls">
+          <label class="trade-month-field">
+            年份
+            <input id="tradeYear" type="number" min="2000" max="2100" step="1" aria-label="选择交易年份">
+          </label>
+          <label class="trade-month-field">
+            月份
+            <select id="tradeMonth" aria-label="选择交易月份">
+              <option value="01">1月</option>
+              <option value="02">2月</option>
+              <option value="03">3月</option>
+              <option value="04">4月</option>
+              <option value="05">5月</option>
+              <option value="06">6月</option>
+              <option value="07">7月</option>
+              <option value="08">8月</option>
+              <option value="09">9月</option>
+              <option value="10">10月</option>
+              <option value="11">11月</option>
+              <option value="12">12月</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="trade-controls">
+        <div class="trade-type-grid" aria-label="交易品种">
+          <button class="trade-type-button is-active" type="button" data-trade-type="中长期交易汇总">中长期交易汇总</button>
+          <button class="trade-type-button" type="button" data-trade-type="年度集中竞价交易">年度集中竞价交易</button>
+          <button class="trade-type-button" type="button" data-trade-type="月度集中竞价交易">月度集中竞价交易</button>
+          <button class="trade-type-button" type="button" data-trade-type="旬度集中竞价交易">旬度集中竞价交易</button>
+          <button class="trade-type-button" type="button" data-trade-type="日滚动撮合交易">日滚动撮合交易</button>
+        </div>
+      </div>
+      <section class="trade-day-overview" aria-labelledby="tradeDayTitle">
+        <input id="tradeDay" type="date" hidden>
+        <div class="trade-day-header">
+          <div id="tradeDayTitle">24小时成交总览</div>
+          <div class="trade-day-summary" id="tradeDaySummary">买入 0.00 MWh / 卖出 0.00 MWh / 净持仓 0.00 MWh</div>
+        </div>
+        <table class="trade-day-table" aria-label="24小时成交电量和成交电价">
+          <thead>
+            <tr>
+              <th scope="col">时间</th>
+              <th scope="col">时点</th>
+              <th scope="col">买入电量(MWh)</th>
+              <th scope="col">卖出电量(MWh)</th>
+              <th scope="col">净持仓(MWh)</th>
+              <th scope="col">成交电价(元/MWh)</th>
+            </tr>
+          </thead>
+          <tbody id="tradeDayBody"></tbody>
+        </table>
+      </section>
+      <section class="annual-chart-panel" id="annualChartPanel" aria-labelledby="annualChartTitle" hidden>
+        <div class="annual-chart-header">
+          <div id="annualChartTitle">集中竞价交易 - 24小时成交电量与成交电价</div>
+          <div class="annual-chart-actions">
+            <div class="annual-chart-legend">
+              <span class="annual-legend-item"><span class="annual-legend-swatch"></span>成交电量(MWh)</span>
+              <span class="annual-legend-item"><span class="annual-legend-line"></span>成交电价(元/MWh)</span>
+            </div>
+            <button class="trade-import-button" id="monthlyImportOpen" type="button" hidden>导入</button>
+            <label class="trade-month-field trade-ten-day-inline" id="summaryRunDateField" hidden>
+              运行日
+              <select id="summaryRunDate" aria-label="选择汇总运行日"></select>
+            </label>
+            <label class="trade-month-field trade-ten-day-inline" id="tradeTenDayField" hidden>
+              旬段
+              <select id="tradeTenDay" aria-label="选择交易旬段">
+                <option value="early">上旬</option>
+                <option value="middle">中旬</option>
+                <option value="late">下旬</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <svg class="annual-chart" id="annualChart" role="img" aria-label="集中竞价交易24小时柱状折线组合图"></svg>
+      </section>
+      <div class="trade-workspace">
+        <div class="trade-table-wrap">
+          <div class="trade-table-caption" id="tradeMatrixCaption"></div>
+          <table class="trade-table" aria-label="中长期交易月度逐小时净持仓矩阵">
+            <thead id="tradeMatrixHead"></thead>
+            <tbody id="tradeMatrixBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <section class="daily-rolling-panel" id="dailyRollingPanel" hidden>
+        <div class="daily-rolling-header">
+          <div>
+            <div class="daily-rolling-title" id="dailyRollingTitle">日滚动撮合交易结果</div>
+            <div class="trade-import-message" id="dailyRollingSummary">暂无导入数据</div>
+          </div>
+          <div class="trade-import-tools">
+            <label class="trade-month-field trade-ten-day-inline">
+              运行日
+              <select id="dailyRunDateSelect" aria-label="选择日滚动运行日"></select>
+            </label>
+            <button class="trade-import-button" id="dailyRollingExport" type="button">导出</button>
+            <button class="trade-import-button" id="dailyRollingImportOpen" type="button">导入</button>
+          </div>
+        </div>
+        <section class="annual-chart-panel daily-rolling-chart-panel" aria-labelledby="dailyRollingChartTitle">
+          <div class="annual-chart-header">
+            <div id="dailyRollingChartTitle">日滚动撮合交易 - 24小时成交电量与成交电价</div>
+            <div class="annual-chart-legend">
+              <span class="annual-legend-item"><span class="annual-legend-swatch"></span>成交电量(MWh)</span>
+              <span class="annual-legend-item"><span class="annual-legend-line"></span>成交电价(元/MWh)</span>
+            </div>
+          </div>
+          <svg class="annual-chart" id="dailyRollingChart" role="img" aria-label="日滚动撮合交易24小时柱状折线组合图"></svg>
+        </section>
+        <div class="daily-rolling-content" id="dailyRollingContent"></div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="monthlyImportModal" hidden>
+    <section class="trade-import-modal" role="dialog" aria-modal="true" aria-labelledby="monthlyImportTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="monthlyImportTitle">月度集中竞价交易结果导入</h2>
+        <button class="modal-close-button" id="monthlyImportClose" type="button" aria-label="关闭导入窗口">×</button>
+      </div>
+      <div class="trade-import-editor">
+        <div class="trade-import-field">
+          选择交易结果文件
+          <div class="trade-import-file-card" id="monthlyImportDropZone">
+            <button class="modal-secondary-button" id="monthlyImportFileButton" type="button">选择Excel文件</button>
+            <div class="trade-import-file-name" id="monthlyImportFileName">未选择文件</div>
+            <div class="trade-import-message" id="monthlyImportFileHint">点击选择或拖入文件，文件名格式：yyyy年mm月月度集中竞价交易结果.xlsx</div>
+          </div>
+          <input id="monthlyImportFile" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        </div>
+        <div class="trade-import-field">
+          导入统计
+          <dl class="trade-import-summary">
+            <div class="trade-import-stat">
+              <dt>记录数量</dt>
+              <dd id="monthlyImportCount">0</dd>
+            </div>
+            <div class="trade-import-stat">
+              <dt>成交电量合计</dt>
+              <dd id="monthlyImportVolume">0.00</dd>
+            </div>
+            <div class="trade-import-stat">
+              <dt>加权成交电价</dt>
+              <dd id="monthlyImportPrice">-</dd>
+            </div>
+            <div class="trade-import-stat">
+              <dt>覆盖时点</dt>
+              <dd id="monthlyImportHourly">0.00</dd>
+            </div>
+          </dl>
+          <div class="trade-import-tools">
+            <button class="modal-secondary-button" id="monthlyImportClear" type="button">清空</button>
+          </div>
+          <div class="trade-import-message" id="monthlyImportMessage">请选择月度集中竞价交易结果文件</div>
+        </div>
+      </div>
+      <div class="trade-import-preview" id="monthlyImportPreview"></div>
+      <div class="modal-footer">
+        <div class="trade-import-message" id="monthlyImportScope">导入月份：-</div>
+        <div class="trade-import-tools">
+          <button class="modal-secondary-button" id="monthlyImportCancel" type="button">取消</button>
+          <button id="monthlyImportApply" type="button" disabled>确认导入</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="trade-chart-tooltip" id="tradeChartTooltip" hidden></div>
+
+  <section class="upload-panel" data-page-panel="rolling">
     <label class="drop-zone" id="dropZone" for="fileInput">
       <span class="drop-content">
         <span class="upload-icon">+</span>
         <span>
-          <strong>选择或拖入文件</strong>
+        <strong>选择或拖入文件</strong>
           <span class="file-name" id="fileName">未导入index.pdf</span>
         </span>
       </span>
     </label>
     <div class="actions">
-      <input id="publishToken" class="publish-token" type="password" autocomplete="off" placeholder="发布令牌（可选）">
       <button id="uploadButton" type="button" disabled>确认上传</button>
-      <div class="status" id="status">上传后将解析并发布到公开网页</div>
+      <div class="status" id="status">上传后将自动解析并发布到公开网页</div>
     </div>
     <input id="fileInput" type="file" accept="application/pdf,.pdf">
   </section>
 
-  <script type="module">
-    import * as pdfjsLib from "https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.min.mjs";
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
-
+  <script>
     const fileInput = document.getElementById("fileInput");
     const dropZone = document.getElementById("dropZone");
     const fileName = document.getElementById("fileName");
-    const publishToken = document.getElementById("publishToken");
     const uploadButton = document.getElementById("uploadButton");
     const statusText = document.getElementById("status");
     const chartObject = document.getElementById("chartObject");
-    const publishEndpoint = "/api/publish";
+    const pageTabs = Array.from(document.querySelectorAll("[data-page-target]"));
+    const pages = Array.from(document.querySelectorAll("[data-page]"));
+    const pagePanels = Array.from(document.querySelectorAll("[data-page-panel]"));
+    const tradeTypeButtons = Array.from(document.querySelectorAll("[data-trade-type]"));
+    const plantSelect = document.getElementById("plantSelect");
+    const rollingPlantContext = document.getElementById("rollingPlantContext");
+    const tradeTitle = document.getElementById("tradeTitle");
+    const tradeYearInput = document.getElementById("tradeYear");
+    const tradeMonthInput = document.getElementById("tradeMonth");
+    const tradeTenDayField = document.getElementById("tradeTenDayField");
+    const tradeTenDayInput = document.getElementById("tradeTenDay");
+    const summaryRunDateField = document.getElementById("summaryRunDateField");
+    const summaryRunDateInput = document.getElementById("summaryRunDate");
+    const tradeDayInput = document.getElementById("tradeDay");
+    const tradeDayTitle = document.getElementById("tradeDayTitle");
+    const tradeDaySummary = document.getElementById("tradeDaySummary");
+    const tradeDayBody = document.getElementById("tradeDayBody");
+    const annualChartPanel = document.getElementById("annualChartPanel");
+    const annualChart = document.getElementById("annualChart");
+    const monthlyImportOpen = document.getElementById("monthlyImportOpen");
+    const monthlyImportModal = document.getElementById("monthlyImportModal");
+    const monthlyImportClose = document.getElementById("monthlyImportClose");
+    const monthlyImportCancel = document.getElementById("monthlyImportCancel");
+    const monthlyImportFile = document.getElementById("monthlyImportFile");
+    const monthlyImportFileButton = document.getElementById("monthlyImportFileButton");
+    const monthlyImportFileName = document.getElementById("monthlyImportFileName");
+    const monthlyImportTitle = document.getElementById("monthlyImportTitle");
+    const monthlyImportFileHint = document.getElementById("monthlyImportFileHint");
+    const monthlyImportDropZone = document.getElementById("monthlyImportDropZone");
+    const monthlyImportClear = document.getElementById("monthlyImportClear");
+    const monthlyImportApply = document.getElementById("monthlyImportApply");
+    const monthlyImportPreview = document.getElementById("monthlyImportPreview");
+    const monthlyImportMessage = document.getElementById("monthlyImportMessage");
+    const monthlyImportScope = document.getElementById("monthlyImportScope");
+    const monthlyImportCount = document.getElementById("monthlyImportCount");
+    const monthlyImportVolume = document.getElementById("monthlyImportVolume");
+    const monthlyImportPrice = document.getElementById("monthlyImportPrice");
+    const monthlyImportHourly = document.getElementById("monthlyImportHourly");
+    const tradeMatrixCaption = document.getElementById("tradeMatrixCaption");
+    const tradeMatrixHead = document.getElementById("tradeMatrixHead");
+    const tradeMatrixBody = document.getElementById("tradeMatrixBody");
+    const dailyRollingPanel = document.getElementById("dailyRollingPanel");
+    const dailyRollingTitle = document.getElementById("dailyRollingTitle");
+    const dailyRollingSummary = document.getElementById("dailyRollingSummary");
+    const dailyRollingContent = document.getElementById("dailyRollingContent");
+    const dailyRunDateSelect = document.getElementById("dailyRunDateSelect");
+    const dailyRollingImportOpen = document.getElementById("dailyRollingImportOpen");
+    const dailyRollingExport = document.getElementById("dailyRollingExport");
+    const dailyRollingChart = document.getElementById("dailyRollingChart");
+    const dailyRollingChartTitle = document.getElementById("dailyRollingChartTitle");
+    const tradeChartTooltip = document.getElementById("tradeChartTooltip");
     let selectedFile = null;
-    let chartUrl = null;
+    let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
+    let pendingMonthlyImportRows = [];
+    let pendingMonthlyImportFileName = "";
+    let pendingDailyImportRecords = [];
+    let pendingDailyRunDateSelection = "";
+    const annualImportFiles = new Map();
+    const monthlyImportFiles = new Map();
+    const tenDayImportFiles = new Map();
+    const dailyRollingFiles = new Map();
+    const monthlyChartTradeTypes = ["中长期交易汇总", "年度集中竞价交易", "月度集中竞价交易", "旬度集中竞价交易"];
+    const monthlyImportColumns = ["序号", "售方名称", "时间段", "分时段编码", "售方电量", "售方电价", "售方市场成员名称"];
+    const monthlyImportStorageKey = "monthlyTradeImportRowsByMonth";
+    const annualImportStorageKey = "annualTradeImportRowsByFile";
+    const tenDayImportStorageKey = "tenDayTradeImportRowsByPeriod";
+    const dailyRollingStorageKey = "dailyRollingTradeRowsByRunDate";
+    const selectedPlantStorageKey = "selectedPlantName";
+    const defaultPlantName = "井陉经开储能（井陉科瑞新能源科技有限公司）";
+
+    function getCurrentMonthValue() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function getSelectedMonthValue() {
+      const currentMonth = getCurrentMonthValue();
+      const [currentYear, currentMonthText] = currentMonth.split("-");
+      const yearValue = tradeYearInput?.value || currentYear;
+      const monthValue = tradeMonthInput?.value || currentMonthText;
+      return `${yearValue}-${monthValue}`;
+    }
+
+    function updateSummaryRunDateOptions() {
+      if (!summaryRunDateInput) return;
+      const monthValue = getSelectedMonthValue();
+      const previousValue = summaryRunDateInput.value || `${monthValue}-01`;
+      const daysInMonth = getDaysInMonth(monthValue);
+      const options = [];
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const dateText = `${monthValue}-${String(day).padStart(2, "0")}`;
+        options.push(`<option value="${dateText}">${dateText}</option>`);
+      }
+      summaryRunDateInput.innerHTML = options.join("");
+      summaryRunDateInput.value = Array.from(summaryRunDateInput.options).some((option) => option.value === previousValue)
+        ? previousValue
+        : `${monthValue}-01`;
+    }
+
+    function getSelectedSummaryRunDate() {
+      return summaryRunDateInput?.value || `${getSelectedMonthValue()}-01`;
+    }
+
+    function setSelectedMonthValue(monthValue) {
+      const [year, month] = monthValue.split("-");
+      if (tradeYearInput) tradeYearInput.value = year;
+      if (tradeMonthInput) tradeMonthInput.value = month;
+    }
+
+    function getDaysInMonth(monthValue) {
+      const [year, month] = monthValue.split("-").map(Number);
+      return new Date(year, month, 0).getDate();
+    }
+
+    function getHourClass(hour) {
+      if (hour <= 6) return "trade-hour-overnight";
+      if (hour <= 15) return "trade-hour-day";
+      if (hour === 16) return "trade-hour-evening";
+      if (hour <= 18) return "trade-hour-peak";
+      return "trade-hour-evening";
+    }
+
+    function formatDateHeader(monthValue, day) {
+      const [year, month] = monthValue.split("-");
+      return `${year}/${Number(month)}/${day}`;
+    }
+
+    function getFirstDayOfMonth(monthValue) {
+      return `${monthValue}-01`;
+    }
+
+    function syncDayToMonth() {
+      if (!tradeMonthInput || !tradeDayInput) return;
+      const monthValue = getSelectedMonthValue();
+      if (!tradeDayInput.value || !tradeDayInput.value.startsWith(monthValue)) {
+        tradeDayInput.value = getFirstDayOfMonth(monthValue);
+      }
+      tradeDayInput.min = getFirstDayOfMonth(monthValue);
+      tradeDayInput.max = `${monthValue}-${String(getDaysInMonth(monthValue)).padStart(2, "0")}`;
+    }
+
+    function getTradeCellData() {
+      return {
+        buyVolume: null,
+        sellVolume: null,
+        netVolume: null,
+        price: null,
+      };
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function normalizePlantName(value) {
+      return String(value || "").replace(/\s+/g, "").trim();
+    }
+
+    function canonicalizePlantName(value) {
+      const text = String(value || "").trim();
+      const normalized = normalizePlantName(text);
+      const defaultAliases = new Set([
+        normalizePlantName(defaultPlantName),
+        normalizePlantName("井陉经开储能（发电110kV）"),
+        normalizePlantName("井陉科瑞新能源科技有限公司"),
+      ]);
+      if (defaultAliases.has(normalized)) {
+        return defaultPlantName;
+      }
+      return text;
+    }
+
+    function getSelectedPlantName() {
+      return plantSelect?.value || defaultPlantName;
+    }
+
+    function getSelectedPlantLabel() {
+      return getSelectedPlantName();
+    }
+
+    function rowMatchesSelectedPlant(row) {
+      const selectedPlant = getSelectedPlantName();
+      const target = normalizePlantName(canonicalizePlantName(selectedPlant));
+      return [row.sellerName, row.memberName].some((name) => normalizePlantName(canonicalizePlantName(name)) === target);
+    }
+
+    function getRowsForSelectedPlant(rows) {
+      return rows;
+    }
+
+    function getProjectNameAliases() {
+      const selected = canonicalizePlantName(getSelectedPlantName());
+      const aliases = new Set([
+        normalizePlantName(selected),
+        normalizePlantName(defaultPlantName),
+        normalizePlantName("井陉经开储能"),
+        normalizePlantName("井陉经开储能（发电110kV）"),
+        normalizePlantName("井陉科瑞新能源科技有限公司"),
+      ]);
+      const parenMatches = String(selected).match(/[（(]([^）)]+)[）)]/g) || [];
+      parenMatches.forEach((match) => {
+        aliases.add(normalizePlantName(match.replace(/[（）()]/g, "")));
+      });
+      aliases.add(normalizePlantName(String(selected).replace(/[（(].*?[）)]/g, "")));
+      return Array.from(aliases).filter((alias) => alias.length >= 2);
+    }
+
+    function rowContainsProject(row) {
+      const aliases = getProjectNameAliases();
+      return [row.sellerName, row.memberName].some((name) => {
+        const normalizedName = normalizePlantName(canonicalizePlantName(name));
+        return aliases.some((alias) => normalizedName.includes(alias));
+      });
+    }
+
+    function getSignedTradeVolume(row) {
+      const magnitude = Math.abs(Number(row.volume || 0));
+      const containsProject = rowContainsProject(row);
+      const partyRole = row.partyRole || "seller";
+      if (partyRole === "buyer") {
+        return containsProject ? -magnitude : magnitude;
+      }
+      return containsProject ? magnitude : -magnitude;
+    }
+
+    function collectPlantNames() {
+      return [defaultPlantName];
+    }
+
+    function updatePlantSelectOptions() {
+      if (!plantSelect) return;
+      const previousValue = plantSelect.value || localStorage.getItem(selectedPlantStorageKey) || defaultPlantName;
+      const names = collectPlantNames();
+      if (!names.includes(defaultPlantName)) {
+        names.unshift(defaultPlantName);
+      }
+      plantSelect.innerHTML = [
+        ...names.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`),
+      ].join("");
+      plantSelect.value = names.includes(canonicalizePlantName(previousValue)) ? canonicalizePlantName(previousValue) : defaultPlantName;
+      localStorage.setItem(selectedPlantStorageKey, plantSelect.value);
+    }
+
+    function syncRollingChartTitle() {
+      if (!chartObject) return;
+      try {
+        const svgDoc = chartObject.contentDocument;
+        const titleText = svgDoc?.querySelector("svg > text[font-weight='700']");
+        if (!titleText) return;
+        if (!titleText.dataset.baseTitle) {
+          titleText.dataset.baseTitle = titleText.textContent || "";
+        }
+        const baseTitle = titleText.dataset.baseTitle;
+        const selectedPlant = getSelectedPlantName();
+        titleText.textContent = selectedPlant ? `${selectedPlant} - ${baseTitle}` : baseTitle;
+      } catch {
+        // Some browsers restrict object document access while the SVG is loading.
+      }
+    }
+
+    function syncPlantContext() {
+      const label = getSelectedPlantLabel();
+      if (rollingPlantContext) {
+        rollingPlantContext.textContent = `当前目标：${label}`;
+      }
+      if (chartObject) {
+        chartObject.setAttribute("aria-label", `${label} 河北南网实时机组滚动发电计划`);
+      }
+      if (tradeTitle) {
+        tradeTitle.textContent = `中长期交易结果 - ${label}`;
+      }
+      syncRollingChartTitle();
+    }
+
+    function getMonthlyImportKey() {
+      return getSelectedMonthValue();
+    }
+
+    function getTenDayImportKey() {
+      return `${getSelectedMonthValue()}-${tradeTenDayInput?.value || "early"}`;
+    }
+
+    function loadMonthlyImportRows() {
+      try {
+        const savedText = localStorage.getItem(monthlyImportStorageKey);
+        if (!savedText) return;
+        const savedData = JSON.parse(savedText);
+        Object.entries(savedData).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            monthlyImportFiles.set(`历史导入-${key}.xlsx`, {
+              fileName: `历史导入-${key}.xlsx`,
+              monthValue: key,
+              rows: value.map((row) => ({ partyRole: "seller", ...row })),
+            });
+            return;
+          }
+          if (value && Array.isArray(value.rows)) {
+            const fileName = value.fileName || key;
+            monthlyImportFiles.set(fileName, {
+              fileName,
+              monthValue: value.monthValue || key,
+              rows: value.rows.map((row) => ({ partyRole: "seller", ...row })),
+            });
+          }
+        });
+      } catch {
+        localStorage.removeItem(monthlyImportStorageKey);
+      }
+    }
+
+    function loadAnnualImportRows() {
+      try {
+        const savedText = localStorage.getItem(annualImportStorageKey);
+        if (!savedText) return;
+        const savedData = JSON.parse(savedText);
+        Object.entries(savedData).forEach(([fileName, record]) => {
+          if (record && record.rowsByMonth) {
+            annualImportFiles.set(fileName, {
+              fileName: record.fileName || fileName,
+              year: record.year || null,
+              rowsByMonth: record.rowsByMonth,
+            });
+          }
+        });
+      } catch {
+        localStorage.removeItem(annualImportStorageKey);
+      }
+    }
+
+    function loadTenDayImportRows() {
+      try {
+        const savedText = localStorage.getItem(tenDayImportStorageKey);
+        if (!savedText) return;
+        const savedData = JSON.parse(savedText);
+        Object.entries(savedData).forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            tenDayImportFiles.set(`历史导入-${key}.xlsx`, {
+              fileName: `历史导入-${key}.xlsx`,
+              periodValue: key,
+              rows: value.map((row) => ({ partyRole: "buyer", ...row })),
+            });
+            return;
+          }
+          if (value && Array.isArray(value.rows)) {
+            const fileName = value.fileName || key;
+            tenDayImportFiles.set(fileName, {
+              fileName,
+              periodValue: value.periodValue || key,
+              rows: value.rows.map((row) => ({ partyRole: "buyer", ...row })),
+            });
+          }
+        });
+      } catch {
+        localStorage.removeItem(tenDayImportStorageKey);
+      }
+    }
+
+    function loadDailyRollingRows() {
+      try {
+        const savedText = localStorage.getItem(dailyRollingStorageKey);
+        if (!savedText) return;
+        const savedData = JSON.parse(savedText);
+        Object.entries(savedData).forEach(([fileName, record]) => {
+          if (record?.rows?.length) {
+            dailyRollingFiles.set(fileName, record);
+          }
+        });
+      } catch {
+        localStorage.removeItem(dailyRollingStorageKey);
+      }
+    }
+
+    function saveMonthlyImportRows() {
+      const payload = {};
+      monthlyImportFiles.forEach((record, fileName) => {
+        payload[fileName] = record;
+      });
+      localStorage.setItem(monthlyImportStorageKey, JSON.stringify(payload));
+    }
+
+    function saveAnnualImportRows() {
+      const payload = {};
+      annualImportFiles.forEach((record, fileName) => {
+        payload[fileName] = record;
+      });
+      localStorage.setItem(annualImportStorageKey, JSON.stringify(payload));
+    }
+
+    function saveTenDayImportRows() {
+      const payload = {};
+      tenDayImportFiles.forEach((record, fileName) => {
+        payload[fileName] = record;
+      });
+      localStorage.setItem(tenDayImportStorageKey, JSON.stringify(payload));
+    }
+
+    function saveDailyRollingRows() {
+      const payload = {};
+      dailyRollingFiles.forEach((record, fileName) => {
+        payload[fileName] = record;
+      });
+      localStorage.setItem(dailyRollingStorageKey, JSON.stringify(payload));
+    }
+
+    function getExpectedMonthlyImportNames() {
+      const [year, month] = getSelectedMonthValue().split("-");
+      return [
+        `${year}年${Number(month)}月月度集中竞价交易结果`,
+        `${year}年${month}月月度集中竞价交易结果`,
+      ];
+    }
+
+    function getExpectedAnnualImportNames() {
+      return ["yyyy年年度集中竞价交易结果"];
+    }
+
+    function getFileStem(fileName) {
+      return String(fileName || "").replace(/\.[^.]+$/, "");
+    }
+
+    function getSelectedTenDayLabel() {
+      const labels = {
+        early: "上旬",
+        middle: "中旬",
+        late: "下旬",
+      };
+      return labels[tradeTenDayInput?.value] || "上旬";
+    }
+
+    function getSelectedTenDayRange() {
+      const monthValue = getSelectedMonthValue();
+      const daysInMonth = getDaysInMonth(monthValue);
+      const tenDay = tradeTenDayInput?.value || "early";
+      if (tenDay === "middle") return { start: 11, end: 20 };
+      if (tenDay === "late") return { start: 21, end: daysInMonth };
+      return { start: 1, end: 10 };
+    }
+
+    function getExpectedTenDayImportNames() {
+      const [year, month] = getSelectedMonthValue().split("-");
+      const tenDayLabel = getSelectedTenDayLabel();
+      return [
+        `${year}年${Number(month)}月${tenDayLabel}集中竞价交易结果`,
+        `${year}年${month}月${tenDayLabel}集中竞价交易结果`,
+      ];
+    }
+
+    function isTenDayImportMode() {
+      return activeTradeType === "旬度集中竞价交易";
+    }
+
+    function isAnnualImportMode() {
+      return activeTradeType === "年度集中竞价交易";
+    }
+
+    function isDailyRollingImportMode() {
+      return activeTradeType === "日滚动撮合交易";
+    }
+
+    function getCurrentImportExpectedNames() {
+      if (isDailyRollingImportMode()) return ["yyyy年mm月dd日日滚动交易(yyyy-mm-dd)"];
+      if (isAnnualImportMode()) return getExpectedAnnualImportNames();
+      return isTenDayImportMode() ? getExpectedTenDayImportNames() : getExpectedMonthlyImportNames();
+    }
+
+    function isValidAnnualFileName(fileName) {
+      return /^\d{4}年年度集中竞价交易结果/.test(getFileStem(fileName));
+    }
+
+    function isValidDailyRollingFileName(fileName) {
+      return /^\d{4}年\d{1,2}月\d{1,2}日日滚动交易\(\d{4}-\d{2}-\d{2}\)/.test(getFileStem(fileName));
+    }
+
+    function parseDailyRollingFileName(fileName) {
+      const match = getFileStem(fileName).match(/^(\d{4})年(\d{1,2})月(\d{1,2})日日滚动交易\((\d{4}-\d{2}-\d{2})\)/);
+      if (!match) return null;
+      return {
+        tradeDate: `${match[1]}-${String(Number(match[2])).padStart(2, "0")}-${String(Number(match[3])).padStart(2, "0")}`,
+        runDate: match[4],
+      };
+    }
+
+    function getCurrentImportEndpoint() {
+      if (isDailyRollingImportMode()) return "/import-daily-rolling-trade";
+      if (isAnnualImportMode()) return "/import-annual-trade";
+      return isTenDayImportMode() ? "/import-ten-day-trade" : "/import-monthly-trade";
+    }
+
+    function getCurrentImportSavedRows() {
+      if (isDailyRollingImportMode()) return getDailyRollingRowsForSelectedRunDate();
+      if (isAnnualImportMode()) return getAnnualRowsForMonth(getMonthlyImportKey());
+      return isTenDayImportMode()
+        ? getTenDayRowsForPeriod(getTenDayImportKey())
+        : getMonthlyRowsForMonth(getMonthlyImportKey());
+    }
+
+    function getAnnualRowsForMonth(monthValue) {
+      const rows = [];
+      annualImportFiles.forEach((record) => {
+        const monthRows = record.rowsByMonth?.[monthValue];
+        if (Array.isArray(monthRows)) {
+          rows.push(...monthRows);
+        }
+      });
+      return rows;
+    }
+
+    function getAnnualHourlyData(monthValue = getSelectedMonthValue()) {
+      const rows = getRowsForSelectedPlant(getAnnualRowsForMonth(monthValue));
+      const daysInMonth = getDaysInMonth(monthValue);
+      return aggregateMonthlyRowsByPoint(rows).map((item) => ({
+        ...item,
+        monthlyVolume: item.volume,
+        volume: item.volume / daysInMonth,
+      }));
+    }
+
+    function getMonthlyRowsForMonth(monthValue) {
+      const rows = [];
+      monthlyImportFiles.forEach((record) => {
+        if (record.monthValue === monthValue) {
+          rows.push(...record.rows);
+        }
+      });
+      return rows;
+    }
+
+    function getTenDayRowsForPeriod(periodValue) {
+      const rows = [];
+      tenDayImportFiles.forEach((record) => {
+        if (record.periodValue === periodValue) {
+          rows.push(...record.rows);
+        }
+      });
+      return rows;
+    }
+
+    function getDailyRollingRunDates() {
+      const dates = new Set();
+      dailyRollingFiles.forEach((record) => {
+        if (record.runDate) dates.add(record.runDate);
+      });
+      return Array.from(dates).sort();
+    }
+
+    function getSelectedDailyRunDate() {
+      return dailyRunDateSelect?.value || getDailyRollingRunDates()[0] || "";
+    }
+
+    function getDailyRollingRowsForRunDate(runDate) {
+      const rows = [];
+      dailyRollingFiles.forEach((record) => {
+        if (record.runDate === runDate) {
+          rows.push(...record.rows);
+        }
+      });
+      return rows;
+    }
+
+    function getDailyRollingRowsForSelectedRunDate() {
+      return getDailyRollingRowsForRunDate(getSelectedDailyRunDate());
+    }
+
+    function getDailyRollingRowsForSelectedPlant(rows) {
+      const aliases = getProjectNameAliases();
+      return rows.filter((row) => {
+        const normalizedName = normalizePlantName(canonicalizePlantName(row.tradeUnit));
+        return aliases.some((alias) => normalizedName.includes(alias));
+      });
+    }
+
+    function getMonthlyImportDateRangeErrors(rows) {
+      const monthValue = getSelectedMonthValue();
+      return rows.filter((row) => {
+        const rangeText = String(row.dateRange || "");
+        const dates = rangeText.match(/\d{4}-\d{2}-\d{2}/g) || [];
+        if (dates.length < 2) return true;
+        return !dates.every((dateText) => dateText.startsWith(monthValue));
+      });
+    }
+
+    function getTenDayImportDateRangeErrors(rows) {
+      const monthValue = getSelectedMonthValue();
+      const { start, end } = getSelectedTenDayRange();
+      return rows.filter((row) => {
+        const rangeText = String(row.dateRange || "");
+        const dates = rangeText.match(/\d{4}-\d{2}-\d{2}/g) || [];
+        if (dates.length < 2) return true;
+        return !dates.every((dateText) => {
+          if (!dateText.startsWith(monthValue)) return false;
+          const day = Number(dateText.slice(-2));
+          return day >= start && day <= end;
+        });
+      });
+    }
+
+    function getAnnualImportDateRangeErrors(rows) {
+      return rows.filter((row) => getDateRangeMonths(row).length === 0);
+    }
+
+    function parseIsoDateUtc(dateText) {
+      const [year, month, day] = String(dateText || "").split("-").map(Number);
+      if (!year || !month || !day) return null;
+      return new Date(Date.UTC(year, month - 1, day));
+    }
+
+    function formatMonthValueFromDate(date) {
+      return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function addUtcDays(date, days) {
+      const next = new Date(date.getTime());
+      next.setUTCDate(next.getUTCDate() + days);
+      return next;
+    }
+
+    function getDateRangeMonths(row) {
+      const dates = String(row.dateRange || "").match(/\d{4}-\d{2}-\d{2}/g) || [];
+      if (dates.length < 2) return [];
+      let start = parseIsoDateUtc(dates[0]);
+      let end = parseIsoDateUtc(dates[1]);
+      if (!start || !end) return [];
+      if (start > end) {
+        const temp = start;
+        start = end;
+        end = temp;
+      }
+
+      const monthDays = new Map();
+      for (let cursor = start; cursor <= end; cursor = addUtcDays(cursor, 1)) {
+        const monthValue = formatMonthValueFromDate(cursor);
+        monthDays.set(monthValue, (monthDays.get(monthValue) || 0) + 1);
+      }
+      const totalDays = Array.from(monthDays.values()).reduce((sum, days) => sum + days, 0);
+      if (!totalDays) return [];
+      return Array.from(monthDays.entries()).map(([monthValue, days]) => ({ monthValue, ratio: days / totalDays }));
+    }
+
+    function splitAnnualRowsByMonth(rows) {
+      const rowsByMonth = {};
+      rows.forEach((row) => {
+        getDateRangeMonths(row).forEach(({ monthValue }) => {
+          if (!rowsByMonth[monthValue]) rowsByMonth[monthValue] = [];
+          rowsByMonth[monthValue].push({
+            ...row,
+            volume: Number(row.volume || 0),
+            annualSourceVolume: row.volume,
+          });
+        });
+      });
+      return rowsByMonth;
+    }
+
+    function summarizeMonthlyRows(rows) {
+      const totalVolume = rows.reduce((sum, row) => sum + getSignedTradeVolume(row), 0);
+      const weightedVolume = rows.reduce((sum, row) => sum + getSignedTradeVolume(row), 0);
+      const weightedAmount = rows.reduce((sum, row) => sum + getSignedTradeVolume(row) * row.price, 0);
+      const weightedPrice = calculateWeightedPrice(weightedAmount, weightedVolume);
+      const pointCount = new Set(rows.map((row) => row.point)).size;
+      return { totalVolume, weightedPrice, pointCount };
+    }
+
+    function getMonthlyHourlyData(monthValue = getSelectedMonthValue()) {
+      const rows = getRowsForSelectedPlant(getMonthlyRowsForMonth(monthValue));
+      const daysInMonth = getDaysInMonth(monthValue);
+      return aggregateMonthlyRowsByPoint(rows).map((item) => ({
+        ...item,
+        monthlyVolume: item.volume,
+        volume: item.volume / daysInMonth,
+      }));
+    }
+
+    function getTenDayHourlyData() {
+      const rows = getRowsForSelectedPlant(getTenDayRowsForPeriod(getTenDayImportKey()));
+      const { start, end } = getSelectedTenDayRange();
+      const daysInPeriod = end - start + 1;
+      return aggregateMonthlyRowsByPoint(rows).map((item) => ({
+        ...item,
+        periodVolume: item.volume,
+        volume: item.volume / daysInPeriod,
+      }));
+    }
+
+    function getTenDayRangeByValue(monthValue, tenDayValue) {
+      const daysInMonth = getDaysInMonth(monthValue);
+      if (tenDayValue === "middle") return { start: 11, end: 20 };
+      if (tenDayValue === "late") return { start: 21, end: daysInMonth };
+      return { start: 1, end: 10 };
+    }
+
+    function createHourlySummarySeries() {
+      return Array.from({ length: 24 }, (_, index) => ({
+        label: `${index + 1}`,
+        hour: `${index}:00-${index + 1}:00`,
+        volume: 0,
+        price: null,
+        amount: 0,
+        priceWeight: 0,
+        recordCount: 0,
+      }));
+    }
+
+    function addTradeItemToSummary(targetItem, volume, price, recordCount = 1) {
+      const numericVolume = Number(volume || 0);
+      targetItem.volume += numericVolume;
+      if (price !== null && price !== undefined && numericVolume !== 0) {
+        targetItem.amount += numericVolume * Number(price);
+        targetItem.priceWeight += numericVolume;
+      }
+      targetItem.recordCount += recordCount;
+    }
+
+    function addDetailToSummary(targetItem, tradeType, volume, price, recordCount = 0) {
+      if (!targetItem.details) targetItem.details = [];
+      targetItem.details.push({
+        tradeType,
+        volume,
+        price,
+        recordCount,
+      });
+    }
+
+    function finalizeSummarySeries(series) {
+      return series.map((item) => ({
+        ...item,
+        price: calculateWeightedPrice(item.amount, item.priceWeight),
+      }));
+    }
+
+    function getLongTermSummaryHourlyData(monthValue = getSelectedMonthValue(), runDate = getSelectedSummaryRunDate()) {
+      const daysInMonth = getDaysInMonth(monthValue);
+      const selectedDay = Number(String(runDate || "").slice(-2)) || 1;
+      const series = createHourlySummarySeries();
+      series.forEach((item) => {
+        item.date = runDate;
+      });
+
+      const addMonthlyLikeRows = (tradeType, rows, divisor, startDay = 1, endDay = daysInMonth) => {
+        if (selectedDay < startDay || selectedDay > endDay) return;
+        const hourlyRows = aggregateMonthlyRowsByPoint(getRowsForSelectedPlant(rows));
+        hourlyRows.forEach((item, index) => {
+          const volume = item.recordCount ? item.volume / divisor : 0;
+          const price = item.recordCount ? item.price : null;
+          if (item.recordCount) addTradeItemToSummary(series[index], volume, price, item.recordCount);
+          addDetailToSummary(series[index], tradeType, volume, price, item.recordCount);
+        });
+      };
+
+      addMonthlyLikeRows("年度集中竞价交易", getAnnualRowsForMonth(monthValue), daysInMonth);
+      addMonthlyLikeRows("月度集中竞价交易", getMonthlyRowsForMonth(monthValue), daysInMonth);
+
+      const currentTenDayValue = selectedDay <= 10 ? "early" : selectedDay <= 20 ? "middle" : "late";
+      const currentTenDayRange = getTenDayRangeByValue(monthValue, currentTenDayValue);
+      addMonthlyLikeRows("旬度集中竞价交易", getTenDayRowsForPeriod(`${monthValue}-${currentTenDayValue}`), currentTenDayRange.end - currentTenDayRange.start + 1, currentTenDayRange.start, currentTenDayRange.end);
+
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const runDate = `${monthValue}-${String(day).padStart(2, "0")}`;
+        if (day !== selectedDay) continue;
+        const dailyRows = getDailyRollingRowsForSelectedPlant(getDailyRollingRowsForRunDate(runDate));
+        aggregateDailyRowsByPoint(dailyRows).forEach((item, index) => {
+          if (item.recordCount) addTradeItemToSummary(series[index], item.volume, item.price, item.recordCount);
+          addDetailToSummary(series[index], "日滚动撮合交易", item.recordCount ? item.volume : 0, item.recordCount ? item.price : null, item.recordCount);
+        });
+      }
+
+      return finalizeSummarySeries(series);
+    }
+
+    function aggregateMonthlyRowsByPoint(rows) {
+      const grouped = Array.from({ length: 24 }, (_, index) => ({
+        label: `${index + 1}`,
+        hour: `${index}:00-${index + 1}:00`,
+        volume: 0,
+        price: null,
+        amount: 0,
+        priceWeight: 0,
+        recordCount: 0,
+      }));
+
+      rows.forEach((row) => {
+        const item = grouped[row.point - 1];
+        const signedVolume = getSignedTradeVolume(row);
+        item.volume += signedVolume;
+        item.amount += signedVolume * row.price;
+        item.priceWeight += signedVolume;
+        item.recordCount += 1;
+      });
+
+      grouped.forEach((item) => {
+        item.price = calculateWeightedPrice(item.amount, item.priceWeight);
+        delete item.amount;
+        delete item.priceWeight;
+      });
+
+      return grouped;
+    }
+
+    function formatAggregateNumber(value) {
+      if (value === null || value === undefined) return "-";
+      return Number.isInteger(Number(value)) ? String(Number(value)) : Number(value).toFixed(2);
+    }
+
+    function calculateWeightedPrice(amount, weight) {
+      if (weight !== 0) return amount / weight;
+      if (amount > 0) return Infinity;
+      if (amount < 0) return -Infinity;
+      return null;
+    }
+
+    function formatPriceValue(value) {
+      if (value === null || value === undefined) return "-";
+      if (value === Infinity || value === "Infinity") return "∞";
+      if (value === -Infinity || value === "-Infinity") return "-∞";
+      return Number(value).toFixed(2);
+    }
+
+    function priceCellClass(value) {
+      const isInfinite = value === Infinity || value === -Infinity || value === "Infinity" || value === "-Infinity";
+      return isInfinite ? " class=\"trade-price-infinite\"" : "";
+    }
+
+    function serializePriceValue(value) {
+      if (value === Infinity) return "Infinity";
+      if (value === -Infinity) return "-Infinity";
+      return value;
+    }
+
+    function isInfinitePrice(value) {
+      return value === Infinity || value === -Infinity || value === "Infinity" || value === "-Infinity";
+    }
+
+    function buildChartTooltipHtml(item) {
+      if (!item?.details?.length) return "";
+      const title = `${item.date || getSelectedSummaryRunDate()} ${item.hour}（时点${item.label}）`;
+      const rows = item.details.map((detail) => `
+        <tr>
+          <td>${escapeHtml(detail.tradeType)}</td>
+          <td>${detail.recordCount ? Number(detail.volume || 0).toFixed(3) : "-"}</td>
+          <td${priceCellClass(detail.price)}>${detail.recordCount ? formatPriceValue(detail.price) : "-"}</td>
+        </tr>
+      `).join("");
+      return `
+        <div class="trade-chart-tooltip-title">${escapeHtml(title)}</div>
+        <table>
+          <thead>
+            <tr><th>交易品种</th><th>成交电量</th><th>成交电价</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function positionTradeChartTooltip(event) {
+      if (!tradeChartTooltip) return;
+      const margin = 14;
+      const rect = tradeChartTooltip.getBoundingClientRect();
+      let left = event.clientX + margin;
+      let top = event.clientY + margin;
+      if (left + rect.width > window.innerWidth - margin) {
+        left = event.clientX - rect.width - margin;
+      }
+      if (top + rect.height > window.innerHeight - margin) {
+        top = event.clientY - rect.height - margin;
+      }
+      tradeChartTooltip.style.left = `${Math.max(margin, left)}px`;
+      tradeChartTooltip.style.top = `${Math.max(margin, top)}px`;
+    }
+
+    function showTradeChartTooltip(event, html) {
+      if (!tradeChartTooltip || !html) return;
+      tradeChartTooltip.innerHTML = html;
+      tradeChartTooltip.hidden = false;
+      positionTradeChartTooltip(event);
+    }
+
+    function hideTradeChartTooltip() {
+      if (tradeChartTooltip) tradeChartTooltip.hidden = true;
+    }
+
+    function aggregateDailyRowsByPoint(rows) {
+      const grouped = Array.from({ length: 24 }, (_, index) => ({
+        label: `${index + 1}`,
+        hour: `${index}:00-${index + 1}:00`,
+        volume: 0,
+        price: null,
+        amount: 0,
+        priceWeight: 0,
+        recordCount: 0,
+      }));
+
+      rows.forEach((row) => {
+        const item = grouped[row.point - 1];
+        const volume = Number(row.volume || 0);
+        item.volume += volume;
+        item.amount += volume * row.price;
+        item.priceWeight += volume;
+        item.recordCount += 1;
+      });
+
+      grouped.forEach((item) => {
+        item.price = calculateWeightedPrice(item.amount, item.priceWeight);
+        delete item.amount;
+        delete item.priceWeight;
+      });
+      return grouped;
+    }
+
+    function summarizeDailyRows(rows) {
+      const netVolume = rows.reduce((sum, row) => sum + Number(row.volume || 0), 0);
+      const weightedVolume = rows.reduce((sum, row) => sum + Number(row.volume || 0), 0);
+      const weightedAmount = rows.reduce((sum, row) => sum + Number(row.volume || 0) * row.price, 0);
+      return {
+        netVolume,
+        weightedPrice: calculateWeightedPrice(weightedAmount, weightedVolume),
+        recordCount: rows.length,
+        pointCount: new Set(rows.map((row) => row.point)).size,
+      };
+    }
+
+    function buildDailyRollingExportRows() {
+      const monthValue = getSelectedMonthValue();
+      const daysInMonth = getDaysInMonth(monthValue);
+      const exportRows = [];
+      let sourceRecordCount = 0;
+
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const dateText = `${monthValue}-${String(day).padStart(2, "0")}`;
+        const rows = getDailyRollingRowsForSelectedPlant(getDailyRollingRowsForRunDate(dateText));
+        sourceRecordCount += rows.length;
+        const groupedRows = aggregateDailyRowsByPoint(rows);
+        groupedRows.forEach((item) => {
+          exportRows.push({
+            date: dateText,
+            hour: item.hour,
+            point: Number(item.label),
+            positionVolume: item.recordCount ? Number(item.volume || 0) : null,
+            positionPrice: item.recordCount ? serializePriceValue(item.price) : null,
+          });
+        });
+      }
+
+      return { monthValue, rows: exportRows, sourceRecordCount };
+    }
+
+    async function exportDailyRollingRows() {
+      const { monthValue, rows, sourceRecordCount } = buildDailyRollingExportRows();
+      if (!sourceRecordCount) {
+        alert("所选月份没有可导出的日滚动撮合交易结果。");
+        return;
+      }
+      if (dailyRollingExport) dailyRollingExport.disabled = true;
+      try {
+        const response = await fetch("/export-daily-rolling-trade", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            monthValue,
+            plantName: getSelectedPlantLabel(),
+            rows,
+          }),
+        });
+        if (!response.ok) {
+          const errorPayload = await response.json().catch(() => ({}));
+          throw new Error(errorPayload.message || "导出失败");
+        }
+        const blob = await response.blob();
+        const [year, month] = monthValue.split("-");
+        const downloadName = `${year}年${Number(month)}月日滚动撮合交易结果.xlsx`;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = downloadName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        alert(error.message || "导出失败");
+      } finally {
+        if (dailyRollingExport) dailyRollingExport.disabled = false;
+      }
+    }
+
+    function drawHourlyComboChart(chartElement, data) {
+      if (!chartElement) return;
+      const chartRect = chartElement.getBoundingClientRect();
+      const width = Math.max(1080, Math.round(chartRect.width) || 1080);
+      const height = Math.max(360, Math.round(chartRect.height) || 430);
+      const margin = { top: 34, right: 74, bottom: 52, left: 72 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+      const minVolume = -100;
+      const maxVolume = 100;
+      const volumeTicks = Array.from({ length: 11 }, (_, index) => minVolume + index * 20);
+      const prices = data.map((item) => item.price).filter((value) => Number.isFinite(value));
+      const minPrice = 0;
+      const maxPrice = prices.length ? Math.ceil(Math.max(...prices) / 50) * 50 : 50;
+      const priceRange = Math.max(50, maxPrice - minPrice);
+      const priceTop = minPrice + priceRange;
+      const priceTickCount = Math.floor((priceTop - minPrice) / 50) + 1;
+      const priceTicks = Array.from({ length: priceTickCount }, (_, index) => minPrice + index * 50);
+      const step = chartWidth / data.length;
+      const barWidth = Math.min(44, step * 0.5);
+
+      const clampVolume = (value) => Math.max(minVolume, Math.min(maxVolume, value || 0));
+      const yVolume = (value) => margin.top + chartHeight - ((clampVolume(value) - minVolume) / (maxVolume - minVolume)) * chartHeight;
+      const yPrice = (value) => margin.top + chartHeight - ((value - minPrice) / priceRange) * chartHeight;
+      const xCenter = (index) => margin.left + step * index + step / 2;
+      const zeroY = yVolume(0);
+      const labelTop = 16;
+      const labelBottom = height - 34;
+      const minLabelGap = 16;
+      const labelStroke = 'paint-order="stroke" stroke="#ffffff" stroke-width="4" stroke-linejoin="round"';
+      const clampLabelY = (value) => Math.min(labelBottom, Math.max(labelTop, value));
+      const estimateLabelWidth = (text) => Math.max(24, String(text).length * 6.4);
+      const labelsOverlap = (a, b) => Math.abs(a.x - b.x) < (a.width + b.width) / 2 + 2 && Math.abs(a.y - b.y) < minLabelGap;
+      const avoidAdjacentOverlap = (labels) => {
+        const placed = [];
+        labels.forEach((label, index) => {
+          const candidate = { ...label };
+          const previous = placed[placed.length - 1];
+          if (previous && labelsOverlap(previous, candidate)) {
+            const direction = index % 2 === 0 ? -1 : 1;
+            candidate.y = clampLabelY(candidate.y + direction * minLabelGap);
+            if (labelsOverlap(previous, candidate)) {
+              candidate.y = clampLabelY(previous.y + direction * minLabelGap);
+            }
+          }
+          placed.push(candidate);
+        });
+        return placed;
+      };
+      const priceSegments = [];
+      let currentPriceSegment = [];
+      data.forEach((item, index) => {
+        const hasPrice = Number.isFinite(item.price);
+        const hasVolume = Number(item.volume || 0) !== 0;
+        if (hasPrice && hasVolume) {
+          currentPriceSegment.push(`${xCenter(index)},${yPrice(item.price)}`);
+          return;
+        }
+        if (currentPriceSegment.length) {
+          priceSegments.push(currentPriceSegment);
+          currentPriceSegment = [];
+        }
+      });
+      if (currentPriceSegment.length) {
+        priceSegments.push(currentPriceSegment);
+      }
+
+      const volumeLabelItems = data.map((item, index) => {
+        const value = Number(item.volume || 0);
+        const barValue = clampVolume(value);
+        const x = xCenter(index) - barWidth / 2;
+        const barY = yVolume(barValue);
+        const y = Math.min(barY, zeroY);
+        const h = Math.max(1, Math.abs(zeroY - barY));
+        const text = value.toFixed(2);
+        return {
+          index,
+          value,
+          x,
+          y,
+          h,
+          label: item.label,
+          labelX: xCenter(index),
+          labelY: clampLabelY(value >= 0 ? y - 6 : y + h + 14),
+          text,
+          width: estimateLabelWidth(text),
+        };
+      });
+      const priceLabelItems = data.map((item, index) => {
+        if (item.price === null || item.price === undefined || Number(item.volume || 0) === 0) return null;
+        const isInfinitePrice = !Number.isFinite(item.price);
+        const markerY = isInfinitePrice ? (item.price > 0 ? margin.top + 10 : margin.top + chartHeight - 10) : yPrice(item.price);
+        const volumeLabel = volumeLabelItems[index];
+        const text = formatPriceValue(item.price);
+        let labelY = clampLabelY(markerY - 9);
+        if (Math.abs(labelY - volumeLabel.labelY) < minLabelGap) {
+          const candidates = [markerY - 25, markerY + 18, markerY - 41, markerY + 34].map(clampLabelY);
+          labelY = candidates.sort((a, b) => Math.abs(b - volumeLabel.labelY) - Math.abs(a - volumeLabel.labelY))[0];
+        }
+        return {
+          index,
+          markerY,
+          labelX: xCenter(index),
+          labelY,
+          text,
+          width: estimateLabelWidth(text),
+        };
+      }).filter(Boolean);
+      const volumeLabelsByIndex = new Map(avoidAdjacentOverlap(volumeLabelItems.map((item) => ({
+        index: item.index,
+        x: item.labelX,
+        y: item.labelY,
+        width: item.width,
+      }))).map((label) => [label.index, label]));
+      const priceLabelsByIndex = new Map(avoidAdjacentOverlap(priceLabelItems.map((item) => ({
+        index: item.index,
+        x: item.labelX,
+        y: item.labelY,
+        width: item.width,
+      }))).map((label) => [label.index, label]));
+
+      const bars = volumeLabelItems.map((item) => {
+        const label = volumeLabelsByIndex.get(item.index) || { y: item.labelY };
+        return `
+          <rect x="${item.x}" y="${item.y}" width="${barWidth}" height="${item.h}" fill="#2563eb" rx="2"></rect>
+          <text x="${item.labelX}" y="${height - 24}" text-anchor="middle" fill="#475569" font-size="11">${item.label}</text>
+          <text x="${item.labelX}" y="${label.y}" text-anchor="middle" fill="#334155" font-size="11" ${labelStroke}>${item.text}</text>
+        `;
+      }).join("");
+
+      const priceMarkers = data.map((item, index) => {
+        if (item.price === null || item.price === undefined || Number(item.volume || 0) === 0) return "";
+        const isInfinitePrice = !Number.isFinite(item.price);
+        const markerY = isInfinitePrice ? (item.price > 0 ? margin.top + 10 : margin.top + chartHeight - 10) : yPrice(item.price);
+        const label = priceLabelsByIndex.get(index) || { y: clampLabelY(markerY - 9) };
+        return `
+          <circle cx="${xCenter(index)}" cy="${markerY}" r="${isInfinitePrice ? 5 : 4}" fill="${isInfinitePrice ? "#f59e0b" : "#dc2626"}"></circle>
+          <text x="${xCenter(index)}" y="${label.y}" text-anchor="middle" fill="${isInfinitePrice ? "#b45309" : "#dc2626"}" font-size="11" font-weight="${isInfinitePrice ? "700" : "400"}" ${labelStroke}>${formatPriceValue(item.price)}</text>
+        `;
+      }).join("");
+
+      const hoverTargets = data.map((item, index) => {
+        const tooltipHtml = buildChartTooltipHtml(item);
+        if (!tooltipHtml) return "";
+        const x = margin.left + step * index;
+        return `<rect class="trade-chart-hover-target" x="${x}" y="${margin.top}" width="${step}" height="${chartHeight}" data-tooltip="${escapeHtml(tooltipHtml)}"></rect>`;
+      }).join("");
+
+      chartElement.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      chartElement.innerHTML = `
+        <rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff"></rect>
+        <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#fca5a5"></line>
+        <line x1="${margin.left}" y1="${zeroY}" x2="${margin.left + chartWidth}" y2="${zeroY}" stroke="#64748b" stroke-width="1.4"></line>
+        <line x1="${margin.left + chartWidth}" y1="${margin.top}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#94a3b8"></line>
+        <text x="18" y="${margin.top + 8}" fill="#dc2626" font-size="12">电价</text>
+        <text x="${width - 52}" y="${margin.top + 8}" fill="#334155" font-size="12">电量</text>
+        ${volumeTicks.map((tick) => {
+          const y = yVolume(tick);
+          return `
+            <line x1="${margin.left}" y1="${y}" x2="${margin.left + chartWidth}" y2="${y}" stroke="#e2e8f0"></line>
+            <text x="${margin.left + chartWidth + 8}" y="${y + 4}" fill="#64748b" font-size="11">${tick}</text>
+          `;
+        }).join("")}
+        ${priceTicks.map((tick) => {
+          const y = yPrice(tick);
+          return `
+            <line x1="${margin.left - 5}" y1="${y}" x2="${margin.left}" y2="${y}" stroke="#fca5a5"></line>
+            <text x="${margin.left - 8}" y="${y + 4}" text-anchor="end" fill="#dc2626" font-size="11">${tick}</text>
+          `;
+        }).join("")}
+        ${bars}
+        ${priceSegments.map((segment) => `<polyline points="${segment.join(" ")}" fill="none" stroke="#dc2626" stroke-width="3"></polyline>`).join("")}
+        ${priceMarkers}
+        ${hoverTargets}
+      `;
+    }
+
+    function renderDailyRollingPanel() {
+      if (!dailyRollingPanel || !dailyRollingContent || !dailyRunDateSelect) return;
+      const runDates = getDailyRollingRunDates();
+      const requestedRunDate = pendingDailyRunDateSelection || dailyRunDateSelect.value;
+      dailyRunDateSelect.innerHTML = runDates.map((dateText) => `<option value="${dateText}">${dateText}</option>`).join("");
+      if (runDates.includes(requestedRunDate)) {
+        dailyRunDateSelect.value = requestedRunDate;
+      }
+      pendingDailyRunDateSelection = "";
+      const selectedRunDate = getSelectedDailyRunDate();
+      if (dailyRollingTitle) {
+        dailyRollingTitle.textContent = selectedRunDate ? `${getSelectedPlantLabel()} - ${selectedRunDate} 日滚动撮合交易结果` : "日滚动撮合交易结果";
+      }
+      if (!selectedRunDate) {
+        if (dailyRollingSummary) dailyRollingSummary.textContent = "暂无导入数据";
+        if (dailyRollingChartTitle) dailyRollingChartTitle.textContent = "日滚动撮合交易 - 24小时成交电量与成交电价";
+        if (dailyRollingChart) dailyRollingChart.innerHTML = "";
+        dailyRollingContent.innerHTML = "";
+        return;
+      }
+
+      const rows = getDailyRollingRowsForSelectedPlant(getDailyRollingRowsForRunDate(selectedRunDate));
+      const tradeDates = Array.from(new Set(rows.map((row) => row.tradeDate))).sort();
+      const groupedByTradeDate = new Map(tradeDates.map((tradeDate) => [
+        tradeDate,
+        aggregateDailyRowsByPoint(rows.filter((row) => row.tradeDate === tradeDate)),
+      ]));
+      const summaryRows = aggregateDailyRowsByPoint(rows);
+      const summary = summarizeDailyRows(rows);
+      if (dailyRollingChartTitle) {
+        dailyRollingChartTitle.textContent = `${getSelectedPlantLabel()} - ${selectedRunDate} 日滚动撮合交易 - 24小时汇总成交电量与成交电价`;
+      }
+      drawHourlyComboChart(dailyRollingChart, summaryRows);
+      if (dailyRollingSummary) {
+        dailyRollingSummary.textContent = `记录 ${summary.recordCount} 条 / 净成交电量 ${summary.netVolume.toFixed(3)} MWh / 加权均价 ${formatPriceValue(summary.weightedPrice)} 元/MWh${isInfinitePrice(summary.weightedPrice) ? "（正负电量抵消）" : ""}`;
+      }
+
+      const headerCells = tradeDates.map((tradeDate) => {
+        const oneRow = rows.find((row) => row.tradeDate === tradeDate);
+        const offsetText = oneRow ? `D-${oneRow.dayOffset}` : "";
+        return `<th scope="col" colspan="2">${tradeDate} ${offsetText}</th>`;
+      }).join("");
+
+      dailyRollingContent.innerHTML = `
+        <table class="daily-rolling-table" aria-label="日滚动撮合交易结果">
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">时间</th>
+              <th scope="col" rowspan="2">时点</th>
+              ${headerCells}
+              <th scope="col" colspan="2">运行日汇总</th>
+            </tr>
+            <tr>
+              ${tradeDates.map(() => '<th scope="col">成交电量</th><th scope="col">成交电价</th>').join("")}
+              <th scope="col">净成交电量</th>
+              <th scope="col">加权均价</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${summaryRows.map((summaryItem, index) => `
+              <tr>
+                <td>${summaryItem.hour}</td>
+                <td>${summaryItem.label}</td>
+                ${tradeDates.map((tradeDate) => {
+                  const item = groupedByTradeDate.get(tradeDate)[index];
+                  return `<td>${item.recordCount ? item.volume.toFixed(3) : "-"}</td><td${priceCellClass(item.price)}>${formatPriceValue(item.price)}</td>`;
+                }).join("")}
+                <td>${summaryItem.recordCount ? summaryItem.volume.toFixed(3) : "-"}</td>
+                <td${priceCellClass(summaryItem.price)}>${formatPriceValue(summaryItem.price)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function getCentralizedHourlyData() {
+      if (activeTradeType === "中长期交易汇总") {
+        return getLongTermSummaryHourlyData();
+      }
+      if (activeTradeType === "年度集中竞价交易") {
+        return getAnnualHourlyData();
+      }
+      if (activeTradeType === "月度集中竞价交易") {
+        return getMonthlyHourlyData();
+      }
+      if (activeTradeType === "旬度集中竞价交易") {
+        return getTenDayHourlyData();
+      }
+      return Array.from({ length: 24 }, (_, index) => ({
+        label: `${index + 1}`,
+        hour: `${index}:00-${index + 1}:00`,
+        volume: 0,
+        price: null,
+      }));
+    }
+
+    function formatNumber(value, unit = "") {
+      if (value === "" || value === null || value === undefined) return "-";
+      return `${Number(value).toFixed(2)}${unit}`;
+    }
+
+    function formatMatrixCell(data) {
+      const netVolume = data.netVolume;
+      if (netVolume === "" || netVolume === null || netVolume === undefined) {
+        return {
+          className: "trade-matrix-cell trade-no-data",
+          volumeText: "",
+          priceText: "",
+          emptyText: "-",
+        };
+      }
+
+      const numericValue = Number(netVolume);
+      const signClass = numericValue < 0 ? " is-negative" : numericValue > 0 ? " is-positive" : "";
+      return {
+        className: `trade-matrix-cell${signClass}`,
+        volumeText: numericValue.toFixed(2),
+        priceText: data.price === null || data.price === undefined ? "" : `电价 ${formatPriceValue(data.price)}`,
+        emptyText: "",
+      };
+    }
+
+    function renderDayOverview() {
+      if (!tradeMonthInput || !tradeDayInput || !tradeDayBody || !tradeDaySummary) return;
+      const selectedDate = tradeDayInput.value || getFirstDayOfMonth(getSelectedMonthValue());
+      const [year, month, dayText] = selectedDate.split("-");
+      const monthValue = `${year}-${month}`;
+      const day = Number(dayText);
+      let buyTotal = 0;
+      let sellTotal = 0;
+      let netTotal = 0;
+      const rows = [];
+
+      if (tradeDayTitle) {
+        tradeDayTitle.textContent = `${getSelectedPlantLabel()} - ${activeTradeType} - ${selectedDate} 24小时成交总览`;
+      }
+
+      for (let hour = 0; hour < 24; hour += 1) {
+        const displayHour = `${hour}:00-${hour + 1}:00`;
+        const pointIndex = hour + 1;
+        const data = getTradeCellData(activeTradeType, monthValue, day, hour);
+        const buyValue = Number(data.buyVolume || 0);
+        const sellValue = Number(data.sellVolume || 0);
+        const netValue = data.netVolume === null || data.netVolume === undefined ? null : Number(data.netVolume);
+        buyTotal += buyValue;
+        sellTotal += sellValue;
+        netTotal += netValue || 0;
+        const netClass = netValue < 0 ? " is-negative" : netValue > 0 ? " is-positive" : "";
+
+        rows.push(`
+          <tr data-date="${selectedDate}" data-hour="${displayHour}">
+            <td>${displayHour}</td>
+            <td>${pointIndex}</td>
+            <td>${formatNumber(data.buyVolume)}</td>
+            <td>${formatNumber(data.sellVolume)}</td>
+            <td class="trade-day-volume${netClass}">${formatNumber(data.netVolume)}</td>
+            <td>${formatNumber(data.price)}</td>
+          </tr>
+        `);
+      }
+
+      tradeDaySummary.textContent = `买入 ${buyTotal.toFixed(2)} MWh / 卖出 ${sellTotal.toFixed(2)} MWh / 净持仓 ${netTotal.toFixed(2)} MWh`;
+      tradeDayBody.innerHTML = rows.join("");
+    }
+
+    function renderTradeTable() {
+      if (!tradeMonthInput || !tradeMatrixCaption || !tradeMatrixHead || !tradeMatrixBody) return;
+      updateSummaryRunDateOptions();
+      const usesMonthlyChart = monthlyChartTradeTypes.includes(activeTradeType);
+      const usesDailyRolling = activeTradeType === "日滚动撮合交易";
+      if (annualChartPanel) annualChartPanel.hidden = !usesMonthlyChart;
+      if (monthlyImportOpen) monthlyImportOpen.hidden = !["年度集中竞价交易", "月度集中竞价交易", "旬度集中竞价交易"].includes(activeTradeType);
+      if (summaryRunDateField) summaryRunDateField.hidden = activeTradeType !== "中长期交易汇总";
+      if (tradeTenDayField) tradeTenDayField.hidden = activeTradeType !== "旬度集中竞价交易";
+      const dayOverview = document.querySelector(".trade-day-overview");
+      const tradeWorkspace = document.querySelector(".trade-workspace");
+      if (dayOverview) dayOverview.hidden = usesMonthlyChart || usesDailyRolling;
+      if (tradeWorkspace) tradeWorkspace.hidden = usesMonthlyChart || usesDailyRolling;
+      if (dailyRollingPanel) dailyRollingPanel.hidden = !usesDailyRolling;
+      if (usesMonthlyChart) {
+        renderAnnualChart();
+        return;
+      }
+      if (usesDailyRolling) {
+        renderDailyRollingPanel();
+        return;
+      }
+
+      const monthValue = getSelectedMonthValue();
+      const daysInMonth = getDaysInMonth(monthValue);
+      const dateHeaders = Array.from({ length: daysInMonth }, (_, index) => formatDateHeader(monthValue, index + 1));
+      const rows = [];
+
+      tradeMatrixCaption.textContent = `${getSelectedPlantLabel()} - ${activeTradeType} - ${monthValue} 净持仓矩阵（买入为负值，卖出为正值；单元格下方为成交电价）`;
+
+      tradeMatrixHead.innerHTML = `
+        <tr>
+          <th scope="col">时间</th>
+          <th scope="col">时点</th>
+          ${dateHeaders.map((dateText) => `<th scope="col">${dateText}</th>`).join("")}
+        </tr>
+      `;
+
+      for (let hour = 0; hour < 24; hour += 1) {
+        const displayHour = `${hour}:00-${hour + 1}:00`;
+        const pointIndex = hour + 1;
+        const cells = [];
+
+        for (let day = 1; day <= daysInMonth; day += 1) {
+          const dateText = `${monthValue}-${String(day).padStart(2, "0")}`;
+          const data = getTradeCellData(activeTradeType, monthValue, day, hour);
+          const cell = formatMatrixCell(data);
+          cells.push(`
+            <td class="${cell.className}">
+              <button class="trade-cell-button" type="button"
+                data-date="${dateText}"
+                data-hour="${displayHour}"
+                data-buy="${data.buyVolume ?? ""}"
+                data-sell="${data.sellVolume ?? ""}"
+                data-net="${data.netVolume ?? ""}"
+                data-price="${data.price ?? ""}">
+                ${cell.emptyText ? `<span class="trade-empty-cell">${cell.emptyText}</span>` : `
+                  <span class="trade-cell-volume">${cell.volumeText}</span>
+                  <span class="trade-cell-price">${cell.priceText}</span>
+                `}
+              </button>
+            </td>
+          `);
+        }
+
+        rows.push(`
+          <tr class="${getHourClass(hour)}" data-trade-name="${activeTradeType}">
+            <th scope="row">${displayHour}</th>
+            <td>${pointIndex}</td>
+            ${cells.join("")}
+          </tr>
+        `);
+      }
+
+      const summaryRows = [
+        "买入持仓总计",
+        "卖出持仓总计",
+        "净持仓总计",
+      ].map((label) => `
+        <tr class="trade-summary-row" data-trade-name="${activeTradeType}">
+          <th scope="row" colspan="2">${label}</th>
+          ${Array.from({ length: daysInMonth }, () => '<td class="trade-no-data">0.00</td>').join("")}
+        </tr>
+      `);
+      rows.push(...summaryRows);
+
+      tradeMatrixBody.innerHTML = rows.join("");
+      renderDayOverview();
+    }
+
+    function renderAnnualChart() {
+      if (!annualChart) return;
+      const data = getCentralizedHourlyData();
+      const [selectedYear, selectedMonth] = getSelectedMonthValue().split("-");
+      const annualTitle = document.getElementById("annualChartTitle");
+      if (annualTitle) {
+        let titlePrefix = `${selectedYear}年${Number(selectedMonth)}月${activeTradeType}`;
+        let volumeLabel = ["年度集中竞价交易", "月度集中竞价交易"].includes(activeTradeType) ? "24小时日均成交电量" : "24小时成交电量";
+        let priceLabel = "成交电价";
+        if (activeTradeType === "中长期交易汇总") {
+          const summaryRunDate = getSelectedSummaryRunDate();
+          titlePrefix = `${summaryRunDate} 中长期交易汇总`;
+          volumeLabel = "24小时净成交电量";
+          priceLabel = "成交均价";
+        }
+        if (activeTradeType === "旬度集中竞价交易") {
+          titlePrefix = `${selectedYear}年${Number(selectedMonth)}月${getSelectedTenDayLabel()}旬集中竞价交易`;
+        }
+        annualTitle.textContent = `${getSelectedPlantLabel()} - ${titlePrefix} - ${volumeLabel}与${priceLabel}`;
+      }
+      drawHourlyComboChart(annualChart, data);
+    }
+
+    function updateMonthlyImportSummary(rows) {
+      const summary = isDailyRollingImportMode() ? summarizeDailyRows(rows) : summarizeMonthlyRows(rows);
+      if (monthlyImportCount) monthlyImportCount.textContent = String(rows.length);
+      if (monthlyImportVolume) monthlyImportVolume.textContent = (summary.totalVolume ?? summary.netVolume ?? 0).toFixed(3);
+      if (monthlyImportPrice) {
+        monthlyImportPrice.textContent = formatPriceValue(summary.weightedPrice);
+        monthlyImportPrice.classList.toggle("trade-price-infinite", isInfinitePrice(summary.weightedPrice));
+      }
+      if (monthlyImportHourly) monthlyImportHourly.textContent = `${summary.pointCount}/24`;
+      if (monthlyImportApply) monthlyImportApply.disabled = rows.length === 0 || !pendingMonthlyImportFileName;
+    }
+
+    function renderMonthlyImportPreview(rows) {
+      if (!monthlyImportPreview) return;
+      if (!rows.length) {
+        monthlyImportPreview.innerHTML = "";
+        return;
+      }
+      if (isDailyRollingImportMode()) {
+        const groupedRows = aggregateDailyRowsByPoint(rows).filter((row) => row.recordCount > 0);
+        monthlyImportPreview.innerHTML = `
+          <table aria-label="日滚动撮合交易导入预览">
+            <thead>
+              <tr>
+                <th scope="col">时点</th>
+                <th scope="col">时间</th>
+                <th scope="col">记录数</th>
+                <th scope="col">成交电量</th>
+                <th scope="col">加权成交电价</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${groupedRows.map((row) => `
+                <tr>
+                  <td>${row.label}</td>
+                  <td>${row.hour}</td>
+                  <td>${row.recordCount}</td>
+                  <td>${row.volume.toFixed(3)}</td>
+                  <td${priceCellClass(row.price)}>${formatPriceValue(row.price)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        `;
+        return;
+      }
+      const periodRange = getSelectedTenDayRange();
+      const daysInPeriod = isTenDayImportMode()
+        ? periodRange.end - periodRange.start + 1
+        : getDaysInMonth(getSelectedMonthValue());
+      const groupedRows = aggregateMonthlyRowsByPoint(rows).filter((row) => row.recordCount > 0);
+      const totalVolumeLabel = isAnnualImportMode() ? "当月成交电量合计" : isTenDayImportMode() ? "旬度成交电量合计" : "月度成交电量合计";
+      monthlyImportPreview.innerHTML = `
+        <table aria-label="集中竞价交易按时点汇总预览">
+          <thead>
+            <tr>
+              <th scope="col">时点</th>
+              <th scope="col">时间</th>
+              <th scope="col">记录数</th>
+              <th scope="col">${totalVolumeLabel}</th>
+              <th scope="col">日均成交电量</th>
+              <th scope="col">加权成交电价</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${groupedRows.map((row) => `
+              <tr>
+                <td>${row.label}</td>
+                <td>${row.hour}</td>
+                <td>${row.recordCount}</td>
+                <td>${formatAggregateNumber(row.volume)}</td>
+                <td>${formatAggregateNumber(row.volume / daysInPeriod)}</td>
+                <td${priceCellClass(row.price)}>${formatPriceValue(row.price)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    async function importMonthlyTradeFile(file) {
+      if (!file) return;
+      pendingDailyImportRecords = [];
+      const expectedNames = getCurrentImportExpectedNames();
+      const fileStem = getFileStem(file.name);
+      const validFileName = isDailyRollingImportMode()
+        ? isValidDailyRollingFileName(file.name)
+        : isAnnualImportMode()
+        ? isValidAnnualFileName(file.name)
+        : expectedNames.includes(fileStem);
+      if (!validFileName) {
+        pendingMonthlyImportFileName = "";
+        pendingMonthlyImportRows = [];
+        renderMonthlyImportPreview([]);
+        updateMonthlyImportSummary([]);
+        if (monthlyImportMessage) {
+          monthlyImportMessage.textContent = `文件名应为：${expectedNames[0]}.xlsx`;
+          monthlyImportMessage.className = "trade-import-message status error";
+        }
+        if (monthlyImportApply) monthlyImportApply.disabled = true;
+        return;
+      }
+
+      pendingMonthlyImportFileName = file.name;
+      if (monthlyImportFileName) monthlyImportFileName.textContent = file.name;
+      if (monthlyImportMessage) {
+        monthlyImportMessage.textContent = "正在解析Excel文件...";
+        monthlyImportMessage.className = "trade-import-message";
+      }
+
+      const formData = new FormData();
+      formData.append("monthlyTradeFile", file, file.name);
+
+      try {
+        let importUrl = getCurrentImportEndpoint();
+        if (isDailyRollingImportMode()) {
+          const dailyFileInfo = parseDailyRollingFileName(file.name);
+          importUrl = `${importUrl}?tradeDate=${encodeURIComponent(dailyFileInfo.tradeDate)}&runDate=${encodeURIComponent(dailyFileInfo.runDate)}`;
+        }
+        const response = await fetch(importUrl, {
+          method: "POST",
+          body: formData,
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || "解析失败");
+        }
+
+        const [selectedYear, selectedMonth] = getSelectedMonthValue().split("-").map(Number);
+        if (!isDailyRollingImportMode() && !isAnnualImportMode() && result.year && result.month && (result.year !== selectedYear || result.month !== selectedMonth)) {
+          throw new Error("文件年月与页面当前选择的年月不一致。");
+        }
+        if (isTenDayImportMode() && result.tenDay && result.tenDay !== getSelectedTenDayLabel()) {
+          throw new Error("文件旬段与页面当前选择的旬段不一致。");
+        }
+
+        pendingMonthlyImportRows = result.rows || [];
+        if (isDailyRollingImportMode()) {
+          pendingDailyImportRecords = [{
+            fileName: file.name,
+            tradeDate: result.tradeDate,
+            runDate: result.runDate,
+            dayOffset: result.dayOffset,
+            rows: pendingMonthlyImportRows.slice(),
+          }];
+        }
+        if (!isDailyRollingImportMode()) {
+          const dateRangeErrors = isAnnualImportMode()
+            ? getAnnualImportDateRangeErrors(pendingMonthlyImportRows)
+            : isTenDayImportMode()
+            ? getTenDayImportDateRangeErrors(pendingMonthlyImportRows)
+            : getMonthlyImportDateRangeErrors(pendingMonthlyImportRows);
+          if (dateRangeErrors.length) {
+            const firstError = dateRangeErrors[0];
+            throw new Error(`文件时间段无法识别或与所选期间不匹配：第${firstError.serial}条 ${firstError.dateRange}`);
+          }
+        }
+        renderMonthlyImportPreview(pendingMonthlyImportRows);
+        updateMonthlyImportSummary(pendingMonthlyImportRows);
+        if (monthlyImportMessage) {
+          const targetFiles = isDailyRollingImportMode() ? dailyRollingFiles : isAnnualImportMode() ? annualImportFiles : isTenDayImportMode() ? tenDayImportFiles : monthlyImportFiles;
+          monthlyImportMessage.textContent = `已解析 ${pendingMonthlyImportRows.length} 条有效记录；确认后将${targetFiles.has(file.name) ? "替换同名文件数据" : "新增该文件数据"}`;
+          monthlyImportMessage.className = "trade-import-message";
+        }
+      } catch (error) {
+        pendingMonthlyImportRows = [];
+        pendingMonthlyImportFileName = "";
+        renderMonthlyImportPreview([]);
+        updateMonthlyImportSummary([]);
+        if (monthlyImportMessage) {
+          monthlyImportMessage.textContent = error.message || "解析失败";
+          monthlyImportMessage.className = "trade-import-message status error";
+        }
+      }
+    }
+
+    async function importMonthlyTradeFiles(files) {
+      const fileList = Array.from(files || []);
+      if (!fileList.length) return;
+      if (!isDailyRollingImportMode()) {
+        await importMonthlyTradeFile(fileList[0]);
+        return;
+      }
+
+      const expectedNames = getCurrentImportExpectedNames();
+      pendingMonthlyImportRows = [];
+      pendingMonthlyImportFileName = "";
+      pendingDailyImportRecords = [];
+      renderMonthlyImportPreview([]);
+      updateMonthlyImportSummary([]);
+      if (monthlyImportFileName) monthlyImportFileName.textContent = `${fileList.length} 个文件`;
+      if (monthlyImportMessage) {
+        monthlyImportMessage.textContent = `正在解析 ${fileList.length} 个Excel文件...`;
+        monthlyImportMessage.className = "trade-import-message";
+      }
+
+      try {
+        const [selectedYear, selectedMonth] = getSelectedMonthValue().split("-").map(Number);
+        for (const file of fileList) {
+          if (!isValidDailyRollingFileName(file.name)) {
+            throw new Error(`文件名应以“${expectedNames[0]}”开头：${file.name}`);
+          }
+          const dailyFileInfo = parseDailyRollingFileName(file.name);
+          const formData = new FormData();
+          formData.append("monthlyTradeFile", file, file.name);
+          const importUrl = `/import-daily-rolling-trade?tradeDate=${encodeURIComponent(dailyFileInfo.tradeDate)}&runDate=${encodeURIComponent(dailyFileInfo.runDate)}`;
+          const response = await fetch(importUrl, {
+            method: "POST",
+            body: formData,
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok) {
+            throw new Error(`${file.name}：${result.message || "解析失败"}`);
+          }
+          const rows = result.rows || [];
+          pendingDailyImportRecords.push({
+            fileName: file.name,
+            tradeDate: result.tradeDate,
+            runDate: result.runDate,
+            dayOffset: result.dayOffset,
+            rows,
+          });
+          pendingMonthlyImportRows.push(...rows);
+        }
+
+        pendingMonthlyImportFileName = pendingDailyImportRecords.map((record) => record.fileName).join("；");
+        renderMonthlyImportPreview(pendingMonthlyImportRows);
+        updateMonthlyImportSummary(pendingMonthlyImportRows);
+        if (monthlyImportMessage) {
+          const replaceCount = pendingDailyImportRecords.filter((record) => dailyRollingFiles.has(record.fileName)).length;
+          monthlyImportMessage.textContent = `已解析 ${pendingDailyImportRecords.length} 个文件、${pendingMonthlyImportRows.length} 条有效记录；确认后将新增/替换导入数据${replaceCount ? `（其中 ${replaceCount} 个同名文件将被替换）` : ""}`;
+          monthlyImportMessage.className = "trade-import-message";
+        }
+        if (monthlyImportApply) monthlyImportApply.disabled = false;
+      } catch (error) {
+        pendingMonthlyImportRows = [];
+        pendingMonthlyImportFileName = "";
+        pendingDailyImportRecords = [];
+        renderMonthlyImportPreview([]);
+        updateMonthlyImportSummary([]);
+        if (monthlyImportMessage) {
+          monthlyImportMessage.textContent = error.message || "解析失败";
+          monthlyImportMessage.className = "trade-import-message status error";
+        }
+        if (monthlyImportApply) monthlyImportApply.disabled = true;
+      }
+    }
+
+    function updateMonthlyImportScope() {
+      if (monthlyImportScope) {
+        const [year, month] = getSelectedMonthValue().split("-");
+        const periodText = isDailyRollingImportMode()
+          ? "无需先选择运行日，导入后按文件运行日期自动归组"
+          : isAnnualImportMode()
+          ? "不限制页面年月，按文件内容时间段自动分配至对应月份"
+          : isTenDayImportMode()
+          ? `${year}年${Number(month)}月${getSelectedTenDayLabel()}`
+          : `${year}年${Number(month)}月`;
+        monthlyImportScope.textContent = `导入期间：${periodText}；当前目标：${getSelectedPlantLabel()}`;
+      }
+    }
+
+    function openMonthlyImportModal() {
+      if (!monthlyImportModal) return;
+      const importTitle = isDailyRollingImportMode()
+        ? "日滚动撮合交易结果导入"
+        : isAnnualImportMode()
+        ? "年度集中竞价交易结果导入"
+        : isTenDayImportMode() ? "旬度集中竞价交易结果导入" : "月度集中竞价交易结果导入";
+      const expectedNames = getCurrentImportExpectedNames();
+      if (monthlyImportTitle) monthlyImportTitle.textContent = importTitle;
+      if (monthlyImportFileHint) {
+        monthlyImportFileHint.textContent = isDailyRollingImportMode()
+          ? `可一次选择或拖入多个文件，文件名以：${expectedNames[0]} 开头`
+          : isAnnualImportMode()
+          ? `点击选择或拖入文件，文件名以：${expectedNames[0]} 开头`
+          : `点击选择或拖入文件，文件名格式：${expectedNames[0]}.xlsx`;
+      }
+      if (monthlyImportFile) monthlyImportFile.multiple = isDailyRollingImportMode();
+      pendingMonthlyImportRows = isDailyRollingImportMode() ? [] : getCurrentImportSavedRows().slice();
+      pendingMonthlyImportFileName = "";
+      pendingDailyImportRecords = [];
+      updateMonthlyImportScope();
+      updateMonthlyImportSummary(pendingMonthlyImportRows);
+      renderMonthlyImportPreview(pendingMonthlyImportRows);
+      if (monthlyImportMessage) {
+        const tradeLabel = isDailyRollingImportMode() ? "日滚动" : isAnnualImportMode() ? "年度" : isTenDayImportMode() ? "旬度" : "月度";
+        monthlyImportMessage.textContent = pendingMonthlyImportRows.length ? "已加载当前期间全部已保存文件的数据" : `请选择${tradeLabel}交易结果文件`;
+        monthlyImportMessage.className = "trade-import-message";
+      }
+      if (monthlyImportFile) monthlyImportFile.value = "";
+      if (monthlyImportFileName) monthlyImportFileName.textContent = "未选择文件";
+      monthlyImportModal.hidden = false;
+      monthlyImportFileButton?.focus();
+    }
+
+    function closeMonthlyImportModal() {
+      if (monthlyImportModal) monthlyImportModal.hidden = true;
+    }
+
+    function applyMonthlyImportRows() {
+      if (!pendingMonthlyImportRows.length || (!pendingMonthlyImportFileName && !pendingDailyImportRecords.length)) return;
+      if (isDailyRollingImportMode()) {
+        const records = pendingDailyImportRecords.length ? pendingDailyImportRecords : [{
+          fileName: pendingMonthlyImportFileName,
+          tradeDate: pendingMonthlyImportRows[0].tradeDate,
+          runDate: pendingMonthlyImportRows[0].runDate,
+          dayOffset: pendingMonthlyImportRows[0].dayOffset,
+          rows: pendingMonthlyImportRows.slice(),
+        }];
+        records.forEach((record) => {
+          dailyRollingFiles.set(record.fileName, {
+            fileName: record.fileName,
+            tradeDate: record.tradeDate,
+            runDate: record.runDate,
+            dayOffset: record.dayOffset,
+            rows: record.rows.slice(),
+          });
+        });
+        saveDailyRollingRows();
+        pendingDailyRunDateSelection = records[0]?.runDate || "";
+      } else if (isTenDayImportMode()) {
+        tenDayImportFiles.set(pendingMonthlyImportFileName, {
+          fileName: pendingMonthlyImportFileName,
+          periodValue: getTenDayImportKey(),
+          rows: pendingMonthlyImportRows.slice(),
+        });
+        saveTenDayImportRows();
+      } else if (isAnnualImportMode()) {
+        annualImportFiles.set(pendingMonthlyImportFileName, {
+          fileName: pendingMonthlyImportFileName,
+          year: getFileStem(pendingMonthlyImportFileName).match(/^(\d{4})年/)?.[1] || null,
+          rowsByMonth: splitAnnualRowsByMonth(pendingMonthlyImportRows),
+        });
+        saveAnnualImportRows();
+      } else {
+        monthlyImportFiles.set(pendingMonthlyImportFileName, {
+          fileName: pendingMonthlyImportFileName,
+          monthValue: getMonthlyImportKey(),
+          rows: pendingMonthlyImportRows.slice(),
+        });
+        saveMonthlyImportRows();
+      }
+      updatePlantSelectOptions();
+      syncPlantContext();
+      closeMonthlyImportModal();
+      renderTradeTable();
+    }
+
+    plantSelect?.addEventListener("change", () => {
+      localStorage.setItem(selectedPlantStorageKey, plantSelect.value);
+      syncPlantContext();
+      if (!monthlyImportModal?.hidden) {
+        updateMonthlyImportScope();
+      }
+      renderTradeTable();
+    });
+
+    dailyRunDateSelect?.addEventListener("change", renderDailyRollingPanel);
+    summaryRunDateInput?.addEventListener("change", renderTradeTable);
+
+    if (tradeYearInput && tradeMonthInput) {
+      setSelectedMonthValue(getCurrentMonthValue());
+      syncDayToMonth();
+      const onSelectedMonthChange = () => {
+        syncDayToMonth();
+        renderTradeTable();
+      };
+      tradeYearInput.addEventListener("change", onSelectedMonthChange);
+      tradeMonthInput.addEventListener("change", onSelectedMonthChange);
+    }
+
+    if (tradeDayInput) {
+      tradeDayInput.addEventListener("change", () => {
+        syncDayToMonth();
+        renderDayOverview();
+      });
+    }
+
+    tradeTenDayInput?.addEventListener("change", () => {
+      if (!monthlyImportModal?.hidden) {
+        openMonthlyImportModal();
+      }
+      renderTradeTable();
+    });
+
+    [annualChart, dailyRollingChart].forEach((chart) => {
+      chart?.addEventListener("mousemove", (event) => {
+        const target = event.target.closest?.(".trade-chart-hover-target");
+        if (!target) {
+          hideTradeChartTooltip();
+          return;
+        }
+        showTradeChartTooltip(event, target.dataset.tooltip || "");
+      });
+      chart?.addEventListener("mouseleave", hideTradeChartTooltip);
+    });
+
+    let resizeRenderTimer = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeRenderTimer);
+      resizeRenderTimer = setTimeout(() => {
+        renderTradeTable();
+      }, 120);
+    });
+
+    tradeTypeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeTradeType = button.dataset.tradeType;
+        tradeTypeButtons.forEach((item) => {
+          const isActive = item === button;
+          item.classList.toggle("is-active", isActive);
+          item.setAttribute("aria-pressed", String(isActive));
+        });
+        renderTradeTable();
+      });
+    });
+
+    monthlyImportOpen?.addEventListener("click", openMonthlyImportModal);
+    dailyRollingImportOpen?.addEventListener("click", openMonthlyImportModal);
+    dailyRollingExport?.addEventListener("click", exportDailyRollingRows);
+    monthlyImportClose?.addEventListener("click", closeMonthlyImportModal);
+    monthlyImportCancel?.addEventListener("click", closeMonthlyImportModal);
+    monthlyImportApply?.addEventListener("click", applyMonthlyImportRows);
+    monthlyImportClear?.addEventListener("click", () => {
+      if (monthlyImportFile) monthlyImportFile.value = "";
+      if (monthlyImportFileName) monthlyImportFileName.textContent = "未选择文件";
+      pendingMonthlyImportRows = [];
+      pendingMonthlyImportFileName = "";
+      pendingDailyImportRecords = [];
+      renderMonthlyImportPreview([]);
+      updateMonthlyImportSummary([]);
+      if (monthlyImportMessage) {
+        const tradeLabel = isDailyRollingImportMode() ? "日滚动" : isAnnualImportMode() ? "年度" : isTenDayImportMode() ? "旬度" : "月度";
+        monthlyImportMessage.textContent = `请选择${tradeLabel}交易结果文件`;
+        monthlyImportMessage.className = "trade-import-message";
+      }
+    });
+    monthlyImportFileButton?.addEventListener("click", () => {
+      monthlyImportFile?.click();
+    });
+    monthlyImportDropZone?.addEventListener("click", (event) => {
+      if (event.target === monthlyImportFileButton) return;
+      monthlyImportFile?.click();
+    });
+    monthlyImportFile?.addEventListener("change", () => {
+      importMonthlyTradeFiles(monthlyImportFile.files);
+    });
+    ["dragenter", "dragover"].forEach((eventName) => {
+      monthlyImportDropZone?.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        monthlyImportDropZone.classList.add("is-dragging");
+      });
+    });
+    ["dragleave", "drop"].forEach((eventName) => {
+      monthlyImportDropZone?.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        monthlyImportDropZone.classList.remove("is-dragging");
+      });
+    });
+    monthlyImportDropZone?.addEventListener("drop", (event) => {
+      const files = event.dataTransfer.files;
+      if (!files.length) return;
+      importMonthlyTradeFiles(files);
+    });
+    monthlyImportModal?.addEventListener("click", (event) => {
+      if (event.target === monthlyImportModal) closeMonthlyImportModal();
+    });
+    loadMonthlyImportRows();
+    loadAnnualImportRows();
+    loadTenDayImportRows();
+    loadDailyRollingRows();
+    updatePlantSelectOptions();
+    syncPlantContext();
+    renderTradeTable();
+
+    function showPage(pageName) {
+      pageTabs.forEach((tab) => {
+        const isActive = tab.dataset.pageTarget === pageName;
+        tab.classList.toggle("is-active", isActive);
+        tab.setAttribute("aria-current", isActive ? "page" : "false");
+      });
+
+      pages.forEach((page) => {
+        page.hidden = page.dataset.page !== pageName;
+      });
+
+      pagePanels.forEach((panel) => {
+        panel.hidden = panel.dataset.pagePanel !== pageName;
+      });
+    }
+
+    pageTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        showPage(tab.dataset.pageTarget);
+      });
+    });
+
+    chartObject?.addEventListener("load", syncRollingChartTitle);
 
     function setStatus(message, type = "") {
       statusText.textContent = message;
@@ -185,10 +3190,12 @@
       selectedFile = file;
       fileName.textContent = file ? "已导入index.pdf" : "未导入index.pdf";
       uploadButton.disabled = !file;
-      setStatus(file ? "等待确认上传" : "上传后将解析并发布到公开网页");
+      setStatus(file ? "等待确认上传" : "上传后将自动解析并发布到公开网页");
     }
 
-    fileInput.addEventListener("change", () => setFile(fileInput.files[0] || null));
+    fileInput.addEventListener("change", () => {
+      setFile(fileInput.files[0] || null);
+    });
 
     ["dragenter", "dragover"].forEach((eventName) => {
       dropZone.addEventListener(eventName, (event) => {
@@ -214,362 +3221,43 @@
       setFile(file);
     });
 
+    async function updateChart(request, pendingMessage) {
+      setStatus(pendingMessage);
+
+      try {
+        const response = await request();
+        const result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || "解析失败");
+        }
+        chartObject.data = `实时滚动电价折线图.svg?v=${Date.now()}`;
+        fileInput.value = "";
+        setFile(null);
+        const publishText = result.published ? "，已发布到公开网页" : "，公开网页已是最新";
+        setStatus(`更新完成：${result.actualPoints} 个实时点，${result.forecastPoints} 个预测点${publishText}`, "success");
+      } catch (error) {
+        setStatus(error.message || "解析失败，请确认已通过 app.py 打开网页", "error");
+      } finally {
+        uploadButton.disabled = !selectedFile;
+      }
+    }
+
     uploadButton.addEventListener("click", async () => {
       if (!selectedFile) return;
       uploadButton.disabled = true;
-      setStatus("正在解析并发布...");
-      try {
-        const records = await parsePdf(selectedFile);
-        const { actual, forecast } = buildSeries(records);
-        const svg = makeSvg(actual, forecast, buildOutputSeries(actual, forecast));
-        await publishSvg(svg);
-        if (chartUrl) URL.revokeObjectURL(chartUrl);
-        chartUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
-        chartObject.data = chartUrl;
-        fileInput.value = "";
-        setFile(null);
-        setStatus(`发布完成：${actual.length} 个实时点，${forecast.length} 个预测点`, "success");
-      } catch (error) {
-        setStatus(error.message || "发布失败，请确认 index.pdf", "error");
-        uploadButton.disabled = false;
-      }
+
+      const formData = new FormData();
+      formData.append("indexFile", selectedFile, selectedFile.name);
+
+      await updateChart(
+        () => fetch("/upload", {
+          method: "POST",
+          body: formData,
+        }),
+        "正在上传并解析..."
+      );
     });
 
-    async function publishSvg(svg) {
-      const token = publishToken.value.trim();
-      if (token) {
-        await publishSvgWithToken(svg, token);
-        return;
-      }
-
-      const response = await fetch(publishEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ svg }),
-      });
-      const result = await response.json().catch(() => ({}));
-      if (response.ok && result.ok) {
-        return;
-      }
-
-      throw new Error("当前网址未配置发布后端，请输入发布令牌后再上传。");
-    }
-
-    async function publishSvgWithToken(svg, token) {
-      const owner = "arliu633-glitch";
-      const repo = "hb-price-chart-public";
-      const path = "chart.svg";
-      const branch = "master";
-      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-      const headers = {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-      };
-
-      const currentResponse = await fetch(`${apiUrl}?ref=${branch}`, { headers });
-      if (!currentResponse.ok) {
-        throw new Error(currentResponse.status === 401 ? "GitHub 发布令牌无效。" : "读取公开仓库失败。");
-      }
-      const currentFile = await currentResponse.json();
-      const updateResponse = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: "Update published chart",
-          content: base64EncodeUtf8(svg),
-          sha: currentFile.sha,
-          branch,
-        }),
-      });
-      if (!updateResponse.ok) {
-        const detail = await updateResponse.json().catch(() => ({}));
-        throw new Error(detail.message || "写入公开仓库失败。");
-      }
-    }
-
-    function base64EncodeUtf8(value) {
-      const bytes = new TextEncoder().encode(value);
-      let binary = "";
-      for (const byte of bytes) binary += String.fromCharCode(byte);
-      return btoa(binary);
-    }
-
-    async function parsePdf(file) {
-      const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
-      const records = [];
-      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
-        const page = await pdf.getPage(pageNumber);
-        const textContent = await page.getTextContent();
-        const lines = groupTextItems(textContent.items);
-        let pendingRows = [];
-        let activeHeader = null;
-        let activeRowsRemaining = 0;
-        for (const line of lines) {
-          const rowMatch = line.match(/(\d{2}-\d{2}\s+\d{2}:\d{2})\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/);
-          if (rowMatch) {
-            const row = {
-              slot: rowMatch[1],
-              output: Number(rowMatch[2]),
-              price: Number(rowMatch[3]),
-            };
-            if (activeHeader && activeRowsRemaining > 0) {
-              pushRecord(records, activeHeader.seq, activeHeader.predictionTime, row);
-              activeRowsRemaining -= 1;
-              if (activeRowsRemaining === 0) activeHeader = null;
-            } else {
-              pendingRows.push(row);
-            }
-          }
-
-          const headerMatch = line.match(/(?:^|\s)(\d{1,3})\s+(?:\d{4}-\d{2}-\d{2}\s+)?(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2})(?!\s+[-\d])/);
-          if (headerMatch && pendingRows.length) {
-            const seq = Number(headerMatch[1]);
-            const predictionTime = headerMatch[2];
-            for (const row of pendingRows) {
-              pushRecord(records, seq, predictionTime, row);
-            }
-            activeHeader = { seq, predictionTime };
-            activeRowsRemaining = Math.max(0, 8 - pendingRows.length);
-            pendingRows = [];
-          }
-        }
-      }
-      if (!records.length) {
-        throw new Error("未能从 PDF 中解析到表格数据。");
-      }
-      return records;
-    }
-
-    function pushRecord(records, seq, predictionTime, row) {
-      records.push({
-        seq,
-        predictionTime,
-        slot: row.slot,
-        slotDate: parseSlot(predictionTime, row.slot),
-        output: row.output,
-        price: row.price,
-      });
-    }
-
-    function groupTextItems(items) {
-      const rows = [];
-      for (const item of items) {
-        const text = item.str.trim();
-        if (!text) continue;
-        const x = item.transform[4];
-        const y = item.transform[5];
-        let row = rows.find((candidate) => Math.abs(candidate.y - y) < 3);
-        if (!row) {
-          row = { y, items: [] };
-          rows.push(row);
-        }
-        row.items.push({ x, text });
-      }
-      return rows
-        .sort((a, b) => b.y - a.y)
-        .map((row) => row.items.sort((a, b) => a.x - b.x).map((item) => item.text).join(" ").replace(/\s+/g, " ").trim());
-    }
-
-    function parseSlot(predictionTime, slot) {
-      const year = Number(predictionTime.slice(0, 4));
-      const [, month, day, hour, minute] = slot.match(/(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/).map(Number);
-      return new Date(year, month - 1, day, hour, minute);
-    }
-
-    function parseDateTime(value) {
-      const [date, time] = value.split(" ");
-      const [year, month, day] = date.split("-").map(Number);
-      const [hour, minute] = time.split(":").map(Number);
-      return new Date(year, month - 1, day, hour, minute);
-    }
-
-    function buildSeries(records) {
-      const actual = records
-        .filter((record) => record.slotDate.getTime() === parseDateTime(record.predictionTime).getTime())
-        .sort((a, b) => a.slotDate - b.slotDate);
-      const forecast = records
-        .filter((record) => record.seq === 1)
-        .sort((a, b) => a.slotDate - b.slotDate)
-        .slice(1, 8);
-      if (!actual.length) {
-        throw new Error("未能解析到实时点。");
-      }
-      return { actual, forecast };
-    }
-
-    function buildOutputSeries(actual, forecast) {
-      const byTime = new Map();
-      for (const point of forecast) byTime.set(point.slotDate.getTime(), point);
-      for (const point of actual) byTime.set(point.slotDate.getTime(), point);
-      return [...byTime.values()].sort((a, b) => a.slotDate - b.slotDate);
-    }
-
-    function makeSvg(actualInput, forecastInput, outputInput = buildOutputSeries(actualInput, forecastInput)) {
-      const width = 2800;
-      const height = 900;
-      const left = 108;
-      const right = 64;
-      const top = 190;
-      const bottom = 112;
-      const plotW = width - left - right;
-      const plotH = height - top - bottom;
-      const day = startOfDay(actualInput[0].slotDate);
-      const start = new Date(day.getTime() + 15 * 60000);
-      const end = new Date(day.getTime() + 24 * 60 * 60000);
-      const actual = actualInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
-      const forecast = forecastInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
-      const outputSeries = outputInput.filter((point) => point.slotDate >= start && point.slotDate <= end);
-      const forecastLine = [actual[actual.length - 1], ...forecast];
-      const allPoints = [...actual, ...forecast];
-      const title = `${formatDate(day)} 河北南网实时机组滚动发电计划`;
-      const priceMin = Math.min(...allPoints.map((point) => point.price));
-      const priceMax = Math.max(...allPoints.map((point) => point.price));
-      const pricePad = Math.max((priceMax - priceMin) * 0.12, 10);
-      const priceFloor = Math.floor((priceMin - pricePad) / 50) * 50;
-      const priceCeil = Math.ceil((priceMax + pricePad) / 50) * 50;
-      const outputMin = outputSeries.length ? Math.min(...outputSeries.map((point) => point.output)) : 0;
-      const outputMax = outputSeries.length ? Math.max(...outputSeries.map((point) => point.output)) : 0;
-      let outputFloor = Math.min(0, Math.floor(outputMin / 10) * 10);
-      let outputCeil = Math.max(0, Math.ceil(outputMax / 10) * 10);
-      if (outputFloor === outputCeil) {
-        outputFloor -= 10;
-        outputCeil += 10;
-      }
-      const x = (dt) => left + ((dt - start) / (end - start)) * plotW;
-      const yPrice = (price) => top + ((priceCeil - price) / (priceCeil - priceFloor)) * plotH;
-      const yOutput = (output) => top + ((outputCeil - output) / (outputCeil - outputFloor)) * plotH;
-      const points = (series) => series.map((point) => `${x(point.slotDate).toFixed(2)},${yPrice(point.price).toFixed(2)}`).join(" ");
-      const ticks = tickTimes(start, end);
-      const actualByTime = new Map(actual.map((point) => [point.slotDate.getTime(), point]));
-      const forecastByTime = new Map(forecast.map((point) => [point.slotDate.getTime(), point]));
-      const outputByTime = new Map(outputSeries.map((point) => [point.slotDate.getTime(), point]));
-      const hoverWidth = plotW / Math.max(ticks.length - 1, 1);
-      const priceTicks = range(priceFloor, priceCeil, 50);
-      const outputTicks = range(outputFloor, outputCeil, 20);
-      if (!outputTicks.includes(0)) outputTicks.push(0);
-      outputTicks.sort((a, b) => a - b);
-      if (outputTicks[outputTicks.length - 1] !== outputCeil) outputTicks.push(outputCeil);
-
-      const parts = [
-        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" data-plot-left="${left}" data-plot-right="${width - right}" data-plot-top="${top}" data-plot-bottom="${height - bottom}">`,
-        "<style>",
-        "text{font-family:'Microsoft YaHei','SimHei',Arial,sans-serif;fill:#1f2937}",
-        ".axis{stroke:#374151;stroke-width:1.5}",
-        ".grid{stroke:#e5e7eb;stroke-width:1}",
-        ".minor{stroke:#f3f4f6;stroke-width:0.8}",
-        ".actual{fill:none;stroke:#2563eb;stroke-width:3.2}",
-        ".forecast{fill:none;stroke:#dc2626;stroke-width:3.2;stroke-dasharray:10 8}",
-        ".bar{fill:#16a34a;fill-opacity:0.28}",
-        ".hover-zone{fill:#ffffff;fill-opacity:0;cursor:crosshair}",
-        ".hover-line{stroke:#111827;stroke-width:1.4;stroke-dasharray:6 5;opacity:0}",
-        ".tooltip{opacity:0;pointer-events:none}",
-        ".tooltip-bg{fill:#111827;fill-opacity:.72;stroke:#ffffff;stroke-width:1.2}",
-        ".tooltip text{fill:#ffffff;font-size:15px}",
-        "</style>",
-        '<rect width="100%" height="100%" fill="#ffffff"/>',
-        `<text x="${width / 2}" y="42" text-anchor="middle" font-size="34" font-weight="700">${escapeHtml(title)}</text>`,
-        "<script><![CDATA[",
-        "function showTip(evt, zone){const svg=zone.ownerSVGElement;const p=svg.createSVGPoint();p.x=evt.clientX;p.y=evt.clientY;const m=p.matrixTransform(svg.getScreenCTM().inverse());const line=svg.getElementById('hover-line');const tip=svg.getElementById('tooltip');const x=Number(zone.dataset.x);line.setAttribute('x1',x);line.setAttribute('x2',x);line.style.opacity=1;svg.getElementById('tip-time').textContent='时刻点：'+zone.dataset.time;svg.getElementById('tip-output').textContent='机组出力：'+zone.dataset.output;svg.getElementById('tip-price').textContent='实时电价：'+zone.dataset.actualPrice;svg.getElementById('tip-forecast').textContent='预测电价：'+zone.dataset.forecastPrice;const tipW=220;const tipH=122;const plotTop=Number(svg.dataset.plotTop);const plotBottom=Number(svg.dataset.plotBottom);const plotLeft=Number(svg.dataset.plotLeft);const plotRight=Number(svg.dataset.plotRight);const curveY=Number(zone.dataset.curveY);let tx=m.x+18;if(tx+tipW>plotRight)tx=m.x-tipW-18;tx=Math.min(Math.max(tx,plotLeft+8),plotRight-tipW-8);let ty=m.y-tipH/2;if(!Number.isNaN(curveY)&&curveY>=ty-10&&curveY<=ty+tipH+10){ty=curveY>(plotTop+plotBottom)/2?curveY-tipH-18:curveY+18;}ty=Math.min(Math.max(ty,plotTop+8),plotBottom-tipH-8);if(!Number.isNaN(curveY)&&curveY>=ty-10&&curveY<=ty+tipH+10){ty=Math.max(46,plotTop-tipH-18);}tip.setAttribute('transform',`translate(${tx},${ty})`);tip.style.opacity=1;}",
-        "function hideTip(evt){const svg=evt.target.ownerSVGElement;svg.getElementById('hover-line').style.opacity=0;svg.getElementById('tooltip').style.opacity=0;}",
-        "]]><\/script>",
-      ];
-
-      for (const value of outputTicks) {
-        const yy = yOutput(value);
-        parts.push(`<text x="${width - right + 12}" y="${(yy + 5).toFixed(2)}" text-anchor="start" font-size="13" fill="#166534">${value}</text>`);
-      }
-      for (const value of priceTicks) {
-        const yy = yPrice(value);
-        parts.push(`<line class="grid" x1="${left}" y1="${yy.toFixed(2)}" x2="${width - right}" y2="${yy.toFixed(2)}"/>`);
-        parts.push(`<text x="${left - 12}" y="${(yy + 5).toFixed(2)}" text-anchor="end" font-size="13">${value}</text>`);
-      }
-      for (const tick of ticks) {
-        const xx = x(tick);
-        const gridClass = tick.getMinutes() === 0 ? "grid" : "grid minor";
-        const labelY = height - bottom + 28;
-        parts.push(`<line class="${gridClass}" x1="${xx.toFixed(2)}" y1="${top}" x2="${xx.toFixed(2)}" y2="${height - bottom}"/>`);
-        parts.push(`<text x="${xx.toFixed(2)}" y="${labelY}" text-anchor="end" font-size="10" transform="rotate(-60 ${xx.toFixed(2)} ${labelY})">${formatTime(tick)}</text>`);
-      }
-      for (const point of outputSeries) {
-        parts.push(`<rect class="bar" x="${(x(point.slotDate) - 4).toFixed(2)}" y="${Math.min(yOutput(point.output), yOutput(0)).toFixed(2)}" width="8" height="${Math.abs(yOutput(point.output) - yOutput(0)).toFixed(2)}"/>`);
-      }
-      parts.push(`<line class="axis" x1="${left}" y1="${yOutput(0).toFixed(2)}" x2="${width - right}" y2="${yOutput(0).toFixed(2)}"/>`);
-      parts.push(`<line class="axis" x1="${left}" y1="${top}" x2="${left}" y2="${height - bottom}"/>`);
-      parts.push(`<line class="axis" x1="${width - right}" y1="${top}" x2="${width - right}" y2="${height - bottom}"/>`);
-      parts.push(`<text x="${width / 2}" y="${height - 28}" text-anchor="middle" font-size="16">时刻点</text>`);
-      parts.push(`<text x="24" y="${height / 2}" text-anchor="middle" font-size="16" transform="rotate(-90 24 ${height / 2})">机组价格（元/MWh）</text>`);
-      parts.push(`<text x="${width - 22}" y="${height / 2}" text-anchor="middle" font-size="16" fill="#166534" transform="rotate(90 ${width - 22} ${height / 2})">机组出力（MW）</text>`);
-      parts.push(`<polyline class="actual" points="${points(actual)}"/>`);
-      parts.push(`<polyline class="forecast" points="${points(forecastLine)}"/>`);
-      for (const point of actual) parts.push(`<circle cx="${x(point.slotDate).toFixed(2)}" cy="${yPrice(point.price).toFixed(2)}" r="3" fill="#2563eb"/>`);
-      for (const point of forecast) parts.push(`<circle cx="${x(point.slotDate).toFixed(2)}" cy="${yPrice(point.price).toFixed(2)}" r="4" fill="#dc2626"/>`);
-
-      const legendX = width - right - 560;
-      const legendY = 158;
-      parts.push(`<line x1="${legendX}" y1="${legendY}" x2="${legendX + 54}" y2="${legendY}" class="actual"/>`);
-      parts.push(`<text x="${legendX + 66}" y="${legendY + 5}" font-size="15">实时出清电价</text>`);
-      parts.push(`<line x1="${legendX + 184}" y1="${legendY}" x2="${legendX + 238}" y2="${legendY}" class="forecast"/>`);
-      parts.push(`<text x="${legendX + 250}" y="${legendY + 5}" font-size="15">实时滚动预测电价</text>`);
-      parts.push(`<rect class="bar" x="${legendX + 410}" y="${legendY - 9}" width="22" height="14"/>`);
-      parts.push(`<text x="${legendX + 442}" y="${legendY + 5}" font-size="15">机组出力</text>`);
-      parts.push(`<line id="hover-line" class="hover-line" x1="${left}" y1="${top}" x2="${left}" y2="${height - bottom}"/>`);
-      parts.push('<g id="tooltip" class="tooltip"><rect class="tooltip-bg" x="0" y="0" width="220" height="122" rx="8"/><text id="tip-time" x="14" y="30"></text><text id="tip-output" x="14" y="57"></text><text id="tip-price" x="14" y="84"></text><text id="tip-forecast" x="14" y="111"></text></g>');
-
-      for (const tick of ticks) {
-        const actualPoint = actualByTime.get(tick.getTime());
-        const forecastPoint = forecastByTime.get(tick.getTime());
-        const outputPoint = outputByTime.get(tick.getTime());
-        const xx = x(tick);
-        const zoneX = Math.max(left, xx - hoverWidth / 2);
-        const zoneW = Math.min(width - right, xx + hoverWidth / 2) - zoneX;
-        const outputLabel = outputPoint ? `${outputPoint.output.toFixed(0)} MW` : "--";
-        const actualPriceLabel = actualPoint ? `${actualPoint.price.toFixed(2)} 元/MWh` : "--";
-        const forecastPriceLabel = forecastPoint ? `${forecastPoint.price.toFixed(2)} 元/MWh` : "--";
-        const curvePoint = actualPoint || forecastPoint;
-        const curveY = curvePoint ? yPrice(curvePoint.price).toFixed(2) : "";
-        parts.push(`<rect class="hover-zone" x="${zoneX.toFixed(2)}" y="${top}" width="${zoneW.toFixed(2)}" height="${plotH}" data-x="${xx.toFixed(2)}" data-time="${escapeHtml(formatTime(tick))}" data-output="${escapeHtml(outputLabel)}" data-actual-price="${escapeHtml(actualPriceLabel)}" data-forecast-price="${escapeHtml(forecastPriceLabel)}" data-curve-y="${curveY}" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>`);
-      }
-      parts.push("</svg>");
-      return parts.join("\n");
-    }
-
-    function startOfDay(date) {
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
-    function tickTimes(start, end) {
-      const ticks = [];
-      for (let tick = new Date(start); tick <= end; tick = new Date(tick.getTime() + 15 * 60000)) {
-        ticks.push(tick);
-      }
-      return ticks;
-    }
-    function range(start, end, step) {
-      const values = [];
-      for (let value = start; value <= end; value += step) values.push(value);
-      return values;
-    }
-    function formatDate(date) {
-      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-    }
-    function formatTime(date) {
-      return `${date.getHours()}:${pad(date.getMinutes())}`;
-    }
-    function pad(value) {
-      return String(value).padStart(2, "0");
-    }
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;",
-      }[char]));
-    }
   </script>
 </body>
 </html>
