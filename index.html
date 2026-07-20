@@ -1632,6 +1632,8 @@
     let selectedForecastFiles = [];
     let forecastRows = [];
     let forecastResultFile = "";
+    let forecastDisplayedDate = "";
+    let forecastResultRequestGeneration = 0;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
     let pendingMonthlyImportRows = [];
     let pendingMonthlyImportFileName = "";
@@ -1654,6 +1656,7 @@
     const coalForecastAxisStep = 5000;
     const priceForecastAxisMin = 100;
     const priceForecastAxisStep = 100;
+    const forecastTooltipOpacity = 0.6;
     const forecastSeriesStyles = {
       ensemble: { label: "集合预测", color: "#0f172a", width: 3.2 },
       Linear: { label: "Linear", color: "#2563eb", width: 1.8 },
@@ -1665,6 +1668,11 @@
     };
     const hiddenForecastSeries = { coal: new Set(), price: new Set() };
     const forecastHoverControllers = new WeakMap();
+
+    function invalidateForecastResultLoads() {
+      forecastResultRequestGeneration += 1;
+      return forecastResultRequestGeneration;
+    }
 
     function getCurrentMonthValue() {
       const now = new Date();
@@ -3685,6 +3693,63 @@
       });
     }
 
+    function chooseForecastTooltipPosition({
+      hoverX,
+      cursorY,
+      tooltipWidth,
+      tooltipHeight,
+      tooltipGap,
+      margin,
+      plotWidth,
+      plotHeight,
+      visibleSeries,
+      xAt,
+      yAt,
+    }) {
+      const inset = 6;
+      const plotRight = margin.left + plotWidth;
+      const plotBottom = margin.top + plotHeight;
+      const leftX = Math.max(margin.left + inset, hoverX - tooltipGap - tooltipWidth);
+      const rightX = Math.min(plotRight - tooltipWidth - inset, hoverX + tooltipGap);
+      const topY = margin.top + inset;
+      const bottomY = plotBottom - tooltipHeight - inset;
+      const candidates = [
+        { name: "top-left", x: leftX, y: topY, vertical: "top" },
+        { name: "top-right", x: rightX, y: topY, vertical: "top" },
+        { name: "bottom-left", x: leftX, y: bottomY, vertical: "bottom" },
+        { name: "bottom-right", x: rightX, y: bottomY, vertical: "bottom" },
+      ];
+      const preferredVertical = cursorY < margin.top + plotHeight / 2 ? "bottom" : "top";
+
+      return candidates
+        .map((candidate) => {
+          const overlapCount = visibleSeries.reduce((count, item) => (
+            count + item.values.reduce((seriesCount, value, index) => {
+              if (!Number.isFinite(value)) return seriesCount;
+              const pointX = xAt(index);
+              const pointY = yAt(value);
+              const overlaps = pointX >= candidate.x - 4
+                && pointX <= candidate.x + tooltipWidth + 4
+                && pointY >= candidate.y - 4
+                && pointY <= candidate.y + tooltipHeight + 4;
+              return seriesCount + Number(overlaps);
+            }, 0)
+          ), 0);
+          const crossesHoverLine = candidate.x < hoverX && candidate.x + tooltipWidth > hoverX;
+          return {
+            ...candidate,
+            overlapCount,
+            verticalPenalty: Number(candidate.vertical !== preferredVertical),
+            crossingPenalty: Number(crossesHoverLine),
+          };
+        })
+        .sort((left, right) => (
+          left.overlapCount - right.overlapCount
+          || left.verticalPenalty - right.verticalPenalty
+          || left.crossingPenalty - right.crossingPenalty
+        ))[0];
+    }
+
     function drawForecastLineChart(chart, rows, dataType, unit) {
       if (!chart) return;
       forecastHoverControllers.get(chart)?.abort();
@@ -3789,21 +3854,6 @@
         });
         path.appendChild(createForecastSvgElement("title", {}, item.label));
         chart.appendChild(path);
-
-        if (item.name === "ensemble") {
-          points.filter(Boolean).forEach((point) => {
-            const circle = createForecastSvgElement("circle", {
-              cx: point.x,
-              cy: point.y,
-              r: 3.1,
-              fill: "#ffffff",
-              stroke: item.color,
-              "stroke-width": 1.7,
-            });
-            circle.appendChild(createForecastSvgElement("title", {}, `${item.label}  ${point.row.time}  ${point.value.toFixed(2)} ${unit}`));
-            chart.appendChild(circle);
-          });
-        }
       });
 
       const hoverLayer = createForecastSvgElement("g", {
@@ -3856,21 +3906,28 @@
         const rowHeight = 23;
         const tooltipHeight = titleHeight + visibleHoverSeries.length * rowHeight + 12;
         const tooltipGap = 16;
-        const preferredX = hoverX + tooltipGap + tooltipWidth <= width - margin.right
-          ? hoverX + tooltipGap
-          : hoverX - tooltipGap - tooltipWidth;
-        const tooltipX = Math.max(margin.left + 6, Math.min(width - margin.right - tooltipWidth, preferredX));
-        const tooltipY = Math.max(
-          margin.top + 6,
-          Math.min(margin.top + plotHeight - tooltipHeight - 6, cursor.y - tooltipHeight / 2),
-        );
+        const tooltipPosition = chooseForecastTooltipPosition({
+          hoverX,
+          cursorY: cursor.y,
+          tooltipWidth,
+          tooltipHeight,
+          tooltipGap,
+          margin,
+          plotWidth,
+          plotHeight,
+          visibleSeries: visibleHoverSeries,
+          xAt,
+          yAt,
+        });
+        const tooltipX = tooltipPosition.x;
+        const tooltipY = tooltipPosition.y;
         hoverLayer.appendChild(createForecastSvgElement("rect", {
           x: tooltipX,
           y: tooltipY,
           width: tooltipWidth,
           height: tooltipHeight,
           rx: 6,
-          fill: "rgba(15, 23, 42, 0.94)",
+          fill: `rgba(15, 23, 42, ${forecastTooltipOpacity})`,
           stroke: "#475569",
           "stroke-width": 1,
         }));
@@ -3925,6 +3982,14 @@
       chart.addEventListener("pointerout", (event) => {
         if (!event.relatedTarget || !chart.contains(event.relatedTarget)) hideForecastHover();
       }, { signal: hoverController.signal });
+      document.addEventListener("pointermove", (event) => {
+        const bounds = chart.getBoundingClientRect();
+        const isOutside = event.clientX < bounds.left
+          || event.clientX > bounds.right
+          || event.clientY < bounds.top
+          || event.clientY > bounds.bottom;
+        if (isOutside) hideForecastHover();
+      }, { signal: hoverController.signal });
       chart.appendChild(hoverTarget);
 
       rows.forEach((row, index) => {
@@ -3961,10 +4026,13 @@
     function showForecastResult(payload) {
       forecastRows = Array.isArray(payload.rows) ? payload.rows : [];
       forecastResultFile = payload.resultFile || "";
+      const selectedDate = payload.selectedDate || payload.dates?.[0] || "";
+      forecastDisplayedDate = selectedDate;
       if (forecastDateInput) {
-        forecastDateInput.innerHTML = (payload.dates || [])
+        forecastDateInput.innerHTML = (payload.availableDates || payload.dates || [])
           .map((dateValue) => `<option value="${dateValue}">${dateValue}</option>`)
           .join("");
+        forecastDateInput.value = selectedDate;
       }
       if (forecastSummary) {
         const points = Number(payload.summary?.points || forecastRows.length);
@@ -3975,8 +4043,31 @@
       renderForecastCharts();
     }
 
+    async function loadForecastResult(forecastDate = "") {
+      const requestGeneration = ++forecastResultRequestGeneration;
+      try {
+        const query = forecastDate ? `?date=${encodeURIComponent(forecastDate)}` : "";
+        const response = await fetch(`/price-forecast-results${query}`);
+        const payload = await response.json();
+        if (!response.ok || !payload.ok) throw new Error(payload.message || "无法读取预测结果");
+        if (requestGeneration !== forecastResultRequestGeneration) return;
+        if (!payload.selectedDate) {
+          if (forecastResults) forecastResults.hidden = true;
+          return;
+        }
+        showForecastResult(payload);
+      } catch (error) {
+        if (requestGeneration !== forecastResultRequestGeneration) return;
+        if (forecastDateInput) {
+          forecastDateInput.value = forecastDisplayedDate || forecastRows[0]?.date || "";
+        }
+        throw error;
+      }
+    }
+
     async function runPriceForecast() {
       if (selectedForecastFiles.length !== 2 || !forecastRunButton) return;
+      const requestGeneration = invalidateForecastResultLoads();
       const formData = new FormData();
       selectedForecastFiles.forEach((file, index) => formData.append(`forecastFile${index}`, file));
 
@@ -3987,7 +4078,9 @@
         const response = await fetch("/run-price-forecast", { method: "POST", body: formData });
         const result = await response.json();
         if (!response.ok || !result.ok) throw new Error(result.message || "预测失败");
-        showForecastResult(result);
+        if (requestGeneration === forecastResultRequestGeneration) {
+          showForecastResult(result);
+        }
         setForecastStatus("火电出清与现货电价预测已完成", "success");
       } catch (error) {
         setForecastStatus(error.message || "预测失败", "error");
@@ -4065,10 +4158,18 @@
     });
     setupForecastDropZone(forecastFilesDropZone, forecastFilesInput);
     forecastRunButton?.addEventListener("click", runPriceForecast);
-    forecastDateInput?.addEventListener("change", renderForecastCharts);
+    forecastDateInput?.addEventListener("change", () => {
+      loadForecastResult(forecastDateInput.value).catch((error) => {
+        setForecastStatus(error.message || "无法读取预测结果", "error");
+      });
+    });
     forecastDownload?.addEventListener("click", () => {
       if (!forecastResultFile) return;
       window.location.href = `/download-price-forecast?file=${encodeURIComponent(forecastResultFile)}`;
+    });
+    const initialForecastLoad = loadForecastResult();
+    initialForecastLoad.catch((error) => {
+      setForecastStatus(error.message || "无法读取预测结果", "error");
     });
     loadMonthlyImportRows();
     loadAnnualImportRows();
