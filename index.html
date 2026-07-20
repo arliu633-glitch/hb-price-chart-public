@@ -958,6 +958,253 @@
       word-break: break-all;
     }
 
+    .forecast-page {
+      width: 100dvw;
+      height: 100%;
+      overflow: auto;
+      background: #f8fafc;
+    }
+
+    .forecast-workspace {
+      width: 100%;
+      min-height: 100%;
+      background: #ffffff;
+    }
+
+    .forecast-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .forecast-header h1 {
+      margin: 0;
+      color: #0f172a;
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .forecast-input-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+
+    .forecast-file-field {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .forecast-file-control {
+      width: 100%;
+      min-width: 0;
+      min-height: 90px;
+      height: auto;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1.5px dashed #94a3b8;
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: border-color 120ms ease, background-color 120ms ease;
+    }
+
+    .forecast-file-control.is-dragging {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .forecast-file-choose {
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      background: #ffffff;
+      color: #1e40af;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .forecast-file-name {
+      min-width: 0;
+      overflow: hidden;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .forecast-file-field input[type="file"] {
+      display: none;
+    }
+
+    .forecast-run-button {
+      min-width: 112px;
+    }
+
+    .forecast-status {
+      min-height: 42px;
+      padding: 12px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .forecast-status.error {
+      color: #b91c1c;
+    }
+
+    .forecast-status.success {
+      color: #15803d;
+    }
+
+    .forecast-results {
+      padding: 0 0 20px;
+    }
+
+    .forecast-results-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .forecast-result-summary {
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .forecast-result-actions {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+    }
+
+    .forecast-date-field {
+      display: grid;
+      gap: 5px;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .forecast-date-field select {
+      height: 36px;
+      min-width: 132px;
+      padding: 0 28px 0 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #0f172a;
+      font: inherit;
+    }
+
+    .forecast-download-button {
+      height: 36px;
+      padding: 0 13px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #1e40af;
+      font-size: 13px;
+    }
+
+    .forecast-chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 12px 20px 0;
+    }
+
+    .forecast-chart-panel {
+      min-width: 0;
+      border: 1px solid #d8dee8;
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .forecast-chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 46px;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+
+    .forecast-chart-title {
+      margin: 0;
+      color: #0f172a;
+      font-size: 14px;
+      line-height: 1.4;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .forecast-model-legend {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .forecast-legend-button {
+      height: 25px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 7px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      background: #ffffff;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .forecast-legend-button[aria-pressed="false"] {
+      color: #94a3b8;
+      opacity: 0.62;
+    }
+
+    .forecast-legend-swatch {
+      width: 16px;
+      height: 3px;
+      display: inline-block;
+      background: var(--legend-color);
+    }
+
+    .forecast-chart {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      display: block;
+      background: #ffffff;
+    }
+
     @media (max-width: 760px) {
       .upload-panel {
         grid-template-columns: 1fr;
@@ -1016,6 +1263,36 @@
       .status {
         text-align: left;
       }
+
+      .forecast-input-band,
+      .forecast-chart-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .forecast-results-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .forecast-result-actions {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .forecast-date-field select,
+      .forecast-download-button {
+        width: 100%;
+      }
+
+      .forecast-chart-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .forecast-model-legend {
+        justify-content: flex-start;
+      }
     }
   </style>
 </head>
@@ -1024,6 +1301,7 @@
     <div class="page-tabs">
       <button class="page-tab is-active" type="button" data-page-target="rolling">实时机组滚动发电计划</button>
       <button class="page-tab" type="button" data-page-target="trade">中长期交易结果</button>
+      <button class="page-tab" type="button" data-page-target="forecast">现货电价预测</button>
     </div>
     <label class="plant-selector">
       电站名称（企业名称）
@@ -1036,6 +1314,54 @@
   <main class="chart-area page" data-page="rolling">
     <div class="chart-context" id="rollingPlantContext">当前目标：井陉经开储能（井陉科瑞新能源科技有限公司）</div>
     <object id="chartObject" type="image/svg+xml" data="实时滚动电价折线图.svg" aria-label="河北南网实时机组滚动发电计划"></object>
+  </main>
+
+  <main class="forecast-page page" data-page="forecast" hidden>
+    <section class="forecast-workspace" aria-labelledby="forecastTitle">
+      <header class="forecast-header">
+        <h1 id="forecastTitle">现货电价预测</h1>
+      </header>
+      <div class="forecast-input-band">
+        <div class="forecast-file-field">
+          <span>训练集与测试集</span>
+          <div class="forecast-file-control" id="forecastFilesDropZone">
+            <button class="forecast-file-choose" id="forecastFilesChoose" type="button">选择Excel文件</button>
+            <span class="forecast-file-name" id="forecastFilesList">未选择文件，可同时选择或拖入两个文件</span>
+          </div>
+          <input id="forecastFiles" type="file" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx">
+        </div>
+        <button class="forecast-run-button" id="forecastRun" type="button" disabled>开始预测</button>
+      </div>
+      <div class="forecast-status" id="forecastStatus">请选择两个文件，系统将自动识别训练集和测试集</div>
+      <section class="forecast-results" id="forecastResults" hidden>
+        <div class="forecast-results-toolbar">
+          <div class="forecast-result-summary" id="forecastSummary"></div>
+          <div class="forecast-result-actions">
+            <label class="forecast-date-field">
+              预测日期
+              <select id="forecastDate" aria-label="选择预测日期"></select>
+            </label>
+            <button class="forecast-download-button" id="forecastDownload" type="button">下载预测结果</button>
+          </div>
+        </div>
+        <div class="forecast-chart-grid">
+          <section class="forecast-chart-panel" aria-labelledby="coalForecastTitle">
+            <div class="forecast-chart-header">
+              <h2 class="forecast-chart-title" id="coalForecastTitle">火电出清预测</h2>
+              <div class="forecast-model-legend" id="coalForecastLegend" aria-label="火电预测模型图例"></div>
+            </div>
+            <svg class="forecast-chart" id="coalForecastChart" role="img" aria-label="火电出清预测96点折线图"></svg>
+          </section>
+          <section class="forecast-chart-panel" aria-labelledby="priceForecastTitle">
+            <div class="forecast-chart-header">
+              <h2 class="forecast-chart-title" id="priceForecastTitle">现货电价预测</h2>
+              <div class="forecast-model-legend" id="priceForecastLegend" aria-label="电价预测模型图例"></div>
+            </div>
+            <svg class="forecast-chart" id="priceForecastChart" role="img" aria-label="现货电价预测96点折线图"></svg>
+          </section>
+        </div>
+      </section>
+    </section>
   </main>
 
   <main class="trade-page page" data-page="trade" hidden>
@@ -1288,7 +1614,24 @@
     const dailyRollingChart = document.getElementById("dailyRollingChart");
     const dailyRollingChartTitle = document.getElementById("dailyRollingChartTitle");
     const tradeChartTooltip = document.getElementById("tradeChartTooltip");
+    const forecastFilesInput = document.getElementById("forecastFiles");
+    const forecastFilesChoose = document.getElementById("forecastFilesChoose");
+    const forecastFilesList = document.getElementById("forecastFilesList");
+    const forecastFilesDropZone = document.getElementById("forecastFilesDropZone");
+    const forecastRunButton = document.getElementById("forecastRun");
+    const forecastStatus = document.getElementById("forecastStatus");
+    const forecastResults = document.getElementById("forecastResults");
+    const forecastSummary = document.getElementById("forecastSummary");
+    const forecastDateInput = document.getElementById("forecastDate");
+    const coalForecastChart = document.getElementById("coalForecastChart");
+    const coalForecastLegend = document.getElementById("coalForecastLegend");
+    const priceForecastChart = document.getElementById("priceForecastChart");
+    const priceForecastLegend = document.getElementById("priceForecastLegend");
+    const forecastDownload = document.getElementById("forecastDownload");
     let selectedFile = null;
+    let selectedForecastFiles = [];
+    let forecastRows = [];
+    let forecastResultFile = "";
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
     let pendingMonthlyImportRows = [];
     let pendingMonthlyImportFileName = "";
@@ -1306,6 +1649,22 @@
     const dailyRollingStorageKey = "dailyRollingTradeRowsByRunDate";
     const selectedPlantStorageKey = "selectedPlantName";
     const defaultPlantName = "井陉经开储能（井陉科瑞新能源科技有限公司）";
+    const forecastModelNames = ["Linear", "RandomForest", "Bagging", "CatBoost", "LightGBM", "XGBoost"];
+    const coalForecastAxisMin = 0;
+    const coalForecastAxisStep = 5000;
+    const priceForecastAxisMin = 100;
+    const priceForecastAxisStep = 100;
+    const forecastSeriesStyles = {
+      ensemble: { label: "集合预测", color: "#0f172a", width: 3.2 },
+      Linear: { label: "Linear", color: "#2563eb", width: 1.8 },
+      RandomForest: { label: "RandomForest", color: "#16a34a", width: 1.8 },
+      Bagging: { label: "Bagging", color: "#d97706", width: 1.8 },
+      CatBoost: { label: "CatBoost", color: "#9333ea", width: 1.8 },
+      LightGBM: { label: "LightGBM", color: "#0891b2", width: 1.8 },
+      XGBoost: { label: "XGBoost", color: "#dc2626", width: 1.8 },
+    };
+    const hiddenForecastSeries = { coal: new Set(), price: new Set() };
+    const forecastHoverControllers = new WeakMap();
 
     function getCurrentMonthValue() {
       const now = new Date();
@@ -3214,6 +3573,430 @@
       }, 120);
     });
 
+    function setForecastStatus(message, type = "") {
+      if (!forecastStatus) return;
+      forecastStatus.textContent = message;
+      forecastStatus.className = `forecast-status ${type}`.trim();
+    }
+
+    function updateForecastRunState() {
+      if (!forecastRunButton) return;
+      forecastRunButton.disabled = selectedForecastFiles.length !== 2;
+    }
+
+    function setSelectedForecastFiles(files) {
+      const candidates = Array.from(files || []);
+      if (candidates.some((file) => !/\.xlsx$/i.test(file.name))) {
+        selectedForecastFiles = [];
+        if (forecastFilesList) forecastFilesList.textContent = "请选择 xlsx 格式的文件";
+        setForecastStatus("请上传 xlsx 格式的文件", "error");
+        updateForecastRunState();
+        return;
+      }
+      if (candidates.length !== 2) {
+        selectedForecastFiles = [];
+        if (forecastFilesList) {
+          forecastFilesList.textContent = candidates.length
+            ? `已选择 ${candidates.length} 个文件，请一次选择两个文件`
+            : "未选择文件，可同时选择或拖入两个文件";
+        }
+        setForecastStatus("请同时选择两个独立文件：一个训练集和一个测试集", candidates.length ? "error" : "");
+        updateForecastRunState();
+        return;
+      }
+      selectedForecastFiles = candidates;
+      if (forecastFilesList) forecastFilesList.textContent = candidates.map((file) => file.name).join("；");
+      updateForecastRunState();
+      setForecastStatus("两个文件已就绪，预测时将自动识别训练集和测试集", "success");
+    }
+
+    function setupForecastDropZone(dropZone, fileInput) {
+      if (!dropZone || !fileInput) return;
+      dropZone.addEventListener("click", (event) => {
+        if (event.target.closest("button")) return;
+        fileInput.click();
+      });
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropZone.classList.add("is-dragging");
+        });
+      });
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropZone.classList.remove("is-dragging");
+        });
+      });
+      dropZone.addEventListener("drop", (event) => {
+        setSelectedForecastFiles(event.dataTransfer?.files || []);
+      });
+    }
+
+    function createForecastSvgElement(tagName, attributes = {}, text = "") {
+      const element = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+      Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, String(value)));
+      if (text !== "") element.textContent = text;
+      return element;
+    }
+
+    function getForecastChartSeries(rows, dataType) {
+      const modelsKey = dataType === "coal" ? "coalModels" : "priceModels";
+      return [
+        {
+          name: "ensemble",
+          ...forecastSeriesStyles.ensemble,
+          values: rows.map((row) => Number(row[dataType])),
+        },
+        ...forecastModelNames.map((modelName) => ({
+          name: modelName,
+          ...forecastSeriesStyles[modelName],
+          values: rows.map((row) => Number(row[modelsKey]?.[modelName])),
+        })),
+      ];
+    }
+
+    function renderForecastLegend(container, dataType) {
+      if (!container) return;
+      container.replaceChildren();
+      ["ensemble", ...forecastModelNames].forEach((seriesName) => {
+        const style = forecastSeriesStyles[seriesName];
+        const isVisible = !hiddenForecastSeries[dataType].has(seriesName);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "forecast-legend-button";
+        button.setAttribute("aria-pressed", String(isVisible));
+        button.title = `${isVisible ? "隐藏" : "显示"}${style.label}`;
+
+        const swatch = document.createElement("span");
+        swatch.className = "forecast-legend-swatch";
+        swatch.style.setProperty("--legend-color", style.color);
+        button.appendChild(swatch);
+        button.appendChild(document.createTextNode(style.label));
+        button.addEventListener("click", () => {
+          if (hiddenForecastSeries[dataType].has(seriesName)) {
+            hiddenForecastSeries[dataType].delete(seriesName);
+          } else {
+            hiddenForecastSeries[dataType].add(seriesName);
+          }
+          renderForecastCharts();
+        });
+        container.appendChild(button);
+      });
+    }
+
+    function drawForecastLineChart(chart, rows, dataType, unit) {
+      if (!chart) return;
+      forecastHoverControllers.get(chart)?.abort();
+      const hoverController = new AbortController();
+      forecastHoverControllers.set(chart, hoverController);
+      chart.replaceChildren();
+      chart.setAttribute("viewBox", "0 0 1200 430");
+      chart.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+      const width = 1200;
+      const height = 430;
+      const margin = { top: 34, right: 34, bottom: 58, left: 82 };
+      const plotWidth = width - margin.left - margin.right;
+      const plotHeight = height - margin.top - margin.bottom;
+      const series = getForecastChartSeries(rows, dataType)
+        .filter((item) => !hiddenForecastSeries[dataType].has(item.name))
+        .filter((item) => item.values.some(Number.isFinite));
+      const values = series.flatMap((item) => item.values.filter(Number.isFinite));
+      if (!values.length) {
+        chart.appendChild(createForecastSvgElement("text", {
+          x: width / 2,
+          y: height / 2,
+          "text-anchor": "middle",
+          fill: "#64748b",
+          "font-size": 16,
+        }, "暂无预测数据"));
+        return;
+      }
+
+      const minValue = dataType === "coal" ? coalForecastAxisMin : priceForecastAxisMin;
+      const axisStep = dataType === "coal" ? coalForecastAxisStep : priceForecastAxisStep;
+      const dataMax = Math.max(...values);
+      const maxValue = Math.max(minValue + axisStep, Math.ceil(dataMax / axisStep) * axisStep);
+      const range = maxValue - minValue;
+      const xAt = (index) => margin.left + (rows.length <= 1 ? plotWidth / 2 : index * plotWidth / (rows.length - 1));
+      const yAt = (value) => margin.top + (maxValue - Math.max(value, minValue)) * plotHeight / range;
+
+      const gridGroup = createForecastSvgElement("g");
+      for (let value = minValue; value <= maxValue; value += axisStep) {
+        const y = yAt(value);
+        gridGroup.appendChild(createForecastSvgElement("line", {
+          x1: margin.left,
+          y1: y,
+          x2: width - margin.right,
+          y2: y,
+          stroke: "#e2e8f0",
+          "stroke-width": 1,
+        }));
+        gridGroup.appendChild(createForecastSvgElement("text", {
+          class: "forecast-y-tick",
+          x: margin.left - 12,
+          y: y + 4,
+          "text-anchor": "end",
+          fill: "#64748b",
+          "font-size": 12,
+        }, value.toFixed(0)));
+      }
+      chart.appendChild(gridGroup);
+
+      chart.appendChild(createForecastSvgElement("line", {
+        x1: margin.left,
+        y1: margin.top + plotHeight,
+        x2: width - margin.right,
+        y2: margin.top + plotHeight,
+        stroke: "#94a3b8",
+        "stroke-width": 1.2,
+      }));
+      chart.appendChild(createForecastSvgElement("line", {
+        x1: margin.left,
+        y1: margin.top,
+        x2: margin.left,
+        y2: margin.top + plotHeight,
+        stroke: "#94a3b8",
+        "stroke-width": 1.2,
+      }));
+
+      const drawOrder = [...series].sort((left, right) => Number(left.name === "ensemble") - Number(right.name === "ensemble"));
+      drawOrder.forEach((item) => {
+        const points = item.values.map((value, index) => (
+          Number.isFinite(value) ? { x: xAt(index), y: yAt(value), value, row: rows[index] } : null
+        ));
+        let pathData = "";
+        let previousPointVisible = false;
+        points.forEach((point) => {
+          if (!point) {
+            previousPointVisible = false;
+            return;
+          }
+          pathData += `${previousPointVisible ? " L" : " M"}${point.x.toFixed(2)},${point.y.toFixed(2)}`;
+          previousPointVisible = true;
+        });
+        if (!pathData) return;
+
+        const path = createForecastSvgElement("path", {
+          d: pathData.trim(),
+          fill: "none",
+          stroke: item.color,
+          "stroke-width": item.width,
+          "stroke-linecap": "round",
+          "stroke-linejoin": "round",
+          opacity: item.name === "ensemble" ? 1 : 0.82,
+        });
+        path.appendChild(createForecastSvgElement("title", {}, item.label));
+        chart.appendChild(path);
+
+        if (item.name === "ensemble") {
+          points.filter(Boolean).forEach((point) => {
+            const circle = createForecastSvgElement("circle", {
+              cx: point.x,
+              cy: point.y,
+              r: 3.1,
+              fill: "#ffffff",
+              stroke: item.color,
+              "stroke-width": 1.7,
+            });
+            circle.appendChild(createForecastSvgElement("title", {}, `${item.label}  ${point.row.time}  ${point.value.toFixed(2)} ${unit}`));
+            chart.appendChild(circle);
+          });
+        }
+      });
+
+      const hoverLayer = createForecastSvgElement("g", {
+        class: "forecast-hover-layer",
+        visibility: "hidden",
+        "pointer-events": "none",
+      });
+      chart.appendChild(hoverLayer);
+
+      function updateForecastHover(event) {
+        const screenMatrix = chart.getScreenCTM();
+        if (!screenMatrix || !rows.length) return;
+        const cursorPoint = chart.createSVGPoint();
+        cursorPoint.x = event.clientX;
+        cursorPoint.y = event.clientY;
+        const cursor = cursorPoint.matrixTransform(screenMatrix.inverse());
+        const plotRatio = Math.max(0, Math.min(1, (cursor.x - margin.left) / plotWidth));
+        const rowIndex = rows.length <= 1 ? 0 : Math.round(plotRatio * (rows.length - 1));
+        const hoverX = xAt(rowIndex);
+        const visibleHoverSeries = series.filter((item) => Number.isFinite(item.values[rowIndex]));
+        if (!visibleHoverSeries.length) return;
+
+        hoverLayer.replaceChildren();
+        hoverLayer.setAttribute("visibility", "visible");
+        hoverLayer.appendChild(createForecastSvgElement("line", {
+          x1: hoverX,
+          y1: margin.top,
+          x2: hoverX,
+          y2: margin.top + plotHeight,
+          stroke: "#64748b",
+          "stroke-width": 1.2,
+          "stroke-dasharray": "5 4",
+          opacity: 0.85,
+        }));
+
+        visibleHoverSeries.forEach((item) => {
+          hoverLayer.appendChild(createForecastSvgElement("circle", {
+            cx: hoverX,
+            cy: yAt(item.values[rowIndex]),
+            r: item.name === "ensemble" ? 5 : 4,
+            fill: "#ffffff",
+            stroke: item.color,
+            "stroke-width": 2.2,
+          }));
+        });
+
+        const tooltipWidth = 292;
+        const tooltipPadding = 14;
+        const titleHeight = 30;
+        const rowHeight = 23;
+        const tooltipHeight = titleHeight + visibleHoverSeries.length * rowHeight + 12;
+        const tooltipGap = 16;
+        const preferredX = hoverX + tooltipGap + tooltipWidth <= width - margin.right
+          ? hoverX + tooltipGap
+          : hoverX - tooltipGap - tooltipWidth;
+        const tooltipX = Math.max(margin.left + 6, Math.min(width - margin.right - tooltipWidth, preferredX));
+        const tooltipY = Math.max(
+          margin.top + 6,
+          Math.min(margin.top + plotHeight - tooltipHeight - 6, cursor.y - tooltipHeight / 2),
+        );
+        hoverLayer.appendChild(createForecastSvgElement("rect", {
+          x: tooltipX,
+          y: tooltipY,
+          width: tooltipWidth,
+          height: tooltipHeight,
+          rx: 6,
+          fill: "rgba(15, 23, 42, 0.94)",
+          stroke: "#475569",
+          "stroke-width": 1,
+        }));
+        hoverLayer.appendChild(createForecastSvgElement("text", {
+          x: tooltipX + tooltipPadding,
+          y: tooltipY + 21,
+          fill: "#ffffff",
+          "font-size": 14,
+          "font-weight": 700,
+        }, `时间 ${rows[rowIndex].time}`));
+
+        visibleHoverSeries.forEach((item, seriesIndex) => {
+          const textY = tooltipY + titleHeight + seriesIndex * rowHeight + 16;
+          hoverLayer.appendChild(createForecastSvgElement("circle", {
+            cx: tooltipX + tooltipPadding + 4,
+            cy: textY - 4,
+            r: 4,
+            fill: item.color,
+          }));
+          hoverLayer.appendChild(createForecastSvgElement("text", {
+            x: tooltipX + tooltipPadding + 16,
+            y: textY,
+            fill: "#e2e8f0",
+            "font-size": 12,
+          }, item.label));
+          hoverLayer.appendChild(createForecastSvgElement("text", {
+            x: tooltipX + tooltipWidth - tooltipPadding,
+            y: textY,
+            "text-anchor": "end",
+            fill: "#ffffff",
+            "font-size": 12,
+            "font-weight": item.name === "ensemble" ? 700 : 500,
+          }, `${item.values[rowIndex].toFixed(2)} ${unit}`));
+        });
+      }
+
+      const hoverTarget = createForecastSvgElement("rect", {
+        x: margin.left,
+        y: margin.top,
+        width: plotWidth,
+        height: plotHeight,
+        fill: "transparent",
+        cursor: "crosshair",
+        "pointer-events": "all",
+      });
+      hoverTarget.addEventListener("pointerenter", updateForecastHover);
+      hoverTarget.addEventListener("pointermove", updateForecastHover);
+      const hideForecastHover = () => {
+        hoverLayer.setAttribute("visibility", "hidden");
+      };
+      hoverTarget.addEventListener("pointerleave", hideForecastHover);
+      chart.addEventListener("pointerout", (event) => {
+        if (!event.relatedTarget || !chart.contains(event.relatedTarget)) hideForecastHover();
+      }, { signal: hoverController.signal });
+      chart.appendChild(hoverTarget);
+
+      rows.forEach((row, index) => {
+        if (index % 8 !== 0 && index !== rows.length - 1) return;
+        chart.appendChild(createForecastSvgElement("text", {
+          x: xAt(index),
+          y: height - 28,
+          "text-anchor": "middle",
+          fill: "#64748b",
+          "font-size": 11,
+        }, row.time));
+      });
+
+      chart.appendChild(createForecastSvgElement("text", {
+        x: 18,
+        y: 20,
+        fill: "#475569",
+        "font-size": 12,
+        "font-weight": 700,
+      }, unit));
+    }
+
+    function renderForecastCharts() {
+      const selectedDate = forecastDateInput?.value || "";
+      const rows = forecastRows
+        .filter((row) => row.date === selectedDate)
+        .sort((left, right) => left.time.localeCompare(right.time));
+      renderForecastLegend(coalForecastLegend, "coal");
+      renderForecastLegend(priceForecastLegend, "price");
+      drawForecastLineChart(coalForecastChart, rows, "coal", "MWh");
+      drawForecastLineChart(priceForecastChart, rows, "price", "元/MWh");
+    }
+
+    function showForecastResult(payload) {
+      forecastRows = Array.isArray(payload.rows) ? payload.rows : [];
+      forecastResultFile = payload.resultFile || "";
+      if (forecastDateInput) {
+        forecastDateInput.innerHTML = (payload.dates || [])
+          .map((dateValue) => `<option value="${dateValue}">${dateValue}</option>`)
+          .join("");
+      }
+      if (forecastSummary) {
+        const points = Number(payload.summary?.points || forecastRows.length);
+        const days = Number(payload.summary?.days || payload.dates?.length || 0);
+        forecastSummary.textContent = `预测完成：${days}天，共${points}个时点`;
+      }
+      if (forecastResults) forecastResults.hidden = false;
+      renderForecastCharts();
+    }
+
+    async function runPriceForecast() {
+      if (selectedForecastFiles.length !== 2 || !forecastRunButton) return;
+      const formData = new FormData();
+      selectedForecastFiles.forEach((file, index) => formData.append(`forecastFile${index}`, file));
+
+      forecastRunButton.disabled = true;
+      forecastRunButton.textContent = "预测中";
+      setForecastStatus("正在训练火电出清与现货电价模型，请稍候");
+      try {
+        const response = await fetch("/run-price-forecast", { method: "POST", body: formData });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.message || "预测失败");
+        showForecastResult(result);
+        setForecastStatus("火电出清与现货电价预测已完成", "success");
+      } catch (error) {
+        setForecastStatus(error.message || "预测失败", "error");
+      } finally {
+        forecastRunButton.textContent = "开始预测";
+        updateForecastRunState();
+      }
+    }
+
     tradeTypeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         activeTradeType = button.dataset.tradeType;
@@ -3275,6 +4058,17 @@
     });
     monthlyImportModal?.addEventListener("click", (event) => {
       if (event.target === monthlyImportModal) closeMonthlyImportModal();
+    });
+    forecastFilesChoose?.addEventListener("click", () => forecastFilesInput?.click());
+    forecastFilesInput?.addEventListener("change", () => {
+      setSelectedForecastFiles(forecastFilesInput.files);
+    });
+    setupForecastDropZone(forecastFilesDropZone, forecastFilesInput);
+    forecastRunButton?.addEventListener("click", runPriceForecast);
+    forecastDateInput?.addEventListener("change", renderForecastCharts);
+    forecastDownload?.addEventListener("click", () => {
+      if (!forecastResultFile) return;
+      window.location.href = `/download-price-forecast?file=${encodeURIComponent(forecastResultFile)}`;
     });
     loadMonthlyImportRows();
     loadAnnualImportRows();
