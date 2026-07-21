@@ -998,6 +998,13 @@
       background: #f8fafc;
     }
 
+    .forecast-upload-fields {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
     .forecast-file-field {
       display: grid;
       gap: 7px;
@@ -1049,6 +1056,36 @@
       line-height: 1.5;
       overflow-wrap: anywhere;
       white-space: normal;
+    }
+
+    .forecast-file-import {
+      height: 40px;
+      padding: 0 12px;
+      border: 1px solid #2563eb;
+      border-radius: 4px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .forecast-file-import:disabled {
+      border-color: #cbd5e1;
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .forecast-action-column {
+      min-width: 128px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      align-content: center;
+    }
+
+    .forecast-action-column button {
+      width: 100%;
+      min-width: 128px;
     }
 
     .forecast-file-field input[type="file"] {
@@ -1265,6 +1302,7 @@
       }
 
       .forecast-input-band,
+      .forecast-upload-fields,
       .forecast-chart-grid {
         grid-template-columns: 1fr;
       }
@@ -1322,15 +1360,28 @@
         <h1 id="forecastTitle">现货电价预测</h1>
       </header>
       <div class="forecast-input-band">
-        <div class="forecast-file-field">
-          <span>训练集与测试集</span>
-          <div class="forecast-file-control" id="forecastFilesDropZone">
-            <button class="forecast-file-choose" id="forecastFilesChoose" type="button">选择Excel文件</button>
-            <span class="forecast-file-name" id="forecastFilesList">未选择文件，可同时选择或拖入两个文件</span>
+        <div class="forecast-upload-fields">
+          <div class="forecast-file-field">
+            <span>训练集与测试集</span>
+            <div class="forecast-file-control" id="forecastFilesDropZone">
+              <button class="forecast-file-choose" id="forecastFilesChoose" type="button">选择Excel文件</button>
+              <span class="forecast-file-name" id="forecastFilesList">未选择文件，可同时选择或拖入两个文件</span>
+            </div>
+            <input id="forecastFiles" type="file" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx">
           </div>
-          <input id="forecastFiles" type="file" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx">
+          <div class="forecast-file-field">
+            <span>日滚撮交易结果（可选）</span>
+            <div class="forecast-file-control" id="rollingTradeFileDropZone">
+              <button class="forecast-file-choose" id="rollingTradeFileChoose" type="button">选择Excel文件</button>
+              <span class="forecast-file-name" id="rollingTradeFileName">未选择文件，可选择或拖入一个文件</span>
+            </div>
+            <input id="rollingTradeFile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx">
+          </div>
         </div>
-        <button class="forecast-run-button" id="forecastRun" type="button" disabled>开始预测</button>
+        <div class="forecast-action-column">
+          <button class="forecast-run-button" id="forecastRun" type="button" disabled>开始预测</button>
+          <button class="forecast-file-import" id="rollingTradeImport" type="button" disabled>更新日滚搓结果</button>
+        </div>
       </div>
       <div class="forecast-status" id="forecastStatus">请选择两个文件，系统将自动识别训练集和测试集</div>
       <section class="forecast-results" id="forecastResults" hidden>
@@ -1618,6 +1669,11 @@
     const forecastFilesChoose = document.getElementById("forecastFilesChoose");
     const forecastFilesList = document.getElementById("forecastFilesList");
     const forecastFilesDropZone = document.getElementById("forecastFilesDropZone");
+    const rollingTradeFileInput = document.getElementById("rollingTradeFile");
+    const rollingTradeFileChoose = document.getElementById("rollingTradeFileChoose");
+    const rollingTradeFileName = document.getElementById("rollingTradeFileName");
+    const rollingTradeFileDropZone = document.getElementById("rollingTradeFileDropZone");
+    const rollingTradeImportButton = document.getElementById("rollingTradeImport");
     const forecastRunButton = document.getElementById("forecastRun");
     const forecastStatus = document.getElementById("forecastStatus");
     const forecastResults = document.getElementById("forecastResults");
@@ -1630,6 +1686,7 @@
     const forecastDownload = document.getElementById("forecastDownload");
     let selectedFile = null;
     let selectedForecastFiles = [];
+    let selectedRollingTradeFile = null;
     let forecastRows = [];
     let forecastResultFile = "";
     let forecastDisplayedDate = "";
@@ -2683,7 +2740,8 @@
     function drawHourlyComboChart(chartElement, data) {
       if (!chartElement) return;
       const chartRect = chartElement.getBoundingClientRect();
-      const width = Math.max(1080, Math.round(chartRect.width) || 1080);
+      const panelRect = chartElement.closest(".annual-chart-panel")?.getBoundingClientRect();
+      const width = Math.max(1080, Math.round(panelRect?.width || chartRect.width || window.innerWidth) || 1080);
       const height = Math.max(360, Math.round(chartRect.height) || 430);
       const margin = { top: 34, right: 74, bottom: 52, left: 72 };
       const chartWidth = width - margin.left - margin.right;
@@ -3574,12 +3632,34 @@
     });
 
     let resizeRenderTimer = null;
-    window.addEventListener("resize", () => {
+    function scheduleTradeTableRender(delay = 0) {
       clearTimeout(resizeRenderTimer);
       resizeRenderTimer = setTimeout(() => {
-        renderTradeTable();
-      }, 120);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(renderTradeTable);
+        });
+      }, delay);
+    }
+
+    window.addEventListener("resize", () => {
+      scheduleTradeTableRender(120);
     });
+
+    window.addEventListener("load", () => {
+      scheduleTradeTableRender(0);
+    });
+    if (document.readyState === "complete") {
+      scheduleTradeTableRender(0);
+    }
+
+    if (window.ResizeObserver) {
+      const chartResizeObserver = new ResizeObserver(() => {
+        scheduleTradeTableRender(80);
+      });
+      [annualChartPanel, dailyRollingPanel].forEach((panel) => {
+        if (panel) chartResizeObserver.observe(panel);
+      });
+    }
 
     function setForecastStatus(message, type = "") {
       if (!forecastStatus) return;
@@ -3618,7 +3698,39 @@
       setForecastStatus("两个文件已就绪，预测时将自动识别训练集和测试集", "success");
     }
 
-    function setupForecastDropZone(dropZone, fileInput) {
+    function setSelectedRollingTradeFile(files) {
+      const candidates = Array.from(files || []);
+      if (candidates.length !== 1 || !/\.xlsx$/i.test(candidates[0].name)) {
+        selectedRollingTradeFile = null;
+        if (rollingTradeFileName) rollingTradeFileName.textContent = "请选择一个 xlsx 格式的文件";
+        updateRollingTradeImportState();
+        setForecastStatus("日滚撮交易结果需选择一个 xlsx 文件", "error");
+        return;
+      }
+      selectedRollingTradeFile = candidates[0];
+      if (rollingTradeFileName) rollingTradeFileName.textContent = selectedRollingTradeFile.name;
+      updateRollingTradeImportState();
+      setForecastStatus(
+        selectedForecastFiles.length === 2
+          ? "文件已就绪，日滚撮价格将仅写入下载结果的三列"
+          : "日滚撮交易结果已选择，请继续选择训练集与测试集",
+        "success",
+      );
+    }
+
+    function updateRollingTradeImportState() {
+      if (!rollingTradeImportButton) return;
+      rollingTradeImportButton.disabled = !selectedRollingTradeFile;
+    }
+
+    function resetSelectedRollingTradeFile() {
+      selectedRollingTradeFile = null;
+      if (rollingTradeFileInput) rollingTradeFileInput.value = "";
+      if (rollingTradeFileName) rollingTradeFileName.textContent = "未选择文件，可选择或拖入一个文件";
+      updateRollingTradeImportState();
+    }
+
+    function setupForecastDropZone(dropZone, fileInput, onFilesSelected) {
       if (!dropZone || !fileInput) return;
       dropZone.addEventListener("click", (event) => {
         if (event.target.closest("button")) return;
@@ -3637,7 +3749,7 @@
         });
       });
       dropZone.addEventListener("drop", (event) => {
-        setSelectedForecastFiles(event.dataTransfer?.files || []);
+        onFilesSelected(event.dataTransfer?.files || []);
       });
     }
 
@@ -4070,6 +4182,7 @@
       const requestGeneration = invalidateForecastResultLoads();
       const formData = new FormData();
       selectedForecastFiles.forEach((file, index) => formData.append(`forecastFile${index}`, file));
+      if (selectedRollingTradeFile) formData.append("rollingTradeFile", selectedRollingTradeFile);
 
       forecastRunButton.disabled = true;
       forecastRunButton.textContent = "预测中";
@@ -4087,6 +4200,28 @@
       } finally {
         forecastRunButton.textContent = "开始预测";
         updateForecastRunState();
+      }
+    }
+
+    async function importDailyRollingForecastResult() {
+      if (!selectedRollingTradeFile || !rollingTradeImportButton) return;
+      const formData = new FormData();
+      formData.append("rollingTradeFile", selectedRollingTradeFile);
+      rollingTradeImportButton.disabled = true;
+      rollingTradeImportButton.textContent = "更新中";
+      setForecastStatus("正在导入日滚撮交易结果并更新下载文件");
+      try {
+        const response = await fetch("/import-forecast-daily-rolling", { method: "POST", body: formData });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.message || "日滚撮交易结果更新失败");
+        resetSelectedRollingTradeFile();
+        await loadForecastResult(result.runDate);
+        setForecastStatus(result.message || "日滚撮交易结果已更新", "success");
+      } catch (error) {
+        setForecastStatus(error.message || "日滚撮交易结果更新失败", "error");
+      } finally {
+        rollingTradeImportButton.textContent = "更新日滚搓结果";
+        updateRollingTradeImportState();
       }
     }
 
@@ -4156,7 +4291,13 @@
     forecastFilesInput?.addEventListener("change", () => {
       setSelectedForecastFiles(forecastFilesInput.files);
     });
-    setupForecastDropZone(forecastFilesDropZone, forecastFilesInput);
+    setupForecastDropZone(forecastFilesDropZone, forecastFilesInput, setSelectedForecastFiles);
+    rollingTradeFileChoose?.addEventListener("click", () => rollingTradeFileInput?.click());
+    rollingTradeFileInput?.addEventListener("change", () => {
+      setSelectedRollingTradeFile(rollingTradeFileInput.files);
+    });
+    setupForecastDropZone(rollingTradeFileDropZone, rollingTradeFileInput, setSelectedRollingTradeFile);
+    rollingTradeImportButton?.addEventListener("click", importDailyRollingForecastResult);
     forecastRunButton?.addEventListener("click", runPriceForecast);
     forecastDateInput?.addEventListener("change", () => {
       loadForecastResult(forecastDateInput.value).catch((error) => {
