@@ -1480,6 +1480,7 @@
               <span class="annual-legend-item"><span class="annual-legend-swatch"></span>成交电量(MWh)</span>
               <span class="annual-legend-item"><span class="annual-legend-line"></span>成交电价(元/MWh)</span>
             </div>
+            <button class="trade-import-button" id="monthlyTenDayExport" type="button" hidden>月度及旬度交易结果导出</button>
             <button class="trade-import-button" id="monthlyImportOpen" type="button" hidden>导入</button>
             <label class="trade-month-field trade-ten-day-inline" id="summaryRunDateField" hidden>
               运行日
@@ -1652,6 +1653,7 @@
     const monthlyImportVolume = document.getElementById("monthlyImportVolume");
     const monthlyImportPrice = document.getElementById("monthlyImportPrice");
     const monthlyImportHourly = document.getElementById("monthlyImportHourly");
+    const monthlyTenDayExport = document.getElementById("monthlyTenDayExport");
     const tradeMatrixCaption = document.getElementById("tradeMatrixCaption");
     const tradeMatrixHead = document.getElementById("tradeMatrixHead");
     const tradeMatrixBody = document.getElementById("tradeMatrixBody");
@@ -2698,6 +2700,94 @@
       return { monthValue, rows: exportRows, sourceRecordCount };
     }
 
+    function buildMonthlyTenDayExportRows() {
+      const monthValue = getSelectedMonthValue();
+      const daysInMonth = getDaysInMonth(monthValue);
+      const monthlyRows = getRowsForSelectedPlant(getMonthlyRowsForMonth(monthValue));
+      const tenDayValues = ["early", "middle", "late"];
+      let sourceRecordCount = monthlyRows.length;
+      const dailyPointMap = new Map();
+
+      const addAllocatedRows = (rows, startDay, endDay, divisor) => {
+        for (let day = startDay; day <= endDay; day += 1) {
+          rows.forEach((row) => {
+            const key = `${day}|${row.point}`;
+            const item = dailyPointMap.get(key) || { volume: 0, amount: 0, recordCount: 0 };
+            const allocatedVolume = getSignedTradeVolume(row) / divisor;
+            item.volume += allocatedVolume;
+            item.amount += allocatedVolume * Number(row.price || 0);
+            item.recordCount += 1;
+            dailyPointMap.set(key, item);
+          });
+        }
+      };
+
+      addAllocatedRows(monthlyRows, 1, daysInMonth, daysInMonth);
+
+      tenDayValues.forEach((tenDayValue) => {
+        const range = getTenDayRangeByValue(monthValue, tenDayValue);
+        const rows = getRowsForSelectedPlant(getTenDayRowsForPeriod(`${monthValue}-${tenDayValue}`));
+        sourceRecordCount += rows.length;
+        addAllocatedRows(rows, range.start, range.end, range.end - range.start + 1);
+      });
+
+      const exportRows = [];
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const dateText = `${monthValue}-${String(day).padStart(2, "0")}`;
+        for (let point = 1; point <= 24; point += 1) {
+          const item = dailyPointMap.get(`${day}|${point}`);
+          exportRows.push({
+            date: dateText,
+            hour: `${point - 1}:00-${point}:00`,
+            point,
+            positionVolume: item?.recordCount ? Number(item.volume) : null,
+            positionPrice: item?.recordCount ? serializePriceValue(calculateWeightedPrice(item.amount, item.volume)) : null,
+          });
+        }
+      }
+
+      return { monthValue, rows: exportRows, sourceRecordCount };
+    }
+
+    async function exportMonthlyTenDayRows() {
+      const { monthValue, rows, sourceRecordCount } = buildMonthlyTenDayExportRows();
+      if (!sourceRecordCount) {
+        alert("所选月份没有可导出的月度及旬度集中竞价交易结果。");
+        return;
+      }
+      if (monthlyTenDayExport) monthlyTenDayExport.disabled = true;
+      try {
+        const response = await fetch("/export-monthly-ten-day-trade", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            monthValue,
+            plantName: getSelectedPlantLabel(),
+            rows,
+          }),
+        });
+        if (!response.ok) {
+          const errorPayload = await response.json().catch(() => ({}));
+          throw new Error(errorPayload.message || "导出失败");
+        }
+        const blob = await response.blob();
+        const [year, month] = monthValue.split("-");
+        const downloadName = `${year}年${Number(month)}月月度及旬度交易结果.xlsx`;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = downloadName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        alert(error.message || "导出失败");
+      } finally {
+        if (monthlyTenDayExport) monthlyTenDayExport.disabled = false;
+      }
+    }
+
     async function exportDailyRollingRows() {
       const { monthValue, rows, sourceRecordCount } = buildDailyRollingExportRows();
       if (!sourceRecordCount) {
@@ -3090,6 +3180,7 @@
       const usesDailyRolling = activeTradeType === "日滚动撮合交易";
       if (annualChartPanel) annualChartPanel.hidden = !usesMonthlyChart;
       if (monthlyImportOpen) monthlyImportOpen.hidden = !["年度集中竞价交易", "月度集中竞价交易", "旬度集中竞价交易"].includes(activeTradeType);
+      if (monthlyTenDayExport) monthlyTenDayExport.hidden = activeTradeType !== "月度集中竞价交易";
       if (summaryRunDateField) summaryRunDateField.hidden = activeTradeType !== "中长期交易汇总";
       if (tradeTenDayField) tradeTenDayField.hidden = activeTradeType !== "旬度集中竞价交易";
       const dayOverview = document.querySelector(".trade-day-overview");
@@ -4240,6 +4331,7 @@
     monthlyImportOpen?.addEventListener("click", openMonthlyImportModal);
     dailyRollingImportOpen?.addEventListener("click", openMonthlyImportModal);
     dailyRollingExport?.addEventListener("click", exportDailyRollingRows);
+    monthlyTenDayExport?.addEventListener("click", exportMonthlyTenDayRows);
     monthlyImportClose?.addEventListener("click", closeMonthlyImportModal);
     monthlyImportCancel?.addEventListener("click", closeMonthlyImportModal);
     monthlyImportApply?.addEventListener("click", applyMonthlyImportRows);
