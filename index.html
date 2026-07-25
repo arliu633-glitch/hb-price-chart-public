@@ -998,6 +998,94 @@
       background: #f8fafc;
     }
 
+    .review-input-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+
+    .review-upload-fields {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: minmax(148px, 0.38fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .review-date-field,
+    .review-har-field {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .review-date-field input {
+      width: 100%;
+      height: 40px;
+      padding: 0 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #0f172a;
+      font: inherit;
+    }
+
+    .review-har-control {
+      min-height: 122px;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-content: center;
+    }
+
+    .review-har-readiness {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .review-har-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+      padding: 5px 0;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .review-har-row:last-child {
+      border-bottom: 0;
+    }
+
+    .review-har-row strong {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .review-har-row span {
+      flex: 0 0 auto;
+      color: #64748b;
+    }
+
+    .review-har-row.is-ready span {
+      color: #15803d;
+    }
+
+    .review-har-field input[type="file"] {
+      display: none;
+    }
+
     .forecast-upload-fields {
       min-width: 0;
       display: grid;
@@ -1096,7 +1184,8 @@
       min-width: 112px;
     }
 
-    .forecast-status {
+    .forecast-status,
+    .review-status {
       min-height: 42px;
       padding: 12px 20px;
       border-bottom: 1px solid #e2e8f0;
@@ -1105,11 +1194,13 @@
       line-height: 1.4;
     }
 
-    .forecast-status.error {
+    .forecast-status.error,
+    .review-status.error {
       color: #b91c1c;
     }
 
-    .forecast-status.success {
+    .forecast-status.success,
+    .review-status.success {
       color: #15803d;
     }
 
@@ -1138,7 +1229,8 @@
       gap: 10px;
     }
 
-    .forecast-date-field {
+    .forecast-date-field,
+    .review-history-field {
       display: grid;
       gap: 5px;
       color: #475569;
@@ -1146,7 +1238,8 @@
       font-weight: 700;
     }
 
-    .forecast-date-field select {
+    .forecast-date-field select,
+    .review-history-field select {
       height: 36px;
       min-width: 132px;
       padding: 0 28px 0 9px;
@@ -1157,7 +1250,8 @@
       font: inherit;
     }
 
-    .forecast-download-button {
+    .forecast-download-button,
+    .review-download-button {
       height: 36px;
       padding: 0 13px;
       border: 1px solid #cbd5e1;
@@ -1302,7 +1396,9 @@
       }
 
       .forecast-input-band,
+      .review-input-band,
       .forecast-upload-fields,
+      .review-upload-fields,
       .forecast-chart-grid {
         grid-template-columns: 1fr;
       }
@@ -1318,8 +1414,16 @@
         flex-direction: column;
       }
 
+      .review-result-actions {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+      }
+
       .forecast-date-field select,
-      .forecast-download-button {
+      .forecast-download-button,
+      .review-history-field select,
+      .review-download-button {
         width: 100%;
       }
 
@@ -1340,6 +1444,7 @@
       <button class="page-tab is-active" type="button" data-page-target="rolling">实时机组滚动发电计划</button>
       <button class="page-tab" type="button" data-page-target="trade">中长期交易结果</button>
       <button class="page-tab" type="button" data-page-target="forecast">现货电价预测</button>
+      <button class="page-tab" type="button" data-page-target="review-export">复盘数据导出</button>
     </div>
     <label class="plant-selector">
       电站名称（企业名称）
@@ -1410,6 +1515,54 @@
             </div>
             <svg class="forecast-chart" id="priceForecastChart" role="img" aria-label="现货电价预测96点折线图"></svg>
           </section>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <main class="forecast-page page" data-page="review-export" hidden>
+    <section class="forecast-workspace" aria-labelledby="reviewExportTitle">
+      <header class="forecast-header">
+        <h1 id="reviewExportTitle">复盘数据导出</h1>
+      </header>
+      <div class="review-input-band">
+        <div class="review-upload-fields">
+          <label class="review-date-field" for="reviewRunDate">
+            <span>导出日期</span>
+            <input id="reviewRunDate" type="date" required>
+          </label>
+          <div class="review-har-field">
+            <span>复盘 HAR 文件</span>
+            <div class="forecast-file-control review-har-control" id="reviewHarDropZone">
+              <button class="forecast-file-choose" id="reviewHarChoose" type="button">选择HAR文件</button>
+              <div class="review-har-readiness" id="reviewHarFileList" aria-label="HAR 文件就绪状态">
+                <div class="review-har-row" data-review-har="hebei_power.har">
+                  <strong>hebei_power.har</strong><span>待选择</span>
+                </div>
+                <div class="review-har-row" data-review-har="storage_power.har">
+                  <strong>storage_power.har</strong><span>待选择</span>
+                </div>
+              </div>
+            </div>
+            <input id="reviewHarFiles" type="file" multiple accept=".har,application/json">
+          </div>
+        </div>
+        <div class="forecast-action-column">
+          <button class="forecast-run-button" id="reviewRun" type="button" disabled>开始导出</button>
+        </div>
+      </div>
+      <p class="review-status" id="reviewStatus" role="status" aria-live="polite">请选择导出日期及两个 HAR 文件</p>
+      <section class="forecast-results" aria-label="复盘导出结果">
+        <div class="forecast-results-toolbar">
+          <div class="forecast-result-summary">历史导出结果</div>
+          <div class="forecast-result-actions review-result-actions">
+            <label class="review-history-field" for="reviewHistoryDate">
+              历史日期
+              <select id="reviewHistoryDate" aria-label="选择复盘导出历史日期"></select>
+            </label>
+            <button class="review-download-button" id="reviewDownloadReport" type="button" disabled>下载复盘信息</button>
+            <button class="review-download-button" id="reviewDownloadPlatform" type="button" disabled>下载平台导入数据</button>
+          </div>
         </div>
       </section>
     </section>
@@ -1686,13 +1839,28 @@
     const priceForecastChart = document.getElementById("priceForecastChart");
     const priceForecastLegend = document.getElementById("priceForecastLegend");
     const forecastDownload = document.getElementById("forecastDownload");
+    const reviewRunDate = document.getElementById("reviewRunDate");
+    const reviewHarFilesInput = document.getElementById("reviewHarFiles");
+    const reviewHarChoose = document.getElementById("reviewHarChoose");
+    const reviewHarDropZone = document.getElementById("reviewHarDropZone");
+    const reviewHarFileList = document.getElementById("reviewHarFileList");
+    const reviewRunButton = document.getElementById("reviewRun");
+    const reviewStatus = document.getElementById("reviewStatus");
+    const reviewHistoryDate = document.getElementById("reviewHistoryDate");
+    const reviewDownloadReport = document.getElementById("reviewDownloadReport");
+    const reviewDownloadPlatform = document.getElementById("reviewDownloadPlatform");
     let selectedFile = null;
     let selectedForecastFiles = [];
     let selectedRollingTradeFile = null;
+    let selectedReviewHarFiles = [];
     let forecastRows = [];
     let forecastResultFile = "";
     let forecastDisplayedDate = "";
     let forecastResultRequestGeneration = 0;
+    let reviewReportFile = "";
+    let reviewPlatformFile = "";
+    let reviewResultRequestGeneration = 0;
+    let reviewRunDateWasEdited = false;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
     let pendingMonthlyImportRows = [];
     let pendingMonthlyImportFileName = "";
@@ -3844,6 +4012,219 @@
       });
     }
 
+    function setReviewStatus(message, type = "") {
+      if (!reviewStatus) return;
+      reviewStatus.textContent = message;
+      reviewStatus.className = `review-status ${type}`.trim();
+    }
+
+    function safeReviewResponseMessage(payload, fallback) {
+      const message = typeof payload?.message === "string" ? payload.message.trim() : "";
+      const containsAbsolutePath = (
+        /(?:^|[\s"'])[A-Za-z]:[\\/]/.test(message)
+        || /(?:^|[\s"'])\\\\/.test(message)
+        || /(?:^|[\s"'])\/(?:Users|home|tmp|var|etc|root|opt|srv|mnt|Volumes)(?:\/|$)/i.test(message)
+      );
+      if (
+        !message
+        || message.length > 200
+        || /[<>\r\n]/.test(message)
+        || containsAbsolutePath
+        || /traceback/i.test(message)
+      ) {
+        return fallback;
+      }
+      return message;
+    }
+
+    async function parseReviewJsonResponse(response) {
+      try {
+        const payload = await response.json();
+        return payload && typeof payload === "object" && !Array.isArray(payload) ? payload : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function isReviewRunDateValid() {
+      return Boolean(reviewRunDate?.value) && /^\d{4}-\d{2}-\d{2}$/.test(reviewRunDate.value);
+    }
+
+    function updateReviewRunState() {
+      if (!reviewRunButton) return;
+      reviewRunButton.disabled = !isReviewRunDateValid() || selectedReviewHarFiles.length !== 2;
+    }
+
+    function renderReviewHarFileList() {
+      if (!reviewHarFileList) return;
+      const filesByName = new Map(selectedReviewHarFiles.map((file) => [file.name.toLowerCase(), file]));
+      reviewHarFileList.innerHTML = ["hebei_power.har", "storage_power.har"]
+        .map((name) => {
+          const file = filesByName.get(name);
+          return `<div class="review-har-row${file ? " is-ready" : ""}" data-review-har="${name}">
+            <strong>${name}</strong><span>${file ? "已就绪" : "待选择"}</span>
+          </div>`;
+        })
+        .join("");
+    }
+
+    function resetSelectedReviewHarFiles() {
+      selectedReviewHarFiles = [];
+      if (reviewHarFilesInput) reviewHarFilesInput.value = "";
+      renderReviewHarFileList();
+      updateReviewRunState();
+    }
+
+    function setSelectedReviewHarFiles(files) {
+      const candidates = Array.from(files || []);
+      const maximumBytes = 100 * 1024 * 1024;
+      const requiredNames = ["hebei_power.har", "storage_power.har"];
+      const filesByName = new Map();
+
+      if (candidates.some((file) => !/\.har$/i.test(file.name))) {
+        resetSelectedReviewHarFiles();
+        setReviewStatus("请仅选择 .har 格式文件", "error");
+        return;
+      }
+      if (candidates.reduce((total, file) => total + Number(file.size || 0), 0) > maximumBytes) {
+        resetSelectedReviewHarFiles();
+        setReviewStatus("HAR 文件总大小不能超过 100MB", "error");
+        return;
+      }
+      candidates.forEach((file) => {
+        const normalizedName = file.name.toLowerCase();
+        if (filesByName.has(normalizedName)) {
+          filesByName.set("__duplicate__", file);
+          return;
+        }
+        filesByName.set(normalizedName, file);
+      });
+      const hasExtra = [...filesByName.keys()].some((name) => !requiredNames.includes(name));
+      const hasEveryRequiredFile = requiredNames.every((name) => filesByName.has(name));
+      if (candidates.length !== 2 || filesByName.has("__duplicate__") || hasExtra || !hasEveryRequiredFile) {
+        resetSelectedReviewHarFiles();
+        setReviewStatus("请同时选择 hebei_power.har 和 storage_power.har，且不含重复或额外文件", "error");
+        return;
+      }
+
+      selectedReviewHarFiles = requiredNames.map((name) => filesByName.get(name));
+      renderReviewHarFileList();
+      updateReviewRunState();
+      setReviewStatus("两个 HAR 文件已就绪，可以开始导出", "success");
+    }
+
+    function updateReviewDownloadState() {
+      if (reviewDownloadReport) reviewDownloadReport.disabled = !reviewReportFile;
+      if (reviewDownloadPlatform) reviewDownloadPlatform.disabled = !reviewPlatformFile;
+    }
+
+    function invalidateReviewExportResultLoads() {
+      reviewResultRequestGeneration += 1;
+      return reviewResultRequestGeneration;
+    }
+
+    function clearReviewExportFiles() {
+      reviewReportFile = "";
+      reviewPlatformFile = "";
+      updateReviewDownloadState();
+    }
+
+    function showReviewExportResult(payload) {
+      const availableDates = Array.isArray(payload.availableDates) ? payload.availableDates.slice() : [];
+      availableDates.sort((left, right) => right.localeCompare(left));
+      const selectedDate = payload.selectedDate || "";
+      reviewReportFile = payload.reviewExists === true ? (payload.reviewFile || "") : "";
+      reviewPlatformFile = payload.platformExists === true ? (payload.platformFile || "") : "";
+      if (reviewHistoryDate) {
+        reviewHistoryDate.innerHTML = availableDates
+          .map((date) => `<option value="${date}">${date}</option>`)
+          .join("");
+        reviewHistoryDate.value = selectedDate;
+        reviewHistoryDate.disabled = availableDates.length === 0;
+      }
+      updateReviewDownloadState();
+    }
+
+    async function loadReviewExportResult(date = "") {
+      const options = arguments[1] || {};
+      const requestGeneration = invalidateReviewExportResultLoads();
+      const preserveResultOnError = options.preserveResultOnError === true;
+      try {
+        const query = date ? `?date=${encodeURIComponent(date)}` : "";
+        const response = await fetch(`/review-export-results${query}`);
+        const payload = await parseReviewJsonResponse(response);
+        if (!response.ok || !payload.ok) {
+          throw new Error(
+            safeReviewResponseMessage(payload, "无法读取复盘结果，请稍后重试"),
+          );
+        }
+        if (requestGeneration !== reviewResultRequestGeneration) return;
+        if (
+          !date
+          && !reviewRunDateWasEdited
+          && reviewRunDate
+        ) {
+          const defaultRunDate = /^\d{4}-\d{2}-\d{2}$/.test(payload.selectedDate || "")
+            ? payload.selectedDate
+            : payload.serverDate;
+          if (/^\d{4}-\d{2}-\d{2}$/.test(defaultRunDate || "")) {
+            reviewRunDate.value = defaultRunDate;
+            updateReviewRunState();
+          }
+        }
+        showReviewExportResult(payload);
+        if (!payload.selectedDate) setReviewStatus("暂无复盘导出结果，可选择日期和 HAR 文件后开始导出");
+      } catch (error) {
+        if (requestGeneration !== reviewResultRequestGeneration) return;
+        if (preserveResultOnError) throw error;
+        clearReviewExportFiles();
+        const message = error instanceof Error
+          ? error.message
+          : "无法读取复盘结果，请稍后重试";
+        setReviewStatus(message, "error");
+        throw error;
+      }
+    }
+
+    async function runReviewExport() {
+      if (!isReviewRunDateValid() || selectedReviewHarFiles.length !== 2 || !reviewRunButton) return;
+      const exportGeneration = invalidateReviewExportResultLoads();
+      const hebeiFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "hebei_power.har");
+      const storageFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "storage_power.har");
+      if (!hebeiFile || !storageFile) return;
+
+      const formData = new FormData();
+      formData.append("runDate", reviewRunDate.value);
+      formData.append("harFiles", hebeiFile);
+      formData.append("harFiles", storageFile);
+      reviewRunButton.disabled = true;
+      reviewRunButton.textContent = "导出中";
+      setReviewStatus("正在生成复盘数据，请稍候");
+      try {
+        const response = await fetch("/run-review-export", { method: "POST", body: formData });
+        const result = await parseReviewJsonResponse(response);
+        if (!response.ok || !result.ok) {
+          throw new Error(
+            safeReviewResponseMessage(result, "复盘数据导出失败，请稍后重试"),
+          );
+        }
+        if (exportGeneration !== reviewResultRequestGeneration) return;
+        resetSelectedReviewHarFiles();
+        showReviewExportResult(result);
+        setReviewStatus(result.message || "复盘数据导出完成。", "success");
+        loadReviewExportResult(result.selectedDate, { preserveResultOnError: true }).catch(() => {});
+      } catch (error) {
+        if (exportGeneration !== reviewResultRequestGeneration) return;
+        const message = error instanceof Error
+          ? error.message
+          : "复盘数据导出失败，请稍后重试";
+        setReviewStatus(message, "error");
+      } finally {
+        reviewRunButton.textContent = "开始导出";
+        updateReviewRunState();
+      }
+    }
+
     function createForecastSvgElement(tagName, attributes = {}, text = "") {
       const element = document.createElementNS("http://www.w3.org/2000/svg", tagName);
       Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, String(value)));
@@ -4400,6 +4781,51 @@
       if (!forecastResultFile) return;
       window.location.href = `/download-price-forecast?file=${encodeURIComponent(forecastResultFile)}`;
     });
+    renderReviewHarFileList();
+    updateReviewRunState();
+    reviewHarChoose?.addEventListener("click", () => reviewHarFilesInput?.click());
+    reviewHarDropZone?.addEventListener("click", (event) => {
+      if (event.target.closest("button")) return;
+      reviewHarFilesInput?.click();
+    });
+    ["dragenter", "dragover"].forEach((eventName) => {
+      reviewHarDropZone?.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        reviewHarDropZone.classList.add("is-dragging");
+      });
+    });
+    ["dragleave", "drop"].forEach((eventName) => {
+      reviewHarDropZone?.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        reviewHarDropZone.classList.remove("is-dragging");
+      });
+    });
+    reviewHarDropZone?.addEventListener("drop", (event) => {
+      setSelectedReviewHarFiles(event.dataTransfer?.files || []);
+    });
+    reviewHarFilesInput?.addEventListener("change", () => {
+      setSelectedReviewHarFiles(reviewHarFilesInput.files);
+    });
+    ["input", "change"].forEach((eventName) => {
+      reviewRunDate?.addEventListener(eventName, () => {
+        reviewRunDateWasEdited = true;
+        updateReviewRunState();
+      });
+    });
+    reviewRunButton?.addEventListener("click", runReviewExport);
+    reviewHistoryDate?.addEventListener("change", () => {
+      loadReviewExportResult(reviewHistoryDate.value).catch(() => {});
+    });
+    reviewDownloadReport?.addEventListener("click", () => {
+      if (!reviewReportFile) return;
+      window.location.href = `/download-review-export?file=${encodeURIComponent(reviewReportFile)}`;
+    });
+    reviewDownloadPlatform?.addEventListener("click", () => {
+      if (!reviewPlatformFile) return;
+      window.location.href = `/download-review-export?file=${encodeURIComponent(reviewPlatformFile)}`;
+    });
+    const initialReviewExportLoad = loadReviewExportResult();
+    initialReviewExportLoad.catch(() => {});
     const initialForecastLoad = loadForecastResult();
     initialForecastLoad.catch((error) => {
       setForecastStatus(error.message || "无法读取预测结果", "error");
