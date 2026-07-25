@@ -1008,6 +1008,11 @@
       background: #f8fafc;
     }
 
+    .public-static-mode .forecast-input-band,
+    .public-static-mode .review-input-band {
+      display: none;
+    }
+
     .review-upload-fields {
       min-width: 0;
       display: grid;
@@ -1762,6 +1767,9 @@
   </section>
 
   <script>
+    const localHostnames = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
+    const isPublicStaticMode = !localHostnames.has(window.location.hostname);
+    document.documentElement.classList.toggle("public-static-mode", isPublicStaticMode);
     const fileInput = document.getElementById("fileInput");
     const dropZone = document.getElementById("dropZone");
     const fileName = document.getElementById("fileName");
@@ -1855,12 +1863,17 @@
     let selectedReviewHarFiles = [];
     let forecastRows = [];
     let forecastResultFile = "";
+    let forecastResultUrl = "";
     let forecastDisplayedDate = "";
     let forecastResultRequestGeneration = 0;
     let reviewReportFile = "";
     let reviewPlatformFile = "";
+    let reviewReportUrl = "";
+    let reviewPlatformUrl = "";
     let reviewResultRequestGeneration = 0;
     let reviewRunDateWasEdited = false;
+    let publicForecastManifestPromise = null;
+    let publicReviewManifestPromise = null;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
     let pendingMonthlyImportRows = [];
     let pendingMonthlyImportFileName = "";
@@ -4126,6 +4139,8 @@
     function clearReviewExportFiles() {
       reviewReportFile = "";
       reviewPlatformFile = "";
+      reviewReportUrl = "";
+      reviewPlatformUrl = "";
       updateReviewDownloadState();
     }
 
@@ -4135,6 +4150,8 @@
       const selectedDate = payload.selectedDate || "";
       reviewReportFile = payload.reviewExists === true ? (payload.reviewFile || "") : "";
       reviewPlatformFile = payload.platformExists === true ? (payload.platformFile || "") : "";
+      reviewReportUrl = payload.reviewExists === true ? (payload.reviewUrl || "") : "";
+      reviewPlatformUrl = payload.platformExists === true ? (payload.platformUrl || "") : "";
       if (reviewHistoryDate) {
         reviewHistoryDate.innerHTML = availableDates
           .map((date) => `<option value="${date}">${date}</option>`)
@@ -4145,18 +4162,70 @@
       updateReviewDownloadState();
     }
 
+    async function fetchPublicJson(url) {
+      const separator = url.includes("?") ? "&" : "?";
+      const response = await fetch(`${url}${separator}v=${Date.now()}`, { cache: "no-store" });
+      const payload = await response.json();
+      if (!response.ok || !payload || typeof payload !== "object" || Array.isArray(payload)) {
+        throw new Error("无法读取公开结果");
+      }
+      return payload;
+    }
+
+    async function loadPublicReviewResult(date = "") {
+      if (!publicReviewManifestPromise) {
+        publicReviewManifestPromise = fetchPublicJson("review-data/index.json")
+          .catch((error) => {
+            publicReviewManifestPromise = null;
+            throw error;
+          });
+      }
+      const manifest = await publicReviewManifestPromise;
+      const selectedDate = date || manifest.latestDate || "";
+      const entry = manifest.entries?.[selectedDate];
+      if (!entry) {
+        return {
+          ok: true,
+          selectedDate: "",
+          availableDates: manifest.availableDates || [],
+          reviewFile: "",
+          reviewUrl: "",
+          reviewExists: false,
+          platformFile: "",
+          platformUrl: "",
+          platformExists: false,
+        };
+      }
+      return {
+        ok: true,
+        selectedDate,
+        availableDates: manifest.availableDates || [],
+        reviewFile: entry.reportFile || "",
+        reviewUrl: entry.reportUrl || "",
+        reviewExists: entry.reportExists === true,
+        platformFile: entry.platformFile || "",
+        platformUrl: entry.platformUrl || "",
+        platformExists: entry.platformExists === true,
+      };
+    }
+
     async function loadReviewExportResult(date = "") {
       const options = arguments[1] || {};
       const requestGeneration = invalidateReviewExportResultLoads();
       const preserveResultOnError = options.preserveResultOnError === true;
       try {
-        const query = date ? `?date=${encodeURIComponent(date)}` : "";
-        const response = await fetch(`/review-export-results${query}`);
-        const payload = await parseReviewJsonResponse(response);
-        if (!response.ok || !payload.ok) {
-          throw new Error(
-            safeReviewResponseMessage(payload, "无法读取复盘结果，请稍后重试"),
-          );
+        let payload;
+        if (isPublicStaticMode) {
+          payload = await loadPublicReviewResult(date);
+        } else {
+          const query = date ? `?date=${encodeURIComponent(date)}` : "";
+          const response = await fetch(`/review-export-results${query}`);
+          payload = await parseReviewJsonResponse(response);
+          if (!response.ok || !payload.ok) {
+            throw new Error(
+              safeReviewResponseMessage(payload, "无法读取复盘结果，请稍后重试"),
+            );
+          }
         }
         if (requestGeneration !== reviewResultRequestGeneration) return;
         if (
@@ -4173,7 +4242,11 @@
           }
         }
         showReviewExportResult(payload);
-        if (!payload.selectedDate) setReviewStatus("暂无复盘导出结果，可选择日期和 HAR 文件后开始导出");
+        if (!payload.selectedDate) {
+          setReviewStatus(isPublicStaticMode ? "暂无公开复盘结果" : "暂无复盘导出结果，可选择日期和 HAR 文件后开始导出");
+        } else if (isPublicStaticMode) {
+          setReviewStatus("公开复盘结果已加载", "success");
+        }
       } catch (error) {
         if (requestGeneration !== reviewResultRequestGeneration) return;
         if (preserveResultOnError) throw error;
@@ -4187,6 +4260,7 @@
     }
 
     async function runReviewExport() {
+      if (isPublicStaticMode) return;
       if (!isReviewRunDateValid() || selectedReviewHarFiles.length !== 2 || !reviewRunButton) return;
       const exportGeneration = invalidateReviewExportResultLoads();
       const hebeiFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "hebei_power.har");
@@ -4610,6 +4684,7 @@
     function showForecastResult(payload) {
       forecastRows = Array.isArray(payload.rows) ? payload.rows : [];
       forecastResultFile = payload.resultFile || "";
+      forecastResultUrl = payload.resultUrl || "";
       const selectedDate = payload.selectedDate || payload.dates?.[0] || "";
       forecastDisplayedDate = selectedDate;
       if (forecastDateInput) {
@@ -4627,19 +4702,60 @@
       renderForecastCharts();
     }
 
+    async function loadPublicForecastResult(forecastDate = "") {
+      if (!publicForecastManifestPromise) {
+        publicForecastManifestPromise = fetchPublicJson("forecast-data/index.json")
+          .catch((error) => {
+            publicForecastManifestPromise = null;
+            throw error;
+          });
+      }
+      const manifest = await publicForecastManifestPromise;
+      const selectedDate = forecastDate || manifest.latestDate || "";
+      const entry = manifest.entries?.[selectedDate];
+      if (!entry) {
+        return {
+          ok: true,
+          selectedDate: "",
+          availableDates: manifest.availableDates || [],
+          rows: [],
+          dates: [],
+          summary: { points: 0, days: 0 },
+          resultFile: "",
+          resultUrl: "",
+        };
+      }
+      const snapshot = await fetchPublicJson(entry.snapshotUrl);
+      return {
+        ...snapshot,
+        ok: true,
+        selectedDate,
+        availableDates: manifest.availableDates || [],
+        resultFile: entry.resultFile || snapshot.resultFile || "",
+        resultUrl: entry.resultUrl || "",
+      };
+    }
+
     async function loadForecastResult(forecastDate = "") {
       const requestGeneration = ++forecastResultRequestGeneration;
       try {
-        const query = forecastDate ? `?date=${encodeURIComponent(forecastDate)}` : "";
-        const response = await fetch(`/price-forecast-results${query}`);
-        const payload = await response.json();
-        if (!response.ok || !payload.ok) throw new Error(payload.message || "无法读取预测结果");
+        let payload;
+        if (isPublicStaticMode) {
+          payload = await loadPublicForecastResult(forecastDate);
+        } else {
+          const query = forecastDate ? `?date=${encodeURIComponent(forecastDate)}` : "";
+          const response = await fetch(`/price-forecast-results${query}`);
+          payload = await response.json();
+          if (!response.ok || !payload.ok) throw new Error(payload.message || "无法读取预测结果");
+        }
         if (requestGeneration !== forecastResultRequestGeneration) return;
         if (!payload.selectedDate) {
           if (forecastResults) forecastResults.hidden = true;
+          if (isPublicStaticMode) setForecastStatus("暂无公开预测结果");
           return;
         }
         showForecastResult(payload);
+        if (isPublicStaticMode) setForecastStatus("公开预测结果已加载", "success");
       } catch (error) {
         if (requestGeneration !== forecastResultRequestGeneration) return;
         if (forecastDateInput) {
@@ -4650,6 +4766,7 @@
     }
 
     async function runPriceForecast() {
+      if (isPublicStaticMode) return;
       if (selectedForecastFiles.length !== 2 || !forecastRunButton) return;
       const requestGeneration = invalidateForecastResultLoads();
       const formData = new FormData();
@@ -4676,6 +4793,7 @@
     }
 
     async function importDailyRollingForecastResult() {
+      if (isPublicStaticMode) return;
       if (!selectedRollingTradeFile || !rollingTradeImportButton) return;
       const formData = new FormData();
       formData.append("rollingTradeFile", selectedRollingTradeFile);
@@ -4779,7 +4897,9 @@
     });
     forecastDownload?.addEventListener("click", () => {
       if (!forecastResultFile) return;
-      window.location.href = `/download-price-forecast?file=${encodeURIComponent(forecastResultFile)}`;
+      window.location.href = isPublicStaticMode
+        ? forecastResultUrl
+        : `/download-price-forecast?file=${encodeURIComponent(forecastResultFile)}`;
     });
     renderReviewHarFileList();
     updateReviewRunState();
@@ -4818,12 +4938,20 @@
     });
     reviewDownloadReport?.addEventListener("click", () => {
       if (!reviewReportFile) return;
-      window.location.href = `/download-review-export?file=${encodeURIComponent(reviewReportFile)}`;
+      window.location.href = isPublicStaticMode
+        ? reviewReportUrl
+        : `/download-review-export?file=${encodeURIComponent(reviewReportFile)}`;
     });
     reviewDownloadPlatform?.addEventListener("click", () => {
       if (!reviewPlatformFile) return;
-      window.location.href = `/download-review-export?file=${encodeURIComponent(reviewPlatformFile)}`;
+      window.location.href = isPublicStaticMode
+        ? reviewPlatformUrl
+        : `/download-review-export?file=${encodeURIComponent(reviewPlatformFile)}`;
     });
+    if (isPublicStaticMode) {
+      setForecastStatus("正在加载公开预测结果");
+      setReviewStatus("正在加载公开复盘结果");
+    }
     const initialReviewExportLoad = loadReviewExportResult();
     initialReviewExportLoad.catch(() => {});
     const initialForecastLoad = loadForecastResult();
