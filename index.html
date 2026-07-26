@@ -1187,6 +1187,12 @@
       line-height: 1.4;
     }
 
+    .review-status {
+      margin: 0;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
     .forecast-status.error,
     .review-status.error {
       color: #b91c1c;
@@ -1540,7 +1546,6 @@
           <button class="forecast-run-button" id="reviewRun" type="button" disabled>开始导出</button>
         </div>
       </div>
-      <p class="review-status" id="reviewStatus" role="status" aria-live="polite">请选择两个 HAR 文件，系统将自动识别运行日</p>
       <section class="forecast-results" aria-label="复盘导出结果">
         <div class="forecast-results-toolbar">
           <div class="forecast-result-summary">历史导出结果</div>
@@ -1553,6 +1558,7 @@
             <button class="review-download-button" id="reviewDownloadPlatform" type="button" disabled>下载平台导入数据</button>
           </div>
         </div>
+        <p class="review-status" id="reviewStatus" role="status" aria-live="polite">请选择两个 HAR 文件，系统将自动识别运行日</p>
       </section>
     </section>
   </main>
@@ -4013,6 +4019,27 @@
       reviewStatus.className = `review-status ${type}`.trim();
     }
 
+    function formatReviewExportStatus(result) {
+      const exportedData = Array.isArray(result?.exportedData) ? result.exportedData : null;
+      const missingData = Array.isArray(result?.missingData) ? result.missingData : null;
+      if (!result?.detectedRunDate || exportedData === null || missingData === null) {
+        return result?.message || "复盘数据导出完成";
+      }
+
+      const lines = [`已识别运行日：${result.detectedRunDate}`];
+      if (exportedData.length) {
+        exportedData.forEach((item) => lines.push(`成功导出：${item}`));
+      } else {
+        lines.push("成功导出：无");
+      }
+      if (missingData.length) {
+        missingData.forEach((item) => lines.push(`缺失数据：${item}`));
+      } else {
+        lines.push("缺失数据：无");
+      }
+      return lines.join("\n");
+    }
+
     function safeReviewResponseMessage(payload, fallback) {
       const message = typeof payload?.message === "string" ? payload.message.trim() : "";
       const containsAbsolutePath = (
@@ -4249,7 +4276,7 @@
         if (exportGeneration !== reviewResultRequestGeneration) return;
         resetSelectedReviewHarFiles();
         showReviewExportResult(result);
-        setReviewStatus(result.message || "复盘数据导出完成。", "success");
+        setReviewStatus(formatReviewExportStatus(result), "success");
         loadReviewExportResult(
           result.detectedRunDate,
           { preserveResultOnError: true },
