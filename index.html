@@ -1016,12 +1016,11 @@
     .review-upload-fields {
       min-width: 0;
       display: grid;
-      grid-template-columns: minmax(148px, 0.38fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 12px;
       align-items: end;
     }
 
-    .review-date-field,
     .review-har-field {
       display: grid;
       gap: 7px;
@@ -1029,17 +1028,6 @@
       color: #334155;
       font-size: 13px;
       font-weight: 700;
-    }
-
-    .review-date-field input {
-      width: 100%;
-      height: 40px;
-      padding: 0 9px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #0f172a;
-      font: inherit;
     }
 
     .review-har-control {
@@ -1532,10 +1520,6 @@
       </header>
       <div class="review-input-band">
         <div class="review-upload-fields">
-          <label class="review-date-field" for="reviewRunDate">
-            <span>导出日期</span>
-            <input id="reviewRunDate" type="date" required>
-          </label>
           <div class="review-har-field">
             <span>复盘 HAR 文件</span>
             <div class="forecast-file-control review-har-control" id="reviewHarDropZone">
@@ -1556,7 +1540,7 @@
           <button class="forecast-run-button" id="reviewRun" type="button" disabled>开始导出</button>
         </div>
       </div>
-      <p class="review-status" id="reviewStatus" role="status" aria-live="polite">请选择导出日期及两个 HAR 文件</p>
+      <p class="review-status" id="reviewStatus" role="status" aria-live="polite">请选择两个 HAR 文件，系统将自动识别运行日</p>
       <section class="forecast-results" aria-label="复盘导出结果">
         <div class="forecast-results-toolbar">
           <div class="forecast-result-summary">历史导出结果</div>
@@ -1847,7 +1831,6 @@
     const priceForecastChart = document.getElementById("priceForecastChart");
     const priceForecastLegend = document.getElementById("priceForecastLegend");
     const forecastDownload = document.getElementById("forecastDownload");
-    const reviewRunDate = document.getElementById("reviewRunDate");
     const reviewHarFilesInput = document.getElementById("reviewHarFiles");
     const reviewHarChoose = document.getElementById("reviewHarChoose");
     const reviewHarDropZone = document.getElementById("reviewHarDropZone");
@@ -1871,7 +1854,6 @@
     let reviewReportUrl = "";
     let reviewPlatformUrl = "";
     let reviewResultRequestGeneration = 0;
-    let reviewRunDateWasEdited = false;
     let publicForecastManifestPromise = null;
     let publicReviewManifestPromise = null;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
@@ -4059,13 +4041,9 @@
       }
     }
 
-    function isReviewRunDateValid() {
-      return Boolean(reviewRunDate?.value) && /^\d{4}-\d{2}-\d{2}$/.test(reviewRunDate.value);
-    }
-
     function updateReviewRunState() {
       if (!reviewRunButton) return;
-      reviewRunButton.disabled = !isReviewRunDateValid() || selectedReviewHarFiles.length !== 2;
+      reviewRunButton.disabled = selectedReviewHarFiles.length !== 2;
     }
 
     function renderReviewHarFileList() {
@@ -4228,22 +4206,9 @@
           }
         }
         if (requestGeneration !== reviewResultRequestGeneration) return;
-        if (
-          !date
-          && !reviewRunDateWasEdited
-          && reviewRunDate
-        ) {
-          const defaultRunDate = /^\d{4}-\d{2}-\d{2}$/.test(payload.selectedDate || "")
-            ? payload.selectedDate
-            : payload.serverDate;
-          if (/^\d{4}-\d{2}-\d{2}$/.test(defaultRunDate || "")) {
-            reviewRunDate.value = defaultRunDate;
-            updateReviewRunState();
-          }
-        }
         showReviewExportResult(payload);
         if (!payload.selectedDate) {
-          setReviewStatus(isPublicStaticMode ? "暂无公开复盘结果" : "暂无复盘导出结果，可选择日期和 HAR 文件后开始导出");
+          setReviewStatus(isPublicStaticMode ? "暂无公开复盘结果" : "暂无复盘导出结果，请选择两个 HAR 文件");
         } else if (isPublicStaticMode) {
           setReviewStatus("公开复盘结果已加载", "success");
         }
@@ -4261,14 +4226,13 @@
 
     async function runReviewExport() {
       if (isPublicStaticMode) return;
-      if (!isReviewRunDateValid() || selectedReviewHarFiles.length !== 2 || !reviewRunButton) return;
+      if (selectedReviewHarFiles.length !== 2 || !reviewRunButton) return;
       const exportGeneration = invalidateReviewExportResultLoads();
       const hebeiFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "hebei_power.har");
       const storageFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "storage_power.har");
       if (!hebeiFile || !storageFile) return;
 
       const formData = new FormData();
-      formData.append("runDate", reviewRunDate.value);
       formData.append("harFiles", hebeiFile);
       formData.append("harFiles", storageFile);
       reviewRunButton.disabled = true;
@@ -4286,7 +4250,10 @@
         resetSelectedReviewHarFiles();
         showReviewExportResult(result);
         setReviewStatus(result.message || "复盘数据导出完成。", "success");
-        loadReviewExportResult(result.selectedDate, { preserveResultOnError: true }).catch(() => {});
+        loadReviewExportResult(
+          result.detectedRunDate,
+          { preserveResultOnError: true },
+        ).catch(() => {});
       } catch (error) {
         if (exportGeneration !== reviewResultRequestGeneration) return;
         const message = error instanceof Error
@@ -4925,12 +4892,6 @@
     });
     reviewHarFilesInput?.addEventListener("change", () => {
       setSelectedReviewHarFiles(reviewHarFilesInput.files);
-    });
-    ["input", "change"].forEach((eventName) => {
-      reviewRunDate?.addEventListener(eventName, () => {
-        reviewRunDateWasEdited = true;
-        updateReviewRunState();
-      });
     });
     reviewRunButton?.addEventListener("click", runReviewExport);
     reviewHistoryDate?.addEventListener("change", () => {
