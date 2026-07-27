@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-24T07:53:26.013Z",
+  "updatedAt": "2026-07-27T08:47:07.062Z",
   "monthly": {
     "2026年7月月度集中竞价交易结果.xlsx": {
       "fileName": "2026年7月月度集中竞价交易结果.xlsx",
@@ -4701,6 +4701,70 @@
           "volume": 20,
           "rawVolume": 20,
           "price": 362
+        }
+      ]
+    },
+    "2026年7月27日日滚动交易(2026-07-30).xlsx": {
+      "fileName": "2026年7月27日日滚动交易(2026-07-30).xlsx",
+      "tradeDate": "2026-07-27",
+      "runDate": "2026-07-30",
+      "dayOffset": 3,
+      "rows": [
+        {
+          "tradeDate": "2026-07-27",
+          "runDate": "2026-07-30",
+          "dayOffset": 3,
+          "point": 10,
+          "hour": "09:00-10:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 3.102,
+          "rawVolume": 3.102,
+          "price": 355.03
+        },
+        {
+          "tradeDate": "2026-07-27",
+          "runDate": "2026-07-30",
+          "dayOffset": 3,
+          "point": 11,
+          "hour": "10:00-11:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 5.688,
+          "rawVolume": 5.688,
+          "price": 354.72
+        }
+      ]
+    },
+    "2026年7月27日日滚动交易(2026-07-29).xlsx": {
+      "fileName": "2026年7月27日日滚动交易(2026-07-29).xlsx",
+      "tradeDate": "2026-07-27",
+      "runDate": "2026-07-29",
+      "dayOffset": 2,
+      "rows": [
+        {
+          "tradeDate": "2026-07-27",
+          "runDate": "2026-07-29",
+          "dayOffset": 2,
+          "point": 10,
+          "hour": "09:00-10:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 4.5,
+          "rawVolume": 4.5,
+          "price": 360.04
+        },
+        {
+          "tradeDate": "2026-07-27",
+          "runDate": "2026-07-29",
+          "dayOffset": 2,
+          "point": 11,
+          "hour": "10:00-11:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 21.636,
+          "rawVolume": 21.636,
+          "price": 360.05
         }
       ]
     }
