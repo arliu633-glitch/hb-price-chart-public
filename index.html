@@ -1169,6 +1169,29 @@
       min-width: 128px;
     }
 
+    .review-run-date-field {
+      display: grid;
+      gap: 5px;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .review-run-date-field[hidden] {
+      display: none;
+    }
+
+    .review-run-date-field select {
+      width: 100%;
+      height: 36px;
+      padding: 0 28px 0 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #0f172a;
+      font: inherit;
+    }
+
     .forecast-file-field input[type="file"] {
       display: none;
     }
@@ -1201,6 +1224,10 @@
     .forecast-status.success,
     .review-status.success {
       color: #15803d;
+    }
+
+    .review-status.warning {
+      color: #b45309;
     }
 
     .forecast-results {
@@ -1543,6 +1570,10 @@
           </div>
         </div>
         <div class="forecast-action-column">
+          <label class="review-run-date-field" id="reviewRunDateField" for="reviewRunDate" hidden>
+            运行日期
+            <select id="reviewRunDate" aria-label="手动选择复盘运行日期"></select>
+          </label>
           <button class="forecast-run-button" id="reviewRun" type="button" disabled>开始导出</button>
         </div>
       </div>
@@ -1842,6 +1873,8 @@
     const reviewHarDropZone = document.getElementById("reviewHarDropZone");
     const reviewHarFileList = document.getElementById("reviewHarFileList");
     const reviewRunButton = document.getElementById("reviewRun");
+    const reviewRunDateField = document.getElementById("reviewRunDateField");
+    const reviewRunDate = document.getElementById("reviewRunDate");
     const reviewStatus = document.getElementById("reviewStatus");
     const reviewHistoryDate = document.getElementById("reviewHistoryDate");
     const reviewDownloadReport = document.getElementById("reviewDownloadReport");
@@ -1860,6 +1893,7 @@
     let reviewReportUrl = "";
     let reviewPlatformUrl = "";
     let reviewResultRequestGeneration = 0;
+    let reviewRunDateCandidates = [];
     let publicForecastManifestPromise = null;
     let publicReviewManifestPromise = null;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
@@ -4070,7 +4104,37 @@
 
     function updateReviewRunState() {
       if (!reviewRunButton) return;
-      reviewRunButton.disabled = selectedReviewHarFiles.length !== 2;
+      const requiresManualDate = reviewRunDateField && !reviewRunDateField.hidden;
+      const hasManualDate = Boolean(reviewRunDate?.value);
+      reviewRunButton.disabled = (
+        selectedReviewHarFiles.length !== 2
+        || (requiresManualDate && !hasManualDate)
+      );
+    }
+
+    function clearReviewRunDateSelection() {
+      reviewRunDateCandidates = [];
+      if (reviewRunDate) {
+        reviewRunDate.innerHTML = "";
+        reviewRunDate.value = "";
+      }
+      if (reviewRunDateField) reviewRunDateField.hidden = true;
+    }
+
+    function showReviewRunDateSelection(candidateDates) {
+      reviewRunDateCandidates = [...new Set(
+        (Array.isArray(candidateDates) ? candidateDates : [])
+          .filter((value) => typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)),
+      )].sort();
+      if (!reviewRunDateCandidates.length || !reviewRunDate || !reviewRunDateField) return false;
+      reviewRunDate.innerHTML = [
+        '<option value="">请选择运行日期</option>',
+        ...reviewRunDateCandidates.map((value) => `<option value="${value}">${value}</option>`),
+      ].join("");
+      reviewRunDate.value = "";
+      reviewRunDateField.hidden = false;
+      updateReviewRunState();
+      return true;
     }
 
     function renderReviewHarFileList() {
@@ -4089,6 +4153,7 @@
     function resetSelectedReviewHarFiles() {
       selectedReviewHarFiles = [];
       if (reviewHarFilesInput) reviewHarFilesInput.value = "";
+      clearReviewRunDateSelection();
       renderReviewHarFileList();
       updateReviewRunState();
     }
@@ -4126,6 +4191,7 @@
       }
 
       selectedReviewHarFiles = requiredNames.map((name) => filesByName.get(name));
+      clearReviewRunDateSelection();
       renderReviewHarFileList();
       updateReviewRunState();
       setReviewStatus("两个 HAR 文件已就绪，可以开始导出", "success");
@@ -4262,6 +4328,13 @@
       const formData = new FormData();
       formData.append("harFiles", hebeiFile);
       formData.append("harFiles", storageFile);
+      const selectedRunDate = (
+        reviewRunDateField
+        && !reviewRunDateField.hidden
+        && reviewRunDate
+      ) ? reviewRunDate.value.trim() : "";
+      if (reviewRunDateField && !reviewRunDateField.hidden && !selectedRunDate) return;
+      if (selectedRunDate) formData.append("runDate", selectedRunDate);
       reviewRunButton.disabled = true;
       reviewRunButton.textContent = "导出中";
       setReviewStatus("正在生成复盘数据，请稍候");
@@ -4269,6 +4342,19 @@
         const response = await fetch("/run-review-export", { method: "POST", body: formData });
         const result = await parseReviewJsonResponse(response);
         if (!response.ok || !result.ok) {
+          if (
+            result.requiresRunDate === true
+            && showReviewRunDateSelection(result.candidateDates)
+          ) {
+            setReviewStatus(
+              safeReviewResponseMessage(
+                result,
+                "检测到多个运行日期，请手动选择运行日期后重新导出。",
+              ),
+              "warning",
+            );
+            return;
+          }
           throw new Error(
             safeReviewResponseMessage(result, "复盘数据导出失败，请稍后重试"),
           );
@@ -4921,6 +5007,7 @@
       setSelectedReviewHarFiles(reviewHarFilesInput.files);
     });
     reviewRunButton?.addEventListener("click", runReviewExport);
+    reviewRunDate?.addEventListener("change", updateReviewRunState);
     reviewHistoryDate?.addEventListener("change", () => {
       loadReviewExportResult(reviewHistoryDate.value).catch(() => {});
     });
