@@ -1504,7 +1504,7 @@
             <span>日滚撮交易结果（可选）</span>
             <div class="forecast-file-control" id="rollingTradeFileDropZone">
               <button class="forecast-file-choose" id="rollingTradeFileChoose" type="button">选择Excel文件</button>
-              <span class="forecast-file-name" id="rollingTradeFileName">未选择文件，可选择或拖入一个文件</span>
+              <span class="forecast-file-name" id="rollingTradeFileName">未选择文件，文件名需以 yyyy年mm月dd日日滚动交易(yyyy-mm-dd) 开头</span>
             </div>
             <input id="rollingTradeFile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx">
           </div>
@@ -1559,10 +1559,10 @@
               <button class="forecast-file-choose" id="reviewHarChoose" type="button">选择HAR文件</button>
               <div class="review-har-readiness" id="reviewHarFileList" aria-label="HAR 文件就绪状态">
                 <div class="review-har-row" data-review-har="hebei_power.har">
-                  <strong>hebei_power.har</strong><span>待选择</span>
+                  <strong>hebei_power 开头的 .har</strong><span>待选择</span>
                 </div>
                 <div class="review-har-row" data-review-har="storage_power.har">
-                  <strong>storage_power.har</strong><span>待选择</span>
+                  <strong>storage_power 开头的 .har</strong><span>待选择</span>
                 </div>
               </div>
             </div>
@@ -1728,7 +1728,7 @@
           <div class="trade-import-file-card" id="monthlyImportDropZone">
             <button class="modal-secondary-button" id="monthlyImportFileButton" type="button">选择Excel文件</button>
             <div class="trade-import-file-name" id="monthlyImportFileName">未选择文件</div>
-            <div class="trade-import-message" id="monthlyImportFileHint">点击选择或拖入文件，文件名格式：yyyy年mm月月度集中竞价交易结果.xlsx</div>
+            <div class="trade-import-message" id="monthlyImportFileHint">点击选择或拖入文件，文件名以 yyyy年mm月月度集中竞价交易结果 开头</div>
           </div>
           <input id="monthlyImportFile" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         </div>
@@ -2374,6 +2374,12 @@
       return String(fileName || "").replace(/\.[^.]+$/, "");
     }
 
+    function matchesFileNamePrefix(fileName, expectedNames) {
+      const fileStem = String(fileName || "").replace(/\.[^.]+$/, "");
+      return /\.xlsx$/i.test(String(fileName || ""))
+        && expectedNames.some((expectedName) => fileStem.startsWith(expectedName));
+    }
+
     function getSelectedTenDayLabel() {
       const labels = {
         early: "上旬",
@@ -2420,11 +2426,13 @@
     }
 
     function isValidAnnualFileName(fileName) {
-      return /^\d{4}年年度集中竞价交易结果/.test(getFileStem(fileName));
+      return /\.xlsx$/i.test(String(fileName || ""))
+        && /^\d{4}年年度集中竞价交易结果/.test(getFileStem(fileName));
     }
 
     function isValidDailyRollingFileName(fileName) {
-      return /^\d{4}年\d{1,2}月\d{1,2}日日滚动交易\(\d{4}-\d{2}-\d{2}\)/.test(getFileStem(fileName));
+      return /\.xlsx$/i.test(String(fileName || ""))
+        && /^\d{4}年\d{1,2}月\d{1,2}日日滚动交易\(\d{4}-\d{2}-\d{2}\)/.test(getFileStem(fileName));
     }
 
     function parseDailyRollingFileName(fileName) {
@@ -3610,19 +3618,18 @@
       if (!file) return;
       pendingDailyImportRecords = [];
       const expectedNames = getCurrentImportExpectedNames();
-      const fileStem = getFileStem(file.name);
       const validFileName = isDailyRollingImportMode()
         ? isValidDailyRollingFileName(file.name)
         : isAnnualImportMode()
         ? isValidAnnualFileName(file.name)
-        : expectedNames.includes(fileStem);
+        : matchesFileNamePrefix(file.name, expectedNames);
       if (!validFileName) {
         pendingMonthlyImportFileName = "";
         pendingMonthlyImportRows = [];
         renderMonthlyImportPreview([]);
         updateMonthlyImportSummary([]);
         if (monthlyImportMessage) {
-          monthlyImportMessage.textContent = `文件名应为：${expectedNames[0]}.xlsx`;
+          monthlyImportMessage.textContent = `文件名应以“${expectedNames[0]}”开头，且为 xlsx 格式`;
           monthlyImportMessage.className = "trade-import-message status error";
         }
         if (monthlyImportApply) monthlyImportApply.disabled = true;
@@ -3800,9 +3807,7 @@
       if (monthlyImportFileHint) {
         monthlyImportFileHint.textContent = isDailyRollingImportMode()
           ? `可一次选择或拖入多个文件，文件名以：${expectedNames[0]} 开头`
-          : isAnnualImportMode()
-          ? `点击选择或拖入文件，文件名以：${expectedNames[0]} 开头`
-          : `点击选择或拖入文件，文件名格式：${expectedNames[0]}.xlsx`;
+          : `点击选择或拖入文件，文件名以：${expectedNames[0]} 开头`;
       }
       if (monthlyImportFile) monthlyImportFile.multiple = isDailyRollingImportMode();
       pendingMonthlyImportRows = isDailyRollingImportMode() ? [] : getCurrentImportSavedRows().slice();
@@ -3994,11 +3999,11 @@
 
     function setSelectedRollingTradeFile(files) {
       const candidates = Array.from(files || []);
-      if (candidates.length !== 1 || !/\.xlsx$/i.test(candidates[0].name)) {
+      if (candidates.length !== 1 || !isValidDailyRollingFileName(candidates[0].name)) {
         selectedRollingTradeFile = null;
-        if (rollingTradeFileName) rollingTradeFileName.textContent = "请选择一个 xlsx 格式的文件";
+        if (rollingTradeFileName) rollingTradeFileName.textContent = "文件名需以 yyyy年mm月dd日日滚动交易(yyyy-mm-dd) 开头";
         updateRollingTradeImportState();
-        setForecastStatus("日滚撮交易结果需选择一个 xlsx 文件", "error");
+        setForecastStatus("日滚撮交易结果文件名应以规定名称开头，且为 xlsx 格式", "error");
         return;
       }
       selectedRollingTradeFile = candidates[0];
@@ -4020,7 +4025,7 @@
     function resetSelectedRollingTradeFile() {
       selectedRollingTradeFile = null;
       if (rollingTradeFileInput) rollingTradeFileInput.value = "";
-      if (rollingTradeFileName) rollingTradeFileName.textContent = "未选择文件，可选择或拖入一个文件";
+      if (rollingTradeFileName) rollingTradeFileName.textContent = "未选择文件，文件名需以 yyyy年mm月dd日日滚动交易(yyyy-mm-dd) 开头";
       updateRollingTradeImportState();
     }
 
@@ -4137,14 +4142,25 @@
       return true;
     }
 
+    function getReviewHarCanonicalName(fileName) {
+      const normalizedName = String(fileName || "").toLowerCase();
+      if (!normalizedName.endsWith(".har")) return "";
+      const fileStem = normalizedName.slice(0, -4);
+      if (fileStem.startsWith("hebei_power")) return "hebei_power.har";
+      if (fileStem.startsWith("storage_power")) return "storage_power.har";
+      return "";
+    }
+
     function renderReviewHarFileList() {
       if (!reviewHarFileList) return;
-      const filesByName = new Map(selectedReviewHarFiles.map((file) => [file.name.toLowerCase(), file]));
+      const filesByName = new Map(
+        selectedReviewHarFiles.map((file) => [getReviewHarCanonicalName(file.name), file]),
+      );
       reviewHarFileList.innerHTML = ["hebei_power.har", "storage_power.har"]
         .map((name) => {
           const file = filesByName.get(name);
           return `<div class="review-har-row${file ? " is-ready" : ""}" data-review-har="${name}">
-            <strong>${name}</strong><span>${file ? "已就绪" : "待选择"}</span>
+            <strong>${name.replace(".har", "")} 开头的 .har</strong><span>${file ? "已就绪" : "待选择"}</span>
           </div>`;
         })
         .join("");
@@ -4175,18 +4191,21 @@
         return;
       }
       candidates.forEach((file) => {
-        const normalizedName = file.name.toLowerCase();
-        if (filesByName.has(normalizedName)) {
+        const canonicalName = getReviewHarCanonicalName(file.name);
+        if (!canonicalName) {
+          filesByName.set("__invalid__", file);
+          return;
+        }
+        if (filesByName.has(canonicalName)) {
           filesByName.set("__duplicate__", file);
           return;
         }
-        filesByName.set(normalizedName, file);
+        filesByName.set(canonicalName, file);
       });
-      const hasExtra = [...filesByName.keys()].some((name) => !requiredNames.includes(name));
       const hasEveryRequiredFile = requiredNames.every((name) => filesByName.has(name));
-      if (candidates.length !== 2 || filesByName.has("__duplicate__") || hasExtra || !hasEveryRequiredFile) {
+      if (candidates.length !== 2 || filesByName.has("__duplicate__") || filesByName.has("__invalid__") || !hasEveryRequiredFile) {
         resetSelectedReviewHarFiles();
-        setReviewStatus("请同时选择 hebei_power.har 和 storage_power.har，且不含重复或额外文件", "error");
+        setReviewStatus("请同时选择以 hebei_power 和 storage_power 开头的两个 HAR 文件", "error");
         return;
       }
 
@@ -4321,8 +4340,8 @@
       if (isPublicStaticMode) return;
       if (selectedReviewHarFiles.length !== 2 || !reviewRunButton) return;
       const exportGeneration = invalidateReviewExportResultLoads();
-      const hebeiFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "hebei_power.har");
-      const storageFile = selectedReviewHarFiles.find((file) => file.name.toLowerCase() === "storage_power.har");
+      const hebeiFile = selectedReviewHarFiles.find((file) => getReviewHarCanonicalName(file.name) === "hebei_power.har");
+      const storageFile = selectedReviewHarFiles.find((file) => getReviewHarCanonicalName(file.name) === "storage_power.har");
       if (!hebeiFile || !storageFile) return;
 
       const formData = new FormData();
