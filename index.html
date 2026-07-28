@@ -1850,7 +1850,7 @@
   <div class="modal-backdrop ten-day-import-edit-backdrop" id="tenDayImportEditModal" hidden>
     <section class="ten-day-import-edit-modal" role="dialog" aria-modal="true" aria-labelledby="tenDayImportEditTitle">
       <div class="modal-header">
-        <h2 class="modal-title" id="tenDayImportEditTitle">旬度导入明细编辑</h2>
+        <h2 class="modal-title" id="tenDayImportEditTitle">集中竞价导入明细编辑</h2>
         <button class="modal-close-button" id="tenDayImportEditClose" type="button" aria-label="关闭明细编辑窗口">×</button>
       </div>
       <div class="ten-day-import-edit-content">
@@ -2523,6 +2523,10 @@
       return activeTradeType === "年度集中竞价交易";
     }
 
+    function isCentralizedImportManagementMode() {
+      return isCentralizedImportManagementType(activeTradeType);
+    }
+
     function isDailyRollingImportMode() {
       return activeTradeType === "日滚动撮合交易";
     }
@@ -2570,6 +2574,18 @@
       const periodValue = getTenDayImportKey();
       return Array.from(tenDayImportFiles.entries())
         .filter(([, record]) => record.periodValue === periodValue);
+    }
+
+    function getCurrentMonthlyImportRecords() {
+      const monthValue = getMonthlyImportKey();
+      return Array.from(monthlyImportFiles.entries())
+        .filter(([, record]) => record.monthValue === monthValue);
+    }
+
+    function getCurrentAnnualImportRecords() {
+      const monthValue = getMonthlyImportKey();
+      return Array.from(annualImportFiles.entries())
+        .filter(([, record]) => Array.isArray(record.rowsByMonth?.[monthValue]));
     }
 
     function getAnnualRowsForMonth(monthValue) {
@@ -2779,6 +2795,44 @@
         });
       }
       return importFiles;
+    }
+
+    function replaceMonthlyImportRows(importFiles, replacedFileNames, fileName, monthValue, rows) {
+      Array.from(replacedFileNames || []).forEach((replacedFileName) => importFiles.delete(replacedFileName));
+      if (rows.length > 0) {
+        importFiles.set(fileName, {
+          fileName,
+          monthValue,
+          rows: rows.slice(),
+        });
+      }
+      return importFiles;
+    }
+
+    function replaceAnnualMonthImportRows(importFiles, sourceFileNames, fileName, monthValue, rows) {
+      Array.from(sourceFileNames || []).forEach((sourceFileName) => {
+        const sourceRecord = importFiles.get(sourceFileName);
+        if (!sourceRecord) return;
+        const rowsByMonth = { ...(sourceRecord.rowsByMonth || {}) };
+        delete rowsByMonth[monthValue];
+        if (Object.keys(rowsByMonth).length) {
+          importFiles.set(sourceFileName, { ...sourceRecord, rowsByMonth });
+        } else {
+          importFiles.delete(sourceFileName);
+        }
+      });
+      if (rows.length > 0) {
+        importFiles.set(fileName, {
+          fileName,
+          year: monthValue.split("-")[0],
+          rowsByMonth: { [monthValue]: rows.slice() },
+        });
+      }
+      return importFiles;
+    }
+
+    function isCentralizedImportManagementType(tradeType) {
+      return ["年度集中竞价交易", "月度集中竞价交易", "旬度集中竞价交易"].includes(tradeType);
     }
 
     function summarizeMonthlyRows(rows) {
@@ -3669,7 +3723,7 @@
       }
       if (monthlyImportHourly) monthlyImportHourly.textContent = `${summary.pointCount}/24`;
       if (monthlyImportApply) {
-        const allowEmptyReplacement = isTenDayImportMode() && pendingImportLoadedFromSavedRows;
+        const allowEmptyReplacement = isCentralizedImportManagementMode() && pendingImportLoadedFromSavedRows;
         monthlyImportApply.disabled = !canApplyImportRows(
           rows,
           pendingMonthlyImportFileName,
@@ -3696,16 +3750,16 @@
     }
 
     function openTenDayImportEditDialog(point) {
-      if (!isTenDayImportMode() || !tenDayImportEditModal || !tenDayImportEditRows) return;
+      if (!isCentralizedImportManagementMode() || !tenDayImportEditModal || !tenDayImportEditRows) return;
       const numericPoint = Number(point);
       const details = getImportRowsByPoint(pendingMonthlyImportRows, numericPoint);
       if (!details.length) return;
       pendingTenDayEditPoint = numericPoint;
       if (tenDayImportEditTitle) {
-        tenDayImportEditTitle.textContent = `旬度导入明细编辑 - 时点${numericPoint}（${numericPoint - 1}:00-${numericPoint}:00）`;
+        tenDayImportEditTitle.textContent = `${activeTradeType}导入明细编辑 - 时点${numericPoint}（${numericPoint - 1}:00-${numericPoint}:00）`;
       }
       tenDayImportEditRows.innerHTML = `
-        <table class="ten-day-import-edit-table" aria-label="旬度导入时点原始成交记录">
+        <table class="ten-day-import-edit-table" aria-label="集中竞价导入时点原始成交记录">
           <thead>
             <tr>
               <th scope="col">序号</th>
@@ -3863,10 +3917,11 @@
         : getDaysInMonth(getSelectedMonthValue());
       const groupedRows = aggregateMonthlyRowsByPoint(rows).filter((row) => row.recordCount > 0);
       const totalVolumeLabel = isAnnualImportMode() ? "当月成交电量合计" : isTenDayImportMode() ? "旬度成交电量合计" : "月度成交电量合计";
-      const tenDaySelectionHeader = isTenDayImportMode()
+      const showImportManagement = isCentralizedImportManagementMode();
+      const tenDaySelectionHeader = showImportManagement
         ? '<th class="ten-day-import-select-cell" scope="col"><input id="tenDayImportSelectAll" type="checkbox" aria-label="全选全部时点"></th>'
         : "";
-      const tenDayActionHeader = isTenDayImportMode() ? '<th scope="col">操作</th>' : "";
+      const tenDayActionHeader = showImportManagement ? '<th scope="col">操作</th>' : "";
       monthlyImportPreview.innerHTML = `
         <table aria-label="集中竞价交易按时点汇总预览">
           <thead>
@@ -3884,7 +3939,7 @@
           <tbody>
             ${groupedRows.map((row) => `
               <tr data-ten-day-import-point="${row.label}">
-                ${isTenDayImportMode() ? `
+                ${showImportManagement ? `
                   <td class="ten-day-import-select-cell">
                     <input class="ten-day-import-row-select" type="checkbox" data-ten-day-import-point="${row.label}" aria-label="选择时点${row.label}">
                   </td>
@@ -3895,7 +3950,7 @@
                 <td>${formatAggregateNumber(row.volume)}</td>
                 <td>${formatAggregateNumber(row.volume / daysInPeriod)}</td>
                 <td${priceCellClass(row.price)}>${formatPriceValue(row.price)}</td>
-                ${isTenDayImportMode() ? `
+                ${showImportManagement ? `
                   <td>
                     <div class="ten-day-import-actions">
                       <button class="ten-day-import-action" type="button" data-ten-day-import-action="edit" data-ten-day-import-point="${row.label}">编辑</button>
@@ -4111,15 +4166,24 @@
       pendingMonthlyImportRows = isDailyRollingImportMode() ? [] : getCurrentImportSavedRows().slice();
       pendingImportLoadedFromSavedRows = !isDailyRollingImportMode() && pendingMonthlyImportRows.length > 0;
       pendingMonthlyImportFileName = "";
-      if (isTenDayImportMode() && pendingImportLoadedFromSavedRows) {
-        const currentRecords = getCurrentTenDayImportRecords();
-        pendingMonthlyImportFileName = currentRecords.length === 1
-          ? currentRecords[0][0]
-          : `手工调整-${getTenDayImportKey()}.xlsx`;
+      if (pendingImportLoadedFromSavedRows && isCentralizedImportManagementMode()) {
+        if (isTenDayImportMode()) {
+          const currentRecords = getCurrentTenDayImportRecords();
+          pendingMonthlyImportFileName = currentRecords.length === 1
+            ? currentRecords[0][0]
+            : `手工调整-${getTenDayImportKey()}.xlsx`;
+        } else if (isAnnualImportMode()) {
+          pendingMonthlyImportFileName = `手工调整-年度-${getMonthlyImportKey()}.xlsx`;
+        } else {
+          const currentRecords = getCurrentMonthlyImportRecords();
+          pendingMonthlyImportFileName = currentRecords.length === 1
+            ? currentRecords[0][0]
+            : `手工调整-月度-${getMonthlyImportKey()}.xlsx`;
+        }
       }
       pendingDailyImportRecords = [];
       if (tenDayImportBulkDelete) {
-        tenDayImportBulkDelete.hidden = !isTenDayImportMode();
+        tenDayImportBulkDelete.hidden = !isCentralizedImportManagementMode();
         tenDayImportBulkDelete.disabled = true;
         tenDayImportBulkDelete.textContent = "批量删除";
       }
@@ -4145,7 +4209,7 @@
     }
 
     function applyMonthlyImportRows() {
-      const allowEmptyReplacement = isTenDayImportMode() && pendingImportLoadedFromSavedRows;
+      const allowEmptyReplacement = isCentralizedImportManagementMode() && pendingImportLoadedFromSavedRows;
       if (!canApplyImportRows(
         pendingMonthlyImportRows,
         pendingMonthlyImportFileName,
@@ -4184,18 +4248,38 @@
         );
         saveTenDayImportRows();
       } else if (isAnnualImportMode()) {
-        annualImportFiles.set(pendingMonthlyImportFileName, {
-          fileName: pendingMonthlyImportFileName,
-          year: getFileStem(pendingMonthlyImportFileName).match(/^(\d{4})年/)?.[1] || null,
-          rowsByMonth: splitAnnualRowsByMonth(pendingMonthlyImportRows),
-        });
+        if (pendingImportLoadedFromSavedRows) {
+          replaceAnnualMonthImportRows(
+            annualImportFiles,
+            getCurrentAnnualImportRecords().map(([fileName]) => fileName),
+            pendingMonthlyImportFileName,
+            getMonthlyImportKey(),
+            pendingMonthlyImportRows,
+          );
+        } else {
+          annualImportFiles.set(pendingMonthlyImportFileName, {
+            fileName: pendingMonthlyImportFileName,
+            year: getFileStem(pendingMonthlyImportFileName).match(/^(\d{4})年/)?.[1] || null,
+            rowsByMonth: splitAnnualRowsByMonth(pendingMonthlyImportRows),
+          });
+        }
         saveAnnualImportRows();
       } else {
-        monthlyImportFiles.set(pendingMonthlyImportFileName, {
-          fileName: pendingMonthlyImportFileName,
-          monthValue: getMonthlyImportKey(),
-          rows: pendingMonthlyImportRows.slice(),
-        });
+        if (pendingImportLoadedFromSavedRows) {
+          replaceMonthlyImportRows(
+            monthlyImportFiles,
+            getCurrentMonthlyImportRecords().map(([fileName]) => fileName),
+            pendingMonthlyImportFileName,
+            getMonthlyImportKey(),
+            pendingMonthlyImportRows,
+          );
+        } else {
+          monthlyImportFiles.set(pendingMonthlyImportFileName, {
+            fileName: pendingMonthlyImportFileName,
+            monthValue: getMonthlyImportKey(),
+            rows: pendingMonthlyImportRows.slice(),
+          });
+        }
         saveMonthlyImportRows();
       }
       updatePlantSelectOptions();
@@ -5266,7 +5350,7 @@
     });
     monthlyImportPreview?.addEventListener("click", (event) => {
       const actionButton = event.target.closest("[data-ten-day-import-action]");
-      if (!actionButton || !isTenDayImportMode()) return;
+      if (!actionButton || !isCentralizedImportManagementMode()) return;
       const point = Number(actionButton.dataset.tenDayImportPoint);
       if (actionButton.dataset.tenDayImportAction === "edit") {
         openTenDayImportEditDialog(point);
@@ -5278,7 +5362,7 @@
       }
     });
     monthlyImportPreview?.addEventListener("change", (event) => {
-      if (!isTenDayImportMode()) return;
+      if (!isCentralizedImportManagementMode()) return;
       if (event.target.id === "tenDayImportSelectAll") {
         monthlyImportPreview.querySelectorAll(".ten-day-import-row-select").forEach((checkbox) => {
           checkbox.checked = event.target.checked;
