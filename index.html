@@ -858,6 +858,84 @@
       text-align: right;
     }
 
+    .ten-day-import-select-cell {
+      width: 42px;
+      text-align: center !important;
+    }
+
+    .ten-day-import-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ten-day-import-action {
+      min-height: 28px;
+      padding: 4px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .ten-day-import-action.is-danger {
+      border-color: #fecaca;
+      color: #dc2626;
+    }
+
+    .ten-day-import-edit-backdrop {
+      z-index: 30;
+    }
+
+    .ten-day-import-edit-modal {
+      width: min(980px, 100%);
+      max-height: calc(100dvh - 64px);
+      display: grid;
+      grid-template-rows: auto minmax(240px, 1fr) auto;
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+      overflow: hidden;
+    }
+
+    .ten-day-import-edit-content {
+      overflow: auto;
+      padding: 16px;
+    }
+
+    .ten-day-import-edit-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .ten-day-import-edit-table th,
+    .ten-day-import-edit-table td {
+      padding: 8px;
+      border: 1px solid #e2e8f0;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .ten-day-import-edit-table th {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .ten-day-import-number-input {
+      width: 130px;
+      min-height: 34px;
+      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      color: #0f172a;
+      font: inherit;
+      text-align: right;
+    }
+
     .trade-import-message {
       min-height: 18px;
       color: #64748b;
@@ -1754,6 +1832,7 @@
           </dl>
           <div class="trade-import-tools">
             <button class="modal-secondary-button" id="monthlyImportClear" type="button">清空</button>
+            <button class="modal-secondary-button" id="tenDayImportBulkDelete" type="button" hidden disabled>批量删除</button>
           </div>
           <div class="trade-import-message" id="monthlyImportMessage">请选择月度集中竞价交易结果文件</div>
         </div>
@@ -1764,6 +1843,25 @@
         <div class="trade-import-tools">
           <button class="modal-secondary-button" id="monthlyImportCancel" type="button">取消</button>
           <button id="monthlyImportApply" type="button" disabled>确认导入</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="modal-backdrop ten-day-import-edit-backdrop" id="tenDayImportEditModal" hidden>
+    <section class="ten-day-import-edit-modal" role="dialog" aria-modal="true" aria-labelledby="tenDayImportEditTitle">
+      <div class="modal-header">
+        <h2 class="modal-title" id="tenDayImportEditTitle">旬度导入明细编辑</h2>
+        <button class="modal-close-button" id="tenDayImportEditClose" type="button" aria-label="关闭明细编辑窗口">×</button>
+      </div>
+      <div class="ten-day-import-edit-content">
+        <div class="trade-import-message">成交方向由交易方名称判定；成交电量请输入大于或等于0的原始值。</div>
+        <div id="tenDayImportEditRows"></div>
+      </div>
+      <div class="modal-footer">
+        <div class="trade-import-message" id="tenDayImportEditMessage"></div>
+        <div class="trade-import-tools">
+          <button class="modal-secondary-button" id="tenDayImportEditCancel" type="button">取消</button>
+          <button id="tenDayImportEditApply" type="button">保存修改</button>
         </div>
       </div>
     </section>
@@ -1835,6 +1933,14 @@
     const monthlyImportVolume = document.getElementById("monthlyImportVolume");
     const monthlyImportPrice = document.getElementById("monthlyImportPrice");
     const monthlyImportHourly = document.getElementById("monthlyImportHourly");
+    const tenDayImportBulkDelete = document.getElementById("tenDayImportBulkDelete");
+    const tenDayImportEditModal = document.getElementById("tenDayImportEditModal");
+    const tenDayImportEditTitle = document.getElementById("tenDayImportEditTitle");
+    const tenDayImportEditRows = document.getElementById("tenDayImportEditRows");
+    const tenDayImportEditMessage = document.getElementById("tenDayImportEditMessage");
+    const tenDayImportEditClose = document.getElementById("tenDayImportEditClose");
+    const tenDayImportEditCancel = document.getElementById("tenDayImportEditCancel");
+    const tenDayImportEditApply = document.getElementById("tenDayImportEditApply");
     const monthlyTenDayExport = document.getElementById("monthlyTenDayExport");
     const tradeMatrixCaption = document.getElementById("tradeMatrixCaption");
     const tradeMatrixHead = document.getElementById("tradeMatrixHead");
@@ -1901,6 +2007,8 @@
     let pendingMonthlyImportFileName = "";
     let pendingDailyImportRecords = [];
     let pendingDailyRunDateSelection = "";
+    let pendingTenDayEditPoint = null;
+    let pendingImportLoadedFromSavedRows = false;
     const annualImportFiles = new Map();
     const monthlyImportFiles = new Map();
     const tenDayImportFiles = new Map();
@@ -2458,6 +2566,12 @@
         : getMonthlyRowsForMonth(getMonthlyImportKey());
     }
 
+    function getCurrentTenDayImportRecords() {
+      const periodValue = getTenDayImportKey();
+      return Array.from(tenDayImportFiles.entries())
+        .filter(([, record]) => record.periodValue === periodValue);
+    }
+
     function getAnnualRowsForMonth(monthValue) {
       const rows = [];
       annualImportFiles.forEach((record) => {
@@ -2618,6 +2732,53 @@
         });
       });
       return rowsByMonth;
+    }
+
+    function getImportRowPoint(row) {
+      return Number(row?.point || 0);
+    }
+
+    function getImportRowsByPoint(rows, point) {
+      const targetPoint = Number(point);
+      return rows
+        .map((row, index) => ({ index, row }))
+        .filter((item) => getImportRowPoint(item.row) === targetPoint);
+    }
+
+    function updateImportRowValues(rows, index, volume, price) {
+      const numericVolume = Number(volume);
+      const numericPrice = Number(price);
+      if (String(volume ?? "").trim() === "" || !Number.isFinite(numericVolume) || numericVolume < 0) {
+        throw new Error("成交电量必须是大于或等于0的有效数值。");
+      }
+      if (String(price ?? "").trim() === "" || !Number.isFinite(numericPrice)) {
+        throw new Error("成交电价必须是有效数值。");
+      }
+      return rows.map((row, rowIndex) => rowIndex === Number(index)
+        ? { ...row, volume: numericVolume, price: numericPrice }
+        : row);
+    }
+
+    function deleteImportRowsByPoints(rows, points) {
+      const pointSet = new Set(Array.from(points || [], Number));
+      return rows.filter((row) => !pointSet.has(getImportRowPoint(row)));
+    }
+
+    function canApplyImportRows(rows, fileName, dailyRecordCount, allowEmptyReplacement) {
+      const hasImportSource = Boolean(fileName) || Number(dailyRecordCount) > 0;
+      return hasImportSource && (rows.length > 0 || allowEmptyReplacement);
+    }
+
+    function replaceTenDayImportRows(importFiles, replacedFileNames, fileName, periodValue, rows) {
+      Array.from(replacedFileNames || []).forEach((replacedFileName) => importFiles.delete(replacedFileName));
+      if (rows.length > 0) {
+        importFiles.set(fileName, {
+          fileName,
+          periodValue,
+          rows: rows.slice(),
+        });
+      }
+      return importFiles;
     }
 
     function summarizeMonthlyRows(rows) {
@@ -3507,7 +3668,123 @@
         monthlyImportPrice.classList.toggle("trade-price-infinite", isInfinitePrice(summary.weightedPrice));
       }
       if (monthlyImportHourly) monthlyImportHourly.textContent = `${summary.pointCount}/24`;
-      if (monthlyImportApply) monthlyImportApply.disabled = rows.length === 0 || !pendingMonthlyImportFileName;
+      if (monthlyImportApply) {
+        const allowEmptyReplacement = isTenDayImportMode() && pendingImportLoadedFromSavedRows;
+        monthlyImportApply.disabled = !canApplyImportRows(
+          rows,
+          pendingMonthlyImportFileName,
+          pendingDailyImportRecords.length,
+          allowEmptyReplacement,
+        );
+      }
+    }
+
+    function refreshPendingMonthlyImportView() {
+      renderMonthlyImportPreview(pendingMonthlyImportRows);
+      updateMonthlyImportSummary(pendingMonthlyImportRows);
+      if (tenDayImportBulkDelete) tenDayImportBulkDelete.disabled = true;
+    }
+
+    function closeTenDayImportEditDialog() {
+      pendingTenDayEditPoint = null;
+      if (tenDayImportEditModal) tenDayImportEditModal.hidden = true;
+      if (tenDayImportEditRows) tenDayImportEditRows.innerHTML = "";
+      if (tenDayImportEditMessage) {
+        tenDayImportEditMessage.textContent = "";
+        tenDayImportEditMessage.className = "trade-import-message";
+      }
+    }
+
+    function openTenDayImportEditDialog(point) {
+      if (!isTenDayImportMode() || !tenDayImportEditModal || !tenDayImportEditRows) return;
+      const numericPoint = Number(point);
+      const details = getImportRowsByPoint(pendingMonthlyImportRows, numericPoint);
+      if (!details.length) return;
+      pendingTenDayEditPoint = numericPoint;
+      if (tenDayImportEditTitle) {
+        tenDayImportEditTitle.textContent = `旬度导入明细编辑 - 时点${numericPoint}（${numericPoint - 1}:00-${numericPoint}:00）`;
+      }
+      tenDayImportEditRows.innerHTML = `
+        <table class="ten-day-import-edit-table" aria-label="旬度导入时点原始成交记录">
+          <thead>
+            <tr>
+              <th scope="col">序号</th>
+              <th scope="col">售方名称</th>
+              <th scope="col">时间段</th>
+              <th scope="col">成交电量</th>
+              <th scope="col">成交电价</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${details.map(({ index, row }) => `
+              <tr data-import-row-index="${index}">
+                <td>${escapeHtml(row.serial || index + 1)}</td>
+                <td>${escapeHtml(row.sellerName || "-")}</td>
+                <td>${escapeHtml(row.dateRange || "-")}</td>
+                <td>
+                  <input class="ten-day-import-number-input" data-import-field="volume" type="number"
+                    min="0" step="any" value="${escapeHtml(row.volume)}" aria-label="第${escapeHtml(row.serial || index + 1)}条成交电量">
+                </td>
+                <td>
+                  <input class="ten-day-import-number-input" data-import-field="price" type="number"
+                    step="any" value="${escapeHtml(row.price)}" aria-label="第${escapeHtml(row.serial || index + 1)}条成交电价">
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+      if (tenDayImportEditMessage) {
+        tenDayImportEditMessage.textContent = `共 ${details.length} 条原始成交记录`;
+        tenDayImportEditMessage.className = "trade-import-message";
+      }
+      tenDayImportEditModal.hidden = false;
+      tenDayImportEditRows.querySelector("input")?.focus();
+    }
+
+    function applyTenDayImportEdit() {
+      if (pendingTenDayEditPoint === null || !tenDayImportEditRows) return;
+      try {
+        let updatedRows = pendingMonthlyImportRows;
+        tenDayImportEditRows.querySelectorAll("tr[data-import-row-index]").forEach((tableRow) => {
+          const rowIndex = Number(tableRow.dataset.importRowIndex);
+          const volumeInput = tableRow.querySelector('[data-import-field="volume"]');
+          const priceInput = tableRow.querySelector('[data-import-field="price"]');
+          updatedRows = updateImportRowValues(updatedRows, rowIndex, volumeInput?.value, priceInput?.value);
+        });
+        pendingMonthlyImportRows = updatedRows;
+        refreshPendingMonthlyImportView();
+        closeTenDayImportEditDialog();
+      } catch (error) {
+        if (tenDayImportEditMessage) {
+          tenDayImportEditMessage.textContent = error.message || "请输入有效的成交电量和成交电价。";
+          tenDayImportEditMessage.className = "trade-import-message status error";
+        }
+      }
+    }
+
+    function updateTenDayImportSelectionState() {
+      if (!monthlyImportPreview || !tenDayImportBulkDelete) return;
+      const checkboxes = Array.from(monthlyImportPreview.querySelectorAll(".ten-day-import-row-select"));
+      const selectedCount = checkboxes.filter((checkbox) => checkbox.checked).length;
+      const selectAll = monthlyImportPreview.querySelector("#tenDayImportSelectAll");
+      if (selectAll) {
+        selectAll.checked = checkboxes.length > 0 && selectedCount === checkboxes.length;
+        selectAll.indeterminate = selectedCount > 0 && selectedCount < checkboxes.length;
+      }
+      tenDayImportBulkDelete.disabled = selectedCount === 0;
+      tenDayImportBulkDelete.textContent = selectedCount ? `批量删除（${selectedCount}）` : "批量删除";
+    }
+
+    function deleteTenDayImportPoints(points) {
+      const pointList = Array.from(points || [], Number).filter((point) => Number.isInteger(point) && point >= 1 && point <= 24);
+      if (!pointList.length) return;
+      pendingMonthlyImportRows = deleteImportRowsByPoints(pendingMonthlyImportRows, pointList);
+      refreshPendingMonthlyImportView();
+      if (monthlyImportMessage) {
+        monthlyImportMessage.textContent = `已删除时点 ${pointList.sort((a, b) => a - b).join("、")} 的待导入记录；点击确认导入后保存`;
+        monthlyImportMessage.className = "trade-import-message";
+      }
     }
 
     function renderMonthlyImportPreview(rows) {
@@ -3586,27 +3863,46 @@
         : getDaysInMonth(getSelectedMonthValue());
       const groupedRows = aggregateMonthlyRowsByPoint(rows).filter((row) => row.recordCount > 0);
       const totalVolumeLabel = isAnnualImportMode() ? "当月成交电量合计" : isTenDayImportMode() ? "旬度成交电量合计" : "月度成交电量合计";
+      const tenDaySelectionHeader = isTenDayImportMode()
+        ? '<th class="ten-day-import-select-cell" scope="col"><input id="tenDayImportSelectAll" type="checkbox" aria-label="全选全部时点"></th>'
+        : "";
+      const tenDayActionHeader = isTenDayImportMode() ? '<th scope="col">操作</th>' : "";
       monthlyImportPreview.innerHTML = `
         <table aria-label="集中竞价交易按时点汇总预览">
           <thead>
             <tr>
+              ${tenDaySelectionHeader}
               <th scope="col">时点</th>
               <th scope="col">时间</th>
               <th scope="col">记录数</th>
               <th scope="col">${totalVolumeLabel}</th>
               <th scope="col">日均成交电量</th>
               <th scope="col">加权成交电价</th>
+              ${tenDayActionHeader}
             </tr>
           </thead>
           <tbody>
             ${groupedRows.map((row) => `
-              <tr>
+              <tr data-ten-day-import-point="${row.label}">
+                ${isTenDayImportMode() ? `
+                  <td class="ten-day-import-select-cell">
+                    <input class="ten-day-import-row-select" type="checkbox" data-ten-day-import-point="${row.label}" aria-label="选择时点${row.label}">
+                  </td>
+                ` : ""}
                 <td>${row.label}</td>
                 <td>${row.hour}</td>
                 <td>${row.recordCount}</td>
                 <td>${formatAggregateNumber(row.volume)}</td>
                 <td>${formatAggregateNumber(row.volume / daysInPeriod)}</td>
                 <td${priceCellClass(row.price)}>${formatPriceValue(row.price)}</td>
+                ${isTenDayImportMode() ? `
+                  <td>
+                    <div class="ten-day-import-actions">
+                      <button class="ten-day-import-action" type="button" data-ten-day-import-action="edit" data-ten-day-import-point="${row.label}">编辑</button>
+                      <button class="ten-day-import-action is-danger" type="button" data-ten-day-import-action="delete" data-ten-day-import-point="${row.label}">删除</button>
+                    </div>
+                  </td>
+                ` : ""}
               </tr>
             `).join("")}
           </tbody>
@@ -3617,6 +3913,7 @@
     async function importMonthlyTradeFile(file) {
       if (!file) return;
       pendingDailyImportRecords = [];
+      pendingImportLoadedFromSavedRows = false;
       const expectedNames = getCurrentImportExpectedNames();
       const validFileName = isDailyRollingImportMode()
         ? isValidDailyRollingFileName(file.name)
@@ -3721,6 +4018,7 @@
       pendingMonthlyImportRows = [];
       pendingMonthlyImportFileName = "";
       pendingDailyImportRecords = [];
+      pendingImportLoadedFromSavedRows = false;
       renderMonthlyImportPreview([]);
       updateMonthlyImportSummary([]);
       if (monthlyImportFileName) monthlyImportFileName.textContent = `${fileList.length} 个文件`;
@@ -3811,8 +4109,20 @@
       }
       if (monthlyImportFile) monthlyImportFile.multiple = isDailyRollingImportMode();
       pendingMonthlyImportRows = isDailyRollingImportMode() ? [] : getCurrentImportSavedRows().slice();
+      pendingImportLoadedFromSavedRows = !isDailyRollingImportMode() && pendingMonthlyImportRows.length > 0;
       pendingMonthlyImportFileName = "";
+      if (isTenDayImportMode() && pendingImportLoadedFromSavedRows) {
+        const currentRecords = getCurrentTenDayImportRecords();
+        pendingMonthlyImportFileName = currentRecords.length === 1
+          ? currentRecords[0][0]
+          : `手工调整-${getTenDayImportKey()}.xlsx`;
+      }
       pendingDailyImportRecords = [];
+      if (tenDayImportBulkDelete) {
+        tenDayImportBulkDelete.hidden = !isTenDayImportMode();
+        tenDayImportBulkDelete.disabled = true;
+        tenDayImportBulkDelete.textContent = "批量删除";
+      }
       updateMonthlyImportScope();
       updateMonthlyImportSummary(pendingMonthlyImportRows);
       renderMonthlyImportPreview(pendingMonthlyImportRows);
@@ -3822,17 +4132,26 @@
         monthlyImportMessage.className = "trade-import-message";
       }
       if (monthlyImportFile) monthlyImportFile.value = "";
-      if (monthlyImportFileName) monthlyImportFileName.textContent = "未选择文件";
+      if (monthlyImportFileName) {
+        monthlyImportFileName.textContent = pendingImportLoadedFromSavedRows ? "已加载当前期间已保存数据" : "未选择文件";
+      }
       monthlyImportModal.hidden = false;
       monthlyImportFileButton?.focus();
     }
 
     function closeMonthlyImportModal() {
+      closeTenDayImportEditDialog();
       if (monthlyImportModal) monthlyImportModal.hidden = true;
     }
 
     function applyMonthlyImportRows() {
-      if (!pendingMonthlyImportRows.length || (!pendingMonthlyImportFileName && !pendingDailyImportRecords.length)) return;
+      const allowEmptyReplacement = isTenDayImportMode() && pendingImportLoadedFromSavedRows;
+      if (!canApplyImportRows(
+        pendingMonthlyImportRows,
+        pendingMonthlyImportFileName,
+        pendingDailyImportRecords.length,
+        allowEmptyReplacement,
+      )) return;
       if (isDailyRollingImportMode()) {
         const records = pendingDailyImportRecords.length ? pendingDailyImportRecords : [{
           fileName: pendingMonthlyImportFileName,
@@ -3853,11 +4172,16 @@
         saveDailyRollingRows();
         pendingDailyRunDateSelection = records[0]?.runDate || "";
       } else if (isTenDayImportMode()) {
-        tenDayImportFiles.set(pendingMonthlyImportFileName, {
-          fileName: pendingMonthlyImportFileName,
-          periodValue: getTenDayImportKey(),
-          rows: pendingMonthlyImportRows.slice(),
-        });
+        const replacedFileNames = pendingImportLoadedFromSavedRows
+          ? getCurrentTenDayImportRecords().map(([fileName]) => fileName)
+          : [];
+        replaceTenDayImportRows(
+          tenDayImportFiles,
+          replacedFileNames,
+          pendingMonthlyImportFileName,
+          getTenDayImportKey(),
+          pendingMonthlyImportRows,
+        );
         saveTenDayImportRows();
       } else if (isAnnualImportMode()) {
         annualImportFiles.set(pendingMonthlyImportFileName, {
@@ -3879,6 +4203,7 @@
       closeMonthlyImportModal();
       renderTradeTable();
       syncPublicData();
+      pendingImportLoadedFromSavedRows = false;
     }
 
     plantSelect?.addEventListener("change", () => {
@@ -4933,14 +5258,57 @@
     monthlyImportClose?.addEventListener("click", closeMonthlyImportModal);
     monthlyImportCancel?.addEventListener("click", closeMonthlyImportModal);
     monthlyImportApply?.addEventListener("click", applyMonthlyImportRows);
+    tenDayImportEditClose?.addEventListener("click", closeTenDayImportEditDialog);
+    tenDayImportEditCancel?.addEventListener("click", closeTenDayImportEditDialog);
+    tenDayImportEditApply?.addEventListener("click", applyTenDayImportEdit);
+    tenDayImportEditModal?.addEventListener("click", (event) => {
+      if (event.target === tenDayImportEditModal) closeTenDayImportEditDialog();
+    });
+    monthlyImportPreview?.addEventListener("click", (event) => {
+      const actionButton = event.target.closest("[data-ten-day-import-action]");
+      if (!actionButton || !isTenDayImportMode()) return;
+      const point = Number(actionButton.dataset.tenDayImportPoint);
+      if (actionButton.dataset.tenDayImportAction === "edit") {
+        openTenDayImportEditDialog(point);
+        return;
+      }
+      if (actionButton.dataset.tenDayImportAction === "delete"
+          && confirm(`确认删除时点${point}的全部待导入记录吗？`)) {
+        deleteTenDayImportPoints([point]);
+      }
+    });
+    monthlyImportPreview?.addEventListener("change", (event) => {
+      if (!isTenDayImportMode()) return;
+      if (event.target.id === "tenDayImportSelectAll") {
+        monthlyImportPreview.querySelectorAll(".ten-day-import-row-select").forEach((checkbox) => {
+          checkbox.checked = event.target.checked;
+        });
+      }
+      if (event.target.matches("#tenDayImportSelectAll, .ten-day-import-row-select")) {
+        updateTenDayImportSelectionState();
+      }
+    });
+    tenDayImportBulkDelete?.addEventListener("click", () => {
+      const selectedPoints = Array.from(monthlyImportPreview?.querySelectorAll(".ten-day-import-row-select:checked") || [])
+        .map((checkbox) => Number(checkbox.dataset.tenDayImportPoint));
+      if (!selectedPoints.length) return;
+      if (confirm(`确认删除已选择的 ${selectedPoints.length} 个时点的全部待导入记录吗？`)) {
+        deleteTenDayImportPoints(selectedPoints);
+      }
+    });
     monthlyImportClear?.addEventListener("click", () => {
       if (monthlyImportFile) monthlyImportFile.value = "";
       if (monthlyImportFileName) monthlyImportFileName.textContent = "未选择文件";
       pendingMonthlyImportRows = [];
       pendingMonthlyImportFileName = "";
       pendingDailyImportRecords = [];
+      pendingImportLoadedFromSavedRows = false;
       renderMonthlyImportPreview([]);
       updateMonthlyImportSummary([]);
+      if (tenDayImportBulkDelete) {
+        tenDayImportBulkDelete.disabled = true;
+        tenDayImportBulkDelete.textContent = "批量删除";
+      }
       if (monthlyImportMessage) {
         const tradeLabel = isDailyRollingImportMode() ? "日滚动" : isAnnualImportMode() ? "年度" : isTenDayImportMode() ? "旬度" : "月度";
         monthlyImportMessage.textContent = `请选择${tradeLabel}交易结果文件`;
