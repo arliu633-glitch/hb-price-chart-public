@@ -8,9 +8,15 @@
     temperatureActual: "实际温度",
     temperatureForecast: "预测温度",
     rollingAuction: "日滚撮明细",
-    rollingAuctionDaily: "日滚撮汇总",
     coalForecast: "燃煤预测",
   };
+  const VISIBLE_DATASET_NAMES = Object.freeze(Object.keys(DATASET_LABELS));
+  const CLEARING_HIDDEN_COLUMNS = new Set([
+    "id",
+    "province_code",
+    "source_file",
+    "uploaded_at",
+  ]);
 
   const FIELD_LABELS = {
     id: "ID",
@@ -114,6 +120,13 @@
       });
     });
     return columns;
+  }
+
+  function collectDatasetTableColumns(datasetName, rows) {
+    const columns = collectTableColumns(rows);
+    return datasetName === "clearing"
+      ? columns.filter((column) => !CLEARING_HIDDEN_COLUMNS.has(column))
+      : columns;
   }
 
   function candidateLocalUrls(url) {
@@ -222,8 +235,10 @@
     buildOverviewModels,
     candidateLocalUrls,
     collectTableColumns,
+    collectDatasetTableColumns,
     findAdjacentDate,
     sortTimeSlots,
+    VISIBLE_DATASET_NAMES,
   };
 
   if (typeof module !== "undefined" && module.exports) {
@@ -317,7 +332,7 @@
   function renderTable(datasetName) {
     currentDataset = datasetName;
     const rows = currentPayload?.datasets?.[datasetName] || [];
-    const columns = collectTableColumns(rows);
+    const columns = collectDatasetTableColumns(datasetName, rows);
     elements.tabs.querySelectorAll("[data-overview-dataset]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.overviewDataset === datasetName));
     });
