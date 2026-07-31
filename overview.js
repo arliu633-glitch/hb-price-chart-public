@@ -1,21 +1,31 @@
 (function initializeOverviewModule(root) {
   "use strict";
 
-  const DATASET_LABELS = {
+  const DATASET_LABELS = Object.freeze({
     forecast: "披露预测",
+    coalForecast: "燃煤预测",
+    priceForecast: "电价预测",
+    rollingAuction: "日滚撮明细",
+    temperature: "温度",
     realtime: "实时运行",
     clearing: "市场出清",
-    temperatureActual: "实际温度",
-    temperatureForecast: "预测温度",
-    rollingAuction: "日滚撮明细",
-    coalForecast: "燃煤预测",
-  };
+  });
   const VISIBLE_DATASET_NAMES = Object.freeze(Object.keys(DATASET_LABELS));
   const CLEARING_HIDDEN_COLUMNS = new Set([
     "id",
     "province_code",
     "source_file",
     "uploaded_at",
+    "d2_mid_price",
+    "d2_low_price",
+    "d2_high_price",
+    "realtime_ensemble_price",
+    "realtime_linear_price",
+    "realtime_rf_price",
+    "realtime_bagging_price",
+    "realtime_catboost_price",
+    "realtime_lightgbm_price",
+    "realtime_xgboost_price",
   ]);
 
   const FIELD_LABELS = {
@@ -57,6 +67,8 @@
     realtime_lightgbm_price: "LightGBM实时电价预测",
     realtime_xgboost_price: "XGBoost实时电价预测",
     temperature_c: "温度(℃)",
+    actual_temperature_c: "实际温度(℃)",
+    forecast_temperature_c: "预测温度(℃)",
     avg_mid: "日均中位价",
     min_low: "日最低价",
     max_high: "日最高价",
@@ -129,6 +141,35 @@
       : columns;
   }
 
+  function mergeTemperatureRows(datasets) {
+    const temperatures = new Map();
+    const addRows = (rows, fieldName) => {
+      rows.forEach((row) => {
+        const tradingDate = String(row?.trading_date || "");
+        const timeSlot = String(row?.time_slot || "");
+        const key = `${tradingDate}\u0000${timeSlot}`;
+        if (!temperatures.has(key)) {
+          temperatures.set(key, { trading_date: tradingDate, time_slot: timeSlot });
+        }
+        temperatures.get(key)[fieldName] = row?.temperature_c;
+      });
+    };
+
+    addRows(datasets?.temperatureActual || [], "actual_temperature_c");
+    addRows(datasets?.temperatureForecast || [], "forecast_temperature_c");
+    return Array.from(temperatures.values()).sort((left, right) => (
+      left.trading_date.localeCompare(right.trading_date)
+      || timeSlotValue(left.time_slot) - timeSlotValue(right.time_slot)
+    ));
+  }
+
+  function datasetRows(payloadOrDatasets, datasetName) {
+    const datasets = payloadOrDatasets?.datasets || payloadOrDatasets || {};
+    return datasetName === "temperature"
+      ? mergeTemperatureRows(datasets)
+      : datasets[datasetName] || [];
+  }
+
   function candidateLocalUrls(url) {
     const normalized = String(url || "").replace(/^\/+/, "");
     if (!normalized || normalized.startsWith("public/")) return [normalized];
@@ -165,8 +206,8 @@
     const realtime = datasets.realtime || [];
     const clearing = datasets.clearing || [];
     const rolling = datasets.rollingAuction || [];
-    const actualTemperature = datasets.temperatureActual || [];
-    const forecastTemperature = datasets.temperatureForecast || [];
+    const priceForecast = datasets.priceForecast || [];
+    const temperatures = mergeTemperatureRows(datasets);
     const coalForecast = datasets.coalForecast || [];
 
     return {
@@ -188,6 +229,8 @@
         ...definitions(clearing, [
           ["day_ahead_price", "日前节点电价"],
           ["realtime_price", "实时节点电价"],
+        ]),
+        ...definitions(priceForecast, [
           ["realtime_ensemble_price", "集合实时电价预测"],
           ["realtime_linear_price", "线性预测"],
           ["realtime_rf_price", "随机森林预测"],
@@ -203,6 +246,8 @@
         ]),
       ]),
       clearing: buildChartModel(definitions(clearing, [
+        ["day_ahead_price", "日前节点电价"],
+        ["realtime_price", "实时节点电价"],
         ["storage_mw", "储能"],
         ["other_mw", "其他"],
         ["distributed_pv_mw", "分布式光伏"],
@@ -216,8 +261,8 @@
         ["thermal_total_mw", "火电总出力"],
       ])),
       weatherCoal: buildChartModel([
-        ...definitions(actualTemperature, [["temperature_c", "实际温度", 1]]),
-        ...definitions(forecastTemperature, [["temperature_c", "预测温度", 1]]),
+        ...definitions(temperatures, [["actual_temperature_c", "实际温度", 1]]),
+        ...definitions(temperatures, [["forecast_temperature_c", "预测温度", 1]]),
         ...definitions(coalForecast, [
           ["coal_forecast_mw", "集合燃煤预测"],
           ["coal_linear_mw", "线性燃煤预测"],
@@ -236,7 +281,10 @@
     candidateLocalUrls,
     collectTableColumns,
     collectDatasetTableColumns,
+    DATASET_LABELS,
+    datasetRows,
     findAdjacentDate,
+    mergeTemperatureRows,
     sortTimeSlots,
     VISIBLE_DATASET_NAMES,
   };
@@ -306,32 +354,33 @@
   }
 
   function renderCoverage(payload) {
-    const counts = payload?.counts || {};
     const populated = Object.entries(DATASET_LABELS)
-      .filter(([name]) => Number(counts[name] || 0) > 0);
+      .map(([name, label]) => ({ name, label, rows: datasetRows(payload, name) }))
+      .filter(({ rows }) => rows.length > 0);
     elements.coverage.innerHTML = populated.length
-      ? populated.map(([name, label]) => (
-        `<span><strong>${Number(counts[name] || 0).toLocaleString("zh-CN")}</strong>${label}</span>`
+      ? populated.map(({ label, rows }) => (
+        `<span><strong>${rows.length.toLocaleString("zh-CN")}</strong>${label}</span>`
       )).join("")
       : "<span>该日期没有本地数据</span>";
   }
 
   function renderTabs(payload) {
-    const counts = payload?.counts || {};
-    if (!Number(counts[currentDataset] || 0)) {
+    const datasets = Object.entries(DATASET_LABELS)
+      .map(([name, label]) => ({ name, label, rows: datasetRows(payload, name) }));
+    if (!datasets.find(({ name }) => name === currentDataset)?.rows.length) {
       currentDataset = Object.keys(DATASET_LABELS)
-        .find((name) => Number(counts[name] || 0) > 0) || "forecast";
+        .find((name) => datasets.find((dataset) => dataset.name === name).rows.length > 0) || "forecast";
     }
-    elements.tabs.innerHTML = Object.entries(DATASET_LABELS).map(([name, label]) => (
+    elements.tabs.innerHTML = datasets.map(({ name, label, rows }) => (
       `<button type="button" data-overview-dataset="${name}" `
       + `aria-pressed="${name === currentDataset}">`
-      + `${label}<span>${Number(counts[name] || 0).toLocaleString("zh-CN")}</span></button>`
+      + `${label}<span>${rows.length.toLocaleString("zh-CN")}</span></button>`
     )).join("");
   }
 
   function renderTable(datasetName) {
     currentDataset = datasetName;
-    const rows = currentPayload?.datasets?.[datasetName] || [];
+    const rows = datasetRows(currentPayload, datasetName);
     const columns = collectDatasetTableColumns(datasetName, rows);
     elements.tabs.querySelectorAll("[data-overview-dataset]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.overviewDataset === datasetName));
