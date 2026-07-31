@@ -519,10 +519,78 @@
       background: #dc2626;
     }
 
+    .annual-legend-spot-line {
+      width: 22px;
+      height: 0;
+      border-top: 3px dashed #059669;
+    }
+
     .annual-chart {
       width: 100%;
       height: clamp(420px, calc(100dvh - 300px), 760px);
       display: block;
+    }
+
+    .long-term-revenue-summary {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(140px, 1fr));
+      border-top: 1px solid #d8dee8;
+      background: #f8fafc;
+    }
+
+    .long-term-revenue-summary[hidden] {
+      display: none;
+    }
+
+    .long-term-revenue-item {
+      min-width: 0;
+      padding: 10px 14px;
+      border-right: 1px solid #d8dee8;
+    }
+
+    .long-term-revenue-item:last-of-type {
+      border-right: 0;
+      background: #eff6ff;
+    }
+
+    .long-term-revenue-label {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .long-term-revenue-value {
+      display: block;
+      margin-top: 3px;
+      color: #0f172a;
+      font-size: 18px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .long-term-revenue-status {
+      grid-column: 1 / -1;
+      padding: 7px 14px;
+      border-top: 1px solid #d8dee8;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .long-term-revenue-summary.is-incomplete .long-term-revenue-value,
+    .long-term-revenue-summary.is-incomplete .long-term-revenue-status {
+      color: #b45309;
+      background: #fffbeb;
+    }
+
+    @media (max-width: 900px) {
+      .long-term-revenue-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .long-term-revenue-item {
+        border-bottom: 1px solid #d8dee8;
+      }
     }
 
     .trade-table-wrap {
@@ -1736,6 +1804,7 @@
             <div class="annual-chart-legend">
               <span class="annual-legend-item"><span class="annual-legend-swatch"></span>成交电量(MWh)</span>
               <span class="annual-legend-item"><span class="annual-legend-line"></span>成交电价(元/MWh)</span>
+              <span class="annual-legend-item" id="summarySpotPriceLegend" hidden><span class="annual-legend-spot-line"></span>统一结算点现货实时电价(元/MWh)</span>
             </div>
             <button class="trade-import-button" id="monthlyTenDayExport" type="button" hidden>月度及旬度交易结果导出</button>
             <button class="trade-import-button" id="monthlyImportOpen" type="button" hidden>导入</button>
@@ -1754,6 +1823,29 @@
           </div>
         </div>
         <svg class="annual-chart" id="annualChart" role="img" aria-label="集中竞价交易24小时柱状折线组合图"></svg>
+        <div class="long-term-revenue-summary" id="longTermRevenueSummary" hidden>
+          <div class="long-term-revenue-item">
+            <span class="long-term-revenue-label">年度收益</span>
+            <strong class="long-term-revenue-value" id="longTermRevenueAnnual">-</strong>
+          </div>
+          <div class="long-term-revenue-item">
+            <span class="long-term-revenue-label">月度收益</span>
+            <strong class="long-term-revenue-value" id="longTermRevenueMonthly">-</strong>
+          </div>
+          <div class="long-term-revenue-item">
+            <span class="long-term-revenue-label">旬度收益</span>
+            <strong class="long-term-revenue-value" id="longTermRevenueTenDay">-</strong>
+          </div>
+          <div class="long-term-revenue-item">
+            <span class="long-term-revenue-label">日滚动收益</span>
+            <strong class="long-term-revenue-value" id="longTermRevenueDailyRolling">-</strong>
+          </div>
+          <div class="long-term-revenue-item">
+            <span class="long-term-revenue-label">中长期总收益</span>
+            <strong class="long-term-revenue-value" id="longTermRevenueTotal">-</strong>
+          </div>
+          <div class="long-term-revenue-status" id="longTermRevenueStatus">正在读取统一结算点现货实时电价</div>
+        </div>
       </section>
       <div class="trade-workspace">
         <div class="trade-table-wrap">
@@ -1914,6 +2006,14 @@
     const tradeDayBody = document.getElementById("tradeDayBody");
     const annualChartPanel = document.getElementById("annualChartPanel");
     const annualChart = document.getElementById("annualChart");
+    const summarySpotPriceLegend = document.getElementById("summarySpotPriceLegend");
+    const longTermRevenueSummary = document.getElementById("longTermRevenueSummary");
+    const longTermRevenueAnnual = document.getElementById("longTermRevenueAnnual");
+    const longTermRevenueMonthly = document.getElementById("longTermRevenueMonthly");
+    const longTermRevenueTenDay = document.getElementById("longTermRevenueTenDay");
+    const longTermRevenueDailyRolling = document.getElementById("longTermRevenueDailyRolling");
+    const longTermRevenueTotal = document.getElementById("longTermRevenueTotal");
+    const longTermRevenueStatus = document.getElementById("longTermRevenueStatus");
     const monthlyImportOpen = document.getElementById("monthlyImportOpen");
     const monthlyImportModal = document.getElementById("monthlyImportModal");
     const monthlyImportClose = document.getElementById("monthlyImportClose");
@@ -2002,6 +2102,13 @@
     let reviewRunDateCandidates = [];
     let publicForecastManifestPromise = null;
     let publicReviewManifestPromise = null;
+    let summarySpotPricePayload = {
+      spotPriceDate: "",
+      spotPrices: [],
+      spotPriceComplete: false,
+      missingSpotPricePoints: Array.from({ length: 24 }, (_, index) => index + 1),
+    };
+    let summarySpotPriceRequestGeneration = 0;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
     let pendingMonthlyImportRows = [];
     let pendingMonthlyImportFileName = "";
@@ -2894,13 +3001,14 @@
       targetItem.recordCount += recordCount;
     }
 
-    function addDetailToSummary(targetItem, tradeType, volume, price, recordCount = 0) {
+    function addDetailToSummary(targetItem, tradeType, volume, price, recordCount = 0, amount = 0) {
       if (!targetItem.details) targetItem.details = [];
       targetItem.details.push({
         tradeType,
         volume,
         price,
         recordCount,
+        amount,
       });
     }
 
@@ -2925,8 +3033,9 @@
         hourlyRows.forEach((item, index) => {
           const volume = item.recordCount ? item.volume / divisor : 0;
           const price = item.recordCount ? item.price : null;
+          const amount = item.recordCount ? item.amount / divisor : 0;
           if (item.recordCount) addTradeItemToSummary(series[index], volume, price, item.recordCount);
-          addDetailToSummary(series[index], tradeType, volume, price, item.recordCount);
+          addDetailToSummary(series[index], tradeType, volume, price, item.recordCount, amount);
         });
       };
 
@@ -2943,7 +3052,7 @@
         const dailyRows = getDailyRollingRowsForSelectedPlant(getDailyRollingRowsForRunDate(runDate));
         aggregateDailyRowsByPoint(dailyRows).forEach((item, index) => {
           if (item.recordCount) addTradeItemToSummary(series[index], item.volume, item.price, item.recordCount);
-          addDetailToSummary(series[index], "日滚动撮合交易", item.recordCount ? item.volume : 0, item.recordCount ? item.price : null, item.recordCount);
+          addDetailToSummary(series[index], "日滚动撮合交易", item.recordCount ? item.volume : 0, item.recordCount ? item.price : null, item.recordCount, item.recordCount ? item.amount : 0);
         });
       }
 
@@ -2972,7 +3081,6 @@
 
       grouped.forEach((item) => {
         item.price = calculateWeightedPrice(item.amount, item.priceWeight);
-        delete item.amount;
         delete item.priceWeight;
       });
 
@@ -3013,6 +3121,14 @@
       return value === Infinity || value === -Infinity || value === "Infinity" || value === "-Infinity";
     }
 
+    function formatRevenueValue(value) {
+      if (value === null || value === undefined || !Number.isFinite(Number(value))) return "无法计算";
+      return `${Number(value).toLocaleString("zh-CN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} 元`;
+    }
+
     function buildChartTooltipHtml(item) {
       if (!item?.details?.length) return "";
       const title = `${item.date || getSelectedSummaryRunDate()} ${item.hour}（时点${item.label}）`;
@@ -3021,13 +3137,15 @@
           <td>${escapeHtml(detail.tradeType)}</td>
           <td>${detail.recordCount ? Number(detail.volume || 0).toFixed(3) : "-"}</td>
           <td${priceCellClass(detail.price)}>${detail.recordCount ? formatPriceValue(detail.price) : "-"}</td>
+          <td>${detail.recordCount && detail.revenue !== null && detail.revenue !== undefined ? formatRevenueValue(detail.revenue) : "-"}</td>
         </tr>
       `).join("");
       return `
         <div class="trade-chart-tooltip-title">${escapeHtml(title)}</div>
+        <div class="trade-chart-tooltip-spot">统一结算点现货实时电价：${Number.isFinite(item.spotPrice) ? `${formatPriceValue(item.spotPrice)} 元/MWh` : "-"}</div>
         <table>
           <thead>
-            <tr><th>交易品种</th><th>成交电量</th><th>成交电价</th></tr>
+            <tr><th>交易品种</th><th>成交电量</th><th>成交电价</th><th>小时收益</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
@@ -3061,6 +3179,70 @@
       if (tradeChartTooltip) tradeChartTooltip.hidden = true;
     }
 
+    const LONG_TERM_REVENUE_TYPES = Object.freeze([
+      { tradeType: "年度集中竞价交易", key: "annual" },
+      { tradeType: "月度集中竞价交易", key: "monthly" },
+      { tradeType: "旬度集中竞价交易", key: "tenDay" },
+      { tradeType: "日滚动撮合交易", key: "dailyRolling" },
+    ]);
+
+    function calculateLongTermRevenueSummary(hourlyData, spotPricePayload) {
+      const priceByPoint = new Map();
+      const duplicatePoints = new Set();
+      (spotPricePayload?.spotPrices || []).forEach((item) => {
+        const point = Number(item?.point);
+        const price = Number(item?.price);
+        if (!Number.isInteger(point) || point < 1 || point > 24 || !Number.isFinite(price)) return;
+        if (priceByPoint.has(point)) {
+          duplicatePoints.add(point);
+          priceByPoint.delete(point);
+          return;
+        }
+        if (!duplicatePoints.has(point)) priceByPoint.set(point, price);
+      });
+      const missingPoints = Array.from(new Set([
+        ...Array.from({ length: 24 }, (_, index) => index + 1).filter((point) => !priceByPoint.has(point)),
+        ...(Array.isArray(spotPricePayload?.missingSpotPricePoints)
+          ? spotPricePayload.missingSpotPricePoints.map(Number).filter((point) => point >= 1 && point <= 24)
+          : []),
+      ])).sort((left, right) => left - right);
+      const complete = spotPricePayload?.spotPriceComplete === true && missingPoints.length === 0;
+      const totals = {
+        annual: complete ? 0 : null,
+        monthly: complete ? 0 : null,
+        tenDay: complete ? 0 : null,
+        dailyRolling: complete ? 0 : null,
+        total: complete ? 0 : null,
+      };
+      const typeKeyByName = new Map(LONG_TERM_REVENUE_TYPES.map((item) => [item.tradeType, item.key]));
+      const enrichedHourlyData = hourlyData.map((item, index) => {
+        const spotPrice = priceByPoint.get(index + 1) ?? null;
+        const details = (item.details || []).map((detail) => {
+          if (!complete) return { ...detail, revenue: null };
+          const volume = Number(detail.volume || 0);
+          const statedAmount = Number(detail.amount);
+          const amount = Number.isFinite(statedAmount)
+            ? statedAmount
+            : (Number.isFinite(Number(detail.price)) ? volume * Number(detail.price) : 0);
+          const revenue = amount - spotPrice * volume;
+          const key = typeKeyByName.get(detail.tradeType);
+          if (key) totals[key] += revenue;
+          return { ...detail, revenue };
+        });
+        const revenue = complete
+          ? details.reduce((sum, detail) => sum + Number(detail.revenue || 0), 0)
+          : null;
+        if (complete) totals.total += revenue;
+        return { ...item, spotPrice, details, revenue };
+      });
+      return {
+        complete,
+        missingPoints,
+        totals,
+        hourlyData: enrichedHourlyData,
+      };
+    }
+
     function aggregateDailyRowsByPoint(rows) {
       const grouped = Array.from({ length: 24 }, (_, index) => ({
         label: `${index + 1}`,
@@ -3083,7 +3265,6 @@
 
       grouped.forEach((item) => {
         item.price = calculateWeightedPrice(item.amount, item.priceWeight);
-        delete item.amount;
         delete item.priceWeight;
       });
       return grouped;
@@ -3265,7 +3446,7 @@
       const minVolume = -100;
       const maxVolume = 100;
       const volumeTicks = Array.from({ length: 11 }, (_, index) => minVolume + index * 20);
-      const prices = data.map((item) => item.price).filter((value) => Number.isFinite(value));
+      const prices = data.flatMap((item) => [item.price, item.spotPrice]).filter((value) => Number.isFinite(value));
       const minPrice = 0;
       const maxPrice = prices.length ? Math.ceil(Math.max(...prices) / 50) * 50 : 50;
       const priceRange = Math.max(50, maxPrice - minPrice);
@@ -3320,6 +3501,13 @@
       if (currentPriceSegment.length) {
         priceSegments.push(currentPriceSegment);
       }
+      const spotPricePoints = data
+        .map((item, index) => Number.isFinite(item.spotPrice) ? `${xCenter(index)},${yPrice(item.spotPrice)}` : null)
+        .filter(Boolean);
+      const spotPriceMarkers = data.map((item, index) => {
+        if (!Number.isFinite(item.spotPrice)) return "";
+        return `<circle cx="${xCenter(index)}" cy="${yPrice(item.spotPrice)}" r="3" fill="#059669"></circle>`;
+      }).join("");
 
       const volumeLabelItems = data.map((item, index) => {
         const value = Number(item.volume || 0);
@@ -3425,6 +3613,8 @@
           `;
         }).join("")}
         ${bars}
+        ${spotPricePoints.length ? `<polyline points="${spotPricePoints.join(" ")}" fill="none" stroke="#059669" stroke-width="2.5" stroke-dasharray="7 5"></polyline>` : ""}
+        ${spotPriceMarkers}
         ${priceSegments.map((segment) => `<polyline points="${segment.join(" ")}" fill="none" stroke="#dc2626" stroke-width="3"></polyline>`).join("")}
         ${priceMarkers}
         ${hoverTargets}
@@ -3690,11 +3880,51 @@
       renderDayOverview();
     }
 
+    function renderLongTermRevenueSummary(summary, date) {
+      if (!longTermRevenueSummary) return;
+      const isSummary = activeTradeType === "中长期交易汇总";
+      longTermRevenueSummary.hidden = !isSummary;
+      if (!isSummary) return;
+      longTermRevenueSummary.classList.toggle("is-incomplete", !summary.complete);
+      const valueElements = {
+        annual: longTermRevenueAnnual,
+        monthly: longTermRevenueMonthly,
+        tenDay: longTermRevenueTenDay,
+        dailyRolling: longTermRevenueDailyRolling,
+        total: longTermRevenueTotal,
+      };
+      Object.entries(valueElements).forEach(([key, element]) => {
+        if (element) element.textContent = formatRevenueValue(summary.totals[key]);
+      });
+      if (longTermRevenueStatus) {
+        longTermRevenueStatus.textContent = summary.complete
+          ? `${date} 统一结算点现货实时电价24点完整，收益按带符号成交电量计算`
+          : `暂无完整现货电价，无法计算收益；缺失时点：${summary.missingPoints.join("、") || "1-24"}`;
+      }
+    }
+
     function renderAnnualChart() {
       if (!annualChart) return;
-      const data = getCentralizedHourlyData();
+      let data = getCentralizedHourlyData();
       const [selectedYear, selectedMonth] = getSelectedMonthValue().split("-");
       const annualTitle = document.getElementById("annualChartTitle");
+      if (summarySpotPriceLegend) summarySpotPriceLegend.hidden = activeTradeType !== "中长期交易汇总";
+      if (activeTradeType === "中长期交易汇总") {
+        const summaryRunDate = getSelectedSummaryRunDate();
+        const spotPayload = summarySpotPricePayload.spotPriceDate === summaryRunDate
+          ? summarySpotPricePayload
+          : {
+              spotPriceDate: summaryRunDate,
+              spotPrices: [],
+              spotPriceComplete: false,
+              missingSpotPricePoints: Array.from({ length: 24 }, (_, index) => index + 1),
+            };
+        const revenueSummary = calculateLongTermRevenueSummary(data, spotPayload);
+        data = revenueSummary.hourlyData;
+        renderLongTermRevenueSummary(revenueSummary, summaryRunDate);
+      } else if (longTermRevenueSummary) {
+        longTermRevenueSummary.hidden = true;
+      }
       if (annualTitle) {
         let titlePrefix = `${selectedYear}年${Number(selectedMonth)}月${activeTradeType}`;
         let volumeLabel = ["年度集中竞价交易", "月度集中竞价交易"].includes(activeTradeType) ? "24小时日均成交电量" : "24小时成交电量";
@@ -4300,7 +4530,10 @@
     });
 
     dailyRunDateSelect?.addEventListener("change", renderDailyRollingPanel);
-    summaryRunDateInput?.addEventListener("change", renderTradeTable);
+    summaryRunDateInput?.addEventListener("change", () => {
+      renderTradeTable();
+      loadSummarySpotPrices(summaryRunDateInput.value);
+    });
 
     if (tradeYearInput && tradeMonthInput) {
       setSelectedMonthValue(getCurrentMonthValue());
@@ -4308,6 +4541,7 @@
       const onSelectedMonthChange = () => {
         syncDayToMonth();
         renderTradeTable();
+        loadSummarySpotPrices(getSelectedSummaryRunDate());
       };
       tradeYearInput.addEventListener("change", onSelectedMonthChange);
       tradeMonthInput.addEventListener("change", onSelectedMonthChange);
@@ -4669,6 +4903,59 @@
         throw new Error("无法读取公开结果");
       }
       return payload;
+    }
+
+    async function loadSummarySpotPrices(date = "") {
+      const selectedDate = date || getSelectedSummaryRunDate();
+      const requestGeneration = ++summarySpotPriceRequestGeneration;
+      let payload = {
+        spotPriceDate: selectedDate,
+        spotPrices: [],
+        spotPriceComplete: false,
+        missingSpotPricePoints: Array.from({ length: 24 }, (_, index) => index + 1),
+      };
+      try {
+        if (isPublicStaticMode) {
+          if (!publicReviewManifestPromise) {
+            publicReviewManifestPromise = fetchPublicJson("review-data/index.json")
+              .catch((error) => {
+                publicReviewManifestPromise = null;
+                throw error;
+              });
+          }
+          const manifest = await publicReviewManifestPromise;
+          const entry = manifest.entries?.[selectedDate];
+          if (entry?.spotPriceUrl) {
+            payload = await fetchPublicJson(entry.spotPriceUrl);
+          }
+        } else {
+          const response = await fetch(`/review-export-results?date=${encodeURIComponent(selectedDate)}`);
+          const result = await parseReviewJsonResponse(response);
+          if (!response.ok || !result.ok) {
+            throw new Error(safeReviewResponseMessage(result, "无法读取统一结算点现货实时电价"));
+          }
+          payload = result;
+        }
+      } catch (error) {
+        payload = {
+          ...payload,
+          spotPriceError: error instanceof Error ? error.message : "无法读取统一结算点现货实时电价",
+        };
+      }
+      if (requestGeneration !== summarySpotPriceRequestGeneration) return summarySpotPricePayload;
+      summarySpotPricePayload = {
+        spotPriceDate: payload.spotPriceDate || selectedDate,
+        spotPrices: Array.isArray(payload.spotPrices) ? payload.spotPrices : [],
+        spotPriceComplete: payload.spotPriceComplete === true,
+        missingSpotPricePoints: Array.isArray(payload.missingSpotPricePoints)
+          ? payload.missingSpotPricePoints
+          : Array.from({ length: 24 }, (_, index) => index + 1),
+        spotPriceError: payload.spotPriceError || "",
+      };
+      if (activeTradeType === "中长期交易汇总" && getSelectedSummaryRunDate() === selectedDate) {
+        renderAnnualChart();
+      }
+      return summarySpotPricePayload;
     }
 
     async function loadPublicReviewResult(date = "") {
@@ -5332,6 +5619,9 @@
           item.setAttribute("aria-pressed", String(isActive));
         });
         renderTradeTable();
+        if (activeTradeType === "中长期交易汇总") {
+          loadSummarySpotPrices(getSelectedSummaryRunDate());
+        }
       });
     });
 
@@ -5511,6 +5801,7 @@
     updatePlantSelectOptions();
     syncPlantContext();
     renderTradeTable();
+    loadSummarySpotPrices(getSelectedSummaryRunDate());
     loadPublishedImportRows();
 
     function showPage(pageName) {
