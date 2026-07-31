@@ -187,6 +187,7 @@
       return {
         name: definition.name,
         axis: definition.axis || 0,
+        lineType: definition.lineType || "solid",
         data: times.map((time) => {
           const value = byTime.get(time);
           return typeof value === "number" ? value : null;
@@ -197,7 +198,13 @@
   }
 
   function definitions(rows, fields) {
-    return fields.map(([field, name, axis = 0]) => ({ rows, field, name, axis }));
+    return fields.map(([field, name, axis = 0, lineType = "solid"]) => ({
+      rows,
+      field,
+      name,
+      axis,
+      lineType,
+    }));
   }
 
   function buildOverviewModels(payload) {
@@ -213,10 +220,10 @@
     return {
       system: buildChartModel([
         ...definitions(forecast, [
-          ["load_forecast_mw", "负荷预测"],
-          ["non_market_forecast_mw", "非市场化机组预测"],
-          ["renewable_forecast_mw", "新能源预测"],
-          ["external_import_mw", "区外受电计划"],
+          ["load_forecast_mw", "负荷预测", 0, "dashed"],
+          ["non_market_forecast_mw", "非市场化机组预测", 0, "dashed"],
+          ["renewable_forecast_mw", "新能源预测", 0, "dashed"],
+          ["external_import_mw", "区外受电计划", 0, "dashed"],
         ]),
         ...definitions(realtime, [
           ["actual_load_mw", "实际负荷"],
@@ -464,7 +471,7 @@
         data: series.data,
         showSymbol: false,
         connectNulls: false,
-        lineStyle: { width: 1.7 },
+        lineStyle: { width: 1.7, type: series.lineType },
         emphasis: { focus: "series", lineStyle: { width: 2.5 } },
       })),
       graphic: hasValues ? [] : [{
