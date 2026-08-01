@@ -300,6 +300,7 @@
     collectDatasetTableColumns,
     createEmptyOverviewPayload,
     DATASET_LABELS,
+    FIELD_LABELS,
     datasetRows,
     findAdjacentDate,
     initializeOverviewPage,
@@ -311,6 +312,7 @@
   if (typeof module !== "undefined" && module.exports) {
     module.exports = exported;
   }
+  if (root) root.OverviewData = exported;
 
   function initializeOverviewPage(pageRoot) {
   const root = pageRoot;

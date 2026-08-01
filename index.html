@@ -1555,6 +1555,149 @@
       cursor: not-allowed;
     }
 
+    .overview-export-open,
+    .overview-export-actions button {
+      height: 34px;
+      padding: 0 12px;
+      border: 1px solid #1d4ed8;
+      border-radius: 5px;
+      background: #1d4ed8;
+      color: #ffffff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .overview-export-open:disabled,
+    .overview-export-actions button:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .overview-export-dialog {
+      position: fixed;
+      z-index: 30;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.42);
+    }
+
+    .overview-export-panel {
+      width: min(620px, 100%);
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.18);
+    }
+
+    .overview-export-panel header {
+      padding: 15px 18px 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .overview-export-panel h2 {
+      margin: 0;
+      color: #0f172a;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .overview-export-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px 18px;
+      padding: 14px 18px 16px;
+    }
+
+    .overview-export-fieldset {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .overview-export-fieldset legend,
+    .overview-export-date label,
+    .overview-export-datasets label {
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .overview-export-date {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .overview-export-date label,
+    .overview-export-datasets label {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .overview-export-date input {
+      width: 100%;
+      height: 34px;
+      padding: 0 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      color: #0f172a;
+      font: inherit;
+    }
+
+    .overview-export-datasets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      margin-top: 8px;
+    }
+
+    .overview-export-datasets label,
+    .overview-export-select-all {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .overview-export-actions,
+    .overview-export-status {
+      grid-column: 1 / -1;
+    }
+
+    .overview-export-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .overview-export-actions #overviewExportCancel {
+      border-color: #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+    }
+
+    .overview-export-status {
+      min-height: 18px;
+      margin: 0;
+      overflow-wrap: anywhere;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .overview-export-status[data-type="success"] {
+      color: #047857;
+    }
+
+    .overview-export-status[data-type="error"] {
+      color: #b91c1c;
+    }
+
     .overview-range {
       margin-left: auto;
       color: #64748b;
@@ -1777,6 +1920,17 @@
         width: 100%;
         margin-left: 0;
         white-space: normal;
+      }
+
+      .overview-export-dialog {
+        align-items: end;
+        padding: 12px;
+      }
+
+      .overview-export-form,
+      .overview-export-date,
+      .overview-export-datasets {
+        grid-template-columns: 1fr;
       }
 
       .overview-chart-grid {
@@ -2013,6 +2167,7 @@
         </label>
         <button class="overview-date-button" id="overviewNextDate" type="button" title="下一有数据日期" aria-label="下一有数据日期">&#8250;</button>
         <span class="overview-range" id="overviewRange"></span>
+        <button class="overview-export-open" id="overviewExportOpen" type="button">导出数据</button>
       </div>
       <div class="overview-coverage" id="overviewCoverage" aria-label="所选日期数据覆盖情况"></div>
       <div class="overview-chart-grid">
@@ -2049,6 +2204,39 @@
       </section>
     </section>
   </main>
+
+  <section class="overview-export-dialog" id="overviewExportDialog" role="dialog" aria-modal="true" aria-labelledby="overviewExportTitle" tabindex="-1" hidden>
+    <div class="overview-export-panel">
+      <header><h2 id="overviewExportTitle">数据导出</h2></header>
+      <div class="overview-export-form">
+        <fieldset class="overview-export-fieldset">
+          <legend>日期范围</legend>
+          <div class="overview-export-date">
+            <label>开始日期<input id="overviewExportStartDate" type="date"></label>
+            <label>结束日期<input id="overviewExportEndDate" type="date"></label>
+          </div>
+        </fieldset>
+        <fieldset class="overview-export-fieldset">
+          <legend>数据类型</legend>
+          <label class="overview-export-select-all"><input id="overviewExportSelectAll" type="checkbox">全选</label>
+          <div class="overview-export-datasets">
+            <label><input data-overview-export-dataset value="forecast" type="checkbox">披露预测</label>
+            <label><input data-overview-export-dataset value="coalForecast" type="checkbox">燃煤预测</label>
+            <label><input data-overview-export-dataset value="priceForecast" type="checkbox">电价预测</label>
+            <label><input data-overview-export-dataset value="rollingAuction" type="checkbox">日滚撮明细</label>
+            <label><input data-overview-export-dataset value="temperature" type="checkbox">温度</label>
+            <label><input data-overview-export-dataset value="realtime" type="checkbox">实时运行</label>
+            <label><input data-overview-export-dataset value="clearing" type="checkbox">市场出清</label>
+          </div>
+        </fieldset>
+        <p class="overview-export-status" id="overviewExportStatus" role="status" aria-live="polite"></p>
+        <div class="overview-export-actions">
+          <button id="overviewExportCancel" type="button">取消</button>
+          <button id="overviewExportRun" type="button">开始导出</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <main class="trade-page page" data-page="trade" hidden>
     <section class="trade-panel" aria-labelledby="tradeTitle">
@@ -6217,6 +6405,8 @@
 
   </script>
   <script src="echarts.min.js"></script>
-<script src="overview.js?v=20260731-8"></script>
+  <script src="exceljs.min.js"></script>
+  <script src="overview.js?v=20260801-1"></script>
+  <script src="overview-export.js?v=20260801-1"></script>
 </body>
 </html>
