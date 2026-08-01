@@ -110,14 +110,12 @@
   }
 
   function findAdjacentDate(availableDates, selectedDate, direction) {
-    if (!availableDates.length) return "";
-    const currentIndex = availableDates.indexOf(selectedDate);
-    if (currentIndex < 0) return direction < 0 ? availableDates[0] : availableDates.at(-1);
-    const nextIndex = Math.max(
-      0,
-      Math.min(availableDates.length - 1, currentIndex + direction),
-    );
-    return availableDates[nextIndex];
+    if (!availableDates.length || !selectedDate || direction === 0) return "";
+    const sortedDates = Array.from(new Set(availableDates.filter(Boolean))).sort();
+    if (direction < 0) {
+      return sortedDates.findLast((dateValue) => dateValue < selectedDate) || "";
+    }
+    return sortedDates.find((dateValue) => dateValue > selectedDate) || "";
   }
 
   function collectTableColumns(rows) {
@@ -170,6 +168,13 @@
       : datasets[datasetName] || [];
   }
 
+  function createEmptyOverviewPayload(tradingDate) {
+    return {
+      tradingDate,
+      datasets: Object.fromEntries(VISIBLE_DATASET_NAMES.map((name) => [name, []])),
+    };
+  }
+
   function candidateLocalUrls(url) {
     const normalized = String(url || "").replace(/^\/+/, "");
     if (!normalized || normalized.startsWith("public/")) return [normalized];
@@ -214,8 +219,8 @@
     const clearing = datasets.clearing || [];
     const rolling = datasets.rollingAuction || [];
     const priceForecast = datasets.priceForecast || [];
-    const temperatures = mergeTemperatureRows(datasets);
     const coalForecast = datasets.coalForecast || [];
+    const temperature = mergeTemperatureRows(datasets);
 
     return {
       system: buildChartModel([
@@ -230,6 +235,18 @@
           ["non_market_gen_mw", "非市场化机组出力"],
           ["renewable_gen_mw", "新能源出力"],
           ["tie_line_mw", "联络线电力"],
+        ]),
+      ]),
+      loadTemperature: buildChartModel([
+        ...definitions(forecast, [
+          ["load_forecast_mw", "预测负荷", 0, "dashed"],
+        ]),
+        ...definitions(realtime, [
+          ["actual_load_mw", "实际负荷"],
+        ]),
+        ...definitions(temperature, [
+          ["forecast_temperature_c", "预测温度", 1, "dashed"],
+          ["actual_temperature_c", "实际温度", 1, "solid"],
         ]),
       ]),
       market: buildChartModel([
@@ -253,8 +270,6 @@
         ]),
       ]),
       clearing: buildChartModel(definitions(clearing, [
-        ["day_ahead_price", "日前节点电价"],
-        ["realtime_price", "实时节点电价"],
         ["storage_mw", "储能"],
         ["other_mw", "其他"],
         ["distributed_pv_mw", "分布式光伏"],
@@ -265,12 +280,8 @@
         ["oil_mw", "燃油"],
         ["coal_mw", "燃煤出力"],
         ["wind_mw", "风电"],
-        ["thermal_total_mw", "火电总出力"],
       ])),
-      weatherCoal: buildChartModel([
-        ...definitions(temperatures, [["actual_temperature_c", "实际温度", 1]]),
-        ...definitions(temperatures, [["forecast_temperature_c", "预测温度", 1]]),
-        ...definitions(coalForecast, [
+      weatherCoal: buildChartModel(definitions(coalForecast, [
           ["coal_forecast_mw", "集合燃煤预测"],
           ["coal_linear_mw", "线性燃煤预测"],
           ["coal_rf_mw", "随机森林燃煤预测"],
@@ -278,8 +289,7 @@
           ["coal_catboost_mw", "CatBoost燃煤预测"],
           ["coal_lightgbm_mw", "LightGBM燃煤预测"],
           ["coal_xgboost_mw", "XGBoost燃煤预测"],
-        ]),
-      ]),
+      ])),
     };
   }
 
@@ -288,9 +298,11 @@
     candidateLocalUrls,
     collectTableColumns,
     collectDatasetTableColumns,
+    createEmptyOverviewPayload,
     DATASET_LABELS,
     datasetRows,
     findAdjacentDate,
+    initializeOverviewPage,
     mergeTemperatureRows,
     sortTimeSlots,
     VISIBLE_DATASET_NAMES,
@@ -300,7 +312,9 @@
     module.exports = exported;
   }
 
-  if (!root?.document) return;
+  function initializeOverviewPage(pageRoot) {
+  const root = pageRoot;
+  if (!root?.document) return null;
 
   const page = root.document.querySelector('[data-page="overview"]');
   if (!page) return;
@@ -317,6 +331,7 @@
   };
   const chartElements = {
     system: root.document.getElementById("overviewSystemChart"),
+    loadTemperature: root.document.getElementById("overviewLoadTemperatureChart"),
     market: root.document.getElementById("overviewMarketChart"),
     clearing: root.document.getElementById("overviewClearingChart"),
     weatherCoal: root.document.getElementById("overviewWeatherCoalChart"),
@@ -491,9 +506,10 @@
     const models = buildOverviewModels(payload);
     const chartSettings = {
       system: [models.system, ["MW"]],
+      loadTemperature: [models.loadTemperature, ["MW", "℃"]],
       market: [models.market, ["元/MWh"]],
       clearing: [models.clearing, ["MW"]],
-      weatherCoal: [models.weatherCoal, ["MW", "℃"]],
+      weatherCoal: [models.weatherCoal, ["MW"]],
     };
     Object.entries(chartSettings).forEach(([name, [model, units]]) => {
       if (!charts[name]) charts[name] = root.echarts.init(chartElements[name]);
@@ -503,23 +519,18 @@
 
   function updateDateButtons() {
     const dates = manifest?.availableDates || [];
-    const index = dates.indexOf(elements.date.value);
-    elements.previous.disabled = index <= 0;
-    elements.next.disabled = index < 0 || index >= dates.length - 1;
+    elements.previous.disabled = !findAdjacentDate(dates, elements.date.value, -1);
+    elements.next.disabled = !findAdjacentDate(dates, elements.date.value, 1);
   }
 
   async function loadOverviewDate(tradingDate) {
-    if (!manifest?.entries?.[tradingDate]) {
-      setStatus("所选日期没有本地历史数据", "error");
-      return;
-    }
     const generation = ++requestGeneration;
-    setStatus(`正在读取 ${tradingDate} 的本地历史数据...`);
+    const entry = manifest?.entries?.[tradingDate];
+    if (entry) setStatus(`正在读取 ${tradingDate} 的本地历史数据...`);
     try {
-      const payload = await fetchLocalPayload(
-        manifest.entries[tradingDate],
-        manifest.generatedAt,
-      );
+      const payload = entry
+        ? await fetchLocalPayload(entry, manifest.generatedAt)
+        : createEmptyOverviewPayload(tradingDate);
       if (generation !== requestGeneration) return;
       currentPayload = payload;
       elements.date.value = tradingDate;
@@ -528,7 +539,12 @@
       renderTable(currentDataset);
       renderCharts(payload);
       updateDateButtons();
-      setStatus(`已显示 ${tradingDate} 的本地历史数据`, "success");
+      setStatus(
+        entry
+          ? `已显示 ${tradingDate} 的本地历史数据`
+          : `${tradingDate} 暂无本地历史数据，已显示空白概览`,
+        entry ? "success" : "empty",
+      );
     } catch (error) {
       if (generation !== requestGeneration) return;
       setStatus(error.message || "本地历史数据读取失败", "error");
@@ -541,11 +557,21 @@
     try {
       manifest = await fetchLocalPayload(manifestUrl, Date.now());
       const dates = manifest.availableDates || [];
-      if (!dates.length) throw new Error("本地历史数据为空");
-      elements.date.min = manifest.startDate;
-      elements.date.max = manifest.endDate;
-      elements.range.textContent = `${manifest.startDate} 至 ${manifest.endDate}，共 ${dates.length} 个日期`;
-      await loadOverviewDate(manifest.latestDate || dates.at(-1));
+      const currentDateResponse = await root.fetch("/api/overview-current-date", {
+        cache: "no-store",
+      });
+      if (!currentDateResponse.ok) throw new Error("服务器当日读取失败");
+      const currentDatePayload = await currentDateResponse.json();
+      if (!currentDatePayload?.ok || !/^\d{4}-\d{2}-\d{2}$/.test(currentDatePayload.currentDate || "")) {
+        throw new Error("服务器当日读取失败");
+      }
+      const rangeDates = [manifest.startDate, manifest.endDate, currentDatePayload.currentDate]
+        .filter(Boolean)
+        .sort();
+      elements.date.min = rangeDates[0];
+      elements.date.max = rangeDates.at(-1);
+      elements.range.textContent = `${rangeDates[0]} 至 ${rangeDates.at(-1)}，历史数据共 ${dates.length} 个日期`;
+      await loadOverviewDate(currentDatePayload.currentDate);
     } catch (error) {
       setStatus(error.message || "本地历史数据索引读取失败", "error");
     }
@@ -553,10 +579,12 @@
 
   elements.date.addEventListener("change", () => loadOverviewDate(elements.date.value));
   elements.previous.addEventListener("click", () => {
-    loadOverviewDate(findAdjacentDate(manifest?.availableDates || [], elements.date.value, -1));
+    const adjacentDate = findAdjacentDate(manifest?.availableDates || [], elements.date.value, -1);
+    if (adjacentDate) return loadOverviewDate(adjacentDate);
   });
   elements.next.addEventListener("click", () => {
-    loadOverviewDate(findAdjacentDate(manifest?.availableDates || [], elements.date.value, 1));
+    const adjacentDate = findAdjacentDate(manifest?.availableDates || [], elements.date.value, 1);
+    if (adjacentDate) return loadOverviewDate(adjacentDate);
   });
   elements.tabs.addEventListener("click", (event) => {
     const button = event.target.closest("[data-overview-dataset]");
@@ -571,5 +599,9 @@
     Object.values(charts).forEach((chart) => chart.resize());
   });
 
-  loadOverviewManifest();
+  const ready = loadOverviewManifest();
+  return { loadOverviewDate, loadOverviewManifest, ready };
+  }
+
+  initializeOverviewPage(root);
 }(typeof window !== "undefined" ? window : null));
