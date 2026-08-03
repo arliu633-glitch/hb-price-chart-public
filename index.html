@@ -5615,6 +5615,12 @@
       ];
     }
 
+    function formatForecastChartValue(value, dataType) {
+      return dataType === "coal"
+        ? String(Math.round(Number(value)))
+        : Number(value).toFixed(2);
+    }
+
     function renderForecastLegend(container, dataType) {
       if (!container) return;
       container.replaceChildren();
@@ -5911,7 +5917,7 @@
             fill: "#ffffff",
             "font-size": 12,
             "font-weight": item.name === "ensemble" ? 700 : 500,
-          }, `${item.values[rowIndex].toFixed(2)} ${unit}`));
+          }, `${formatForecastChartValue(item.values[rowIndex], dataType)} ${unit}`));
         });
       }
 
@@ -6406,7 +6412,7 @@
   </script>
   <script src="echarts.min.js"></script>
   <script src="exceljs.min.js"></script>
-  <script src="overview.js?v=20260801-1"></script>
+  <script src="overview.js?v=20260803-1"></script>
   <script src="overview-export.js?v=20260801-1"></script>
 </body>
 </html>

@@ -139,6 +139,20 @@
       : columns;
   }
 
+  function formatOverviewValue(datasetName, column, value) {
+    if (value === null || value === undefined) return "";
+    const decimalPlaces = datasetName === "coalForecast" && /^coal_.*_mw$/.test(column)
+      ? 0
+      : datasetName === "priceForecast" && /^realtime_.*_price$/.test(column)
+        ? 2
+        : null;
+    if (decimalPlaces === null) return String(value);
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue)
+      ? numericValue.toFixed(decimalPlaces)
+      : String(value);
+  }
+
   function mergeTemperatureRows(datasets) {
     const temperatures = new Map();
     const addRows = (rows, fieldName) => {
@@ -193,6 +207,7 @@
         name: definition.name,
         axis: definition.axis || 0,
         lineType: definition.lineType || "solid",
+        decimalPlaces: definition.decimalPlaces ?? null,
         data: times.map((time) => {
           const value = byTime.get(time);
           return typeof value === "number" ? value : null;
@@ -203,12 +218,13 @@
   }
 
   function definitions(rows, fields) {
-    return fields.map(([field, name, axis = 0, lineType = "solid"]) => ({
+    return fields.map(([field, name, axis = 0, lineType = "solid", decimalPlaces = null]) => ({
       rows,
       field,
       name,
       axis,
       lineType,
+      decimalPlaces,
     }));
   }
 
@@ -255,13 +271,13 @@
           ["realtime_price", "实时节点电价"],
         ]),
         ...definitions(priceForecast, [
-          ["realtime_ensemble_price", "集合实时电价预测"],
-          ["realtime_linear_price", "线性预测"],
-          ["realtime_rf_price", "随机森林预测"],
-          ["realtime_bagging_price", "Bagging预测"],
-          ["realtime_catboost_price", "CatBoost预测"],
-          ["realtime_lightgbm_price", "LightGBM预测"],
-          ["realtime_xgboost_price", "XGBoost预测"],
+          ["realtime_ensemble_price", "集合实时电价预测", 0, "solid", 2],
+          ["realtime_linear_price", "线性预测", 0, "solid", 2],
+          ["realtime_rf_price", "随机森林预测", 0, "solid", 2],
+          ["realtime_bagging_price", "Bagging预测", 0, "solid", 2],
+          ["realtime_catboost_price", "CatBoost预测", 0, "solid", 2],
+          ["realtime_lightgbm_price", "LightGBM预测", 0, "solid", 2],
+          ["realtime_xgboost_price", "XGBoost预测", 0, "solid", 2],
         ]),
         ...definitions(rolling, [
           ["d2_mid_price", "D-2滚撮中位价"],
@@ -282,13 +298,13 @@
         ["wind_mw", "风电"],
       ])),
       weatherCoal: buildChartModel(definitions(coalForecast, [
-          ["coal_forecast_mw", "集合燃煤预测"],
-          ["coal_linear_mw", "线性燃煤预测"],
-          ["coal_rf_mw", "随机森林燃煤预测"],
-          ["coal_bagging_mw", "Bagging燃煤预测"],
-          ["coal_catboost_mw", "CatBoost燃煤预测"],
-          ["coal_lightgbm_mw", "LightGBM燃煤预测"],
-          ["coal_xgboost_mw", "XGBoost燃煤预测"],
+          ["coal_forecast_mw", "集合燃煤预测", 0, "solid", 0],
+          ["coal_linear_mw", "线性燃煤预测", 0, "solid", 0],
+          ["coal_rf_mw", "随机森林燃煤预测", 0, "solid", 0],
+          ["coal_bagging_mw", "Bagging燃煤预测", 0, "solid", 0],
+          ["coal_catboost_mw", "CatBoost燃煤预测", 0, "solid", 0],
+          ["coal_lightgbm_mw", "LightGBM燃煤预测", 0, "solid", 0],
+          ["coal_xgboost_mw", "XGBoost燃煤预测", 0, "solid", 0],
       ])),
     };
   }
@@ -303,6 +319,7 @@
     FIELD_LABELS,
     datasetRows,
     findAdjacentDate,
+    formatOverviewValue,
     initializeOverviewPage,
     mergeTemperatureRows,
     sortTimeSlots,
@@ -417,7 +434,9 @@
       `<th title="${escapeHtml(column)}">${escapeHtml(FIELD_LABELS[column] || column)}</th>`
     )).join("");
     const body = rows.map((row) => (
-      `<tr>${columns.map((column) => `<td>${escapeHtml(row[column])}</td>`).join("")}</tr>`
+      `<tr>${columns.map((column) => (
+        `<td>${escapeHtml(formatOverviewValue(datasetName, column, row[column]))}</td>`
+      )).join("")}</tr>`
     )).join("");
     elements.table.innerHTML = `<thead><tr>${head}</tr></thead><tbody>${body}</tbody>`;
   }
@@ -486,6 +505,13 @@
         type: "line",
         yAxisIndex: series.axis,
         data: series.data,
+        tooltip: series.decimalPlaces === null ? undefined : {
+          valueFormatter: (value) => formatOverviewValue(
+            series.decimalPlaces === 0 ? "coalForecast" : "priceForecast",
+            series.decimalPlaces === 0 ? "coal_forecast_mw" : "realtime_ensemble_price",
+            value,
+          ),
+        },
         showSymbol: false,
         connectNulls: false,
         lineStyle: { width: 1.7, type: series.lineType },
