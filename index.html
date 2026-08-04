@@ -3366,6 +3366,30 @@
         .filter((item) => getImportRowPoint(item.row) === targetPoint);
     }
 
+    function getDailyImportGroupKey(row) {
+      return `${row?.tradeDate || "-"}|${row?.runDate || "-"}|${getImportRowPoint(row)}`;
+    }
+
+    function getDailyImportRowsByGroup(rows, groupKey) {
+      return rows
+        .map((row, index) => ({ index, row }))
+        .filter((item) => getDailyImportGroupKey(item.row) === String(groupKey));
+    }
+
+    function deleteDailyImportRowsByGroups(rows, groupKeys) {
+      const groupKeySet = new Set(Array.from(groupKeys || [], String));
+      return rows.filter((row) => !groupKeySet.has(getDailyImportGroupKey(row)));
+    }
+
+    function syncPendingDailyImportRecords(records, rows) {
+      return records.map((record) => ({
+        ...record,
+        rows: rows
+          .filter((row) => row.sourceFileName === record.fileName)
+          .map((row) => ({ ...row })),
+      }));
+    }
+
     function updateImportRowValues(rows, index, volume, price) {
       const numericVolume = Number(volume);
       const numericPrice = Number(price);
@@ -4751,6 +4775,10 @@
 
         pendingMonthlyImportRows = result.rows || [];
         if (isDailyRollingImportMode()) {
+          pendingMonthlyImportRows = pendingMonthlyImportRows.map((row) => ({
+            ...row,
+            sourceFileName: file.name,
+          }));
           pendingDailyImportRecords = [{
             fileName: file.name,
             tradeDate: result.tradeDate,
@@ -4828,7 +4856,10 @@
           if (!response.ok || !result.ok) {
             throw new Error(`${file.name}：${result.message || "解析失败"}`);
           }
-          const rows = result.rows || [];
+          const rows = (result.rows || []).map((row) => ({
+            ...row,
+            sourceFileName: file.name,
+          }));
           pendingDailyImportRecords.push({
             fileName: file.name,
             tradeDate: result.tradeDate,
