@@ -11,11 +11,10 @@
     clearing: "市场出清",
   });
   const VISIBLE_DATASET_NAMES = Object.freeze(Object.keys(DATASET_LABELS));
+  const TABLE_METADATA_HIDDEN_COLUMNS = new Set(["source_file", "uploaded_at"]);
   const CLEARING_HIDDEN_COLUMNS = new Set([
     "id",
     "province_code",
-    "source_file",
-    "uploaded_at",
     "d2_mid_price",
     "d2_low_price",
     "d2_high_price",
@@ -133,7 +132,8 @@
   }
 
   function collectDatasetTableColumns(datasetName, rows) {
-    const columns = collectTableColumns(rows);
+    const columns = collectTableColumns(rows)
+      .filter((column) => !TABLE_METADATA_HIDDEN_COLUMNS.has(column));
     return datasetName === "clearing"
       ? columns.filter((column) => !CLEARING_HIDDEN_COLUMNS.has(column))
       : columns;
@@ -203,13 +203,23 @@
       const byTime = new Map(
         definition.rows.map((row) => [row.time_slot, row[definition.field]]),
       );
+      const hourlyValues = new Map(
+        definition.rows.flatMap((row) => {
+          const match = /^(\d{1,2}):00$/.exec(String(row.time_slot || ""));
+          return match ? [[Number(match[1]), row[definition.field]]] : [];
+        }),
+      );
       return {
         name: definition.name,
         axis: definition.axis || 0,
         lineType: definition.lineType || "solid",
         decimalPlaces: definition.decimalPlaces ?? null,
         data: times.map((time) => {
-          const value = byTime.get(time);
+          let value = byTime.get(time);
+          if (typeof value !== "number" && definition.fillWithinHour) {
+            const match = /^(\d{1,2}):(?:00|15|30|45)$/.exec(String(time || ""));
+            value = match ? hourlyValues.get(Number(match[1])) : null;
+          }
           return typeof value === "number" ? value : null;
         }),
       };
@@ -218,13 +228,21 @@
   }
 
   function definitions(rows, fields) {
-    return fields.map(([field, name, axis = 0, lineType = "solid", decimalPlaces = null]) => ({
+    return fields.map(([
+      field,
+      name,
+      axis = 0,
+      lineType = "solid",
+      decimalPlaces = null,
+      fillWithinHour = false,
+    ]) => ({
       rows,
       field,
       name,
       axis,
       lineType,
       decimalPlaces,
+      fillWithinHour,
     }));
   }
 
@@ -261,8 +279,8 @@
           ["actual_load_mw", "实际负荷"],
         ]),
         ...definitions(temperature, [
-          ["forecast_temperature_c", "预测温度", 1, "dashed"],
-          ["actual_temperature_c", "实际温度", 1, "solid"],
+          ["forecast_temperature_c", "预测温度", 1, "dashed", null, true],
+          ["actual_temperature_c", "实际温度", 1, "solid", null, true],
         ]),
       ]),
       market: buildChartModel([

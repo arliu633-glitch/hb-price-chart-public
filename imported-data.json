@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-04T02:34:05.614Z",
+  "updatedAt": "2026-08-05T14:35:52.581Z",
   "monthly": {
     "2026年7月月度集中竞价交易结果.xlsx": {
       "fileName": "2026年7月月度集中竞价交易结果.xlsx",
@@ -5107,6 +5107,74 @@
           "volume": -4.226,
           "rawVolume": 4.226,
           "price": 435.1
+        }
+      ]
+    },
+    "2026年8月4日日滚动交易(2026-08-07).xlsx": {
+      "fileName": "2026年8月4日日滚动交易(2026-08-07).xlsx",
+      "tradeDate": "2026-08-04",
+      "runDate": "2026-08-07",
+      "dayOffset": 3,
+      "rows": [
+        {
+          "tradeDate": "2026-08-04",
+          "runDate": "2026-08-07",
+          "dayOffset": 3,
+          "point": 17,
+          "hour": "16:00-17:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -30,
+          "rawVolume": 30,
+          "price": 431.85,
+          "sourceFileName": "2026年8月4日日滚动交易(2026-08-07).xlsx"
+        },
+        {
+          "tradeDate": "2026-08-04",
+          "runDate": "2026-08-07",
+          "dayOffset": 3,
+          "point": 20,
+          "hour": "19:00-20:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -30,
+          "rawVolume": 30,
+          "price": 435,
+          "sourceFileName": "2026年8月4日日滚动交易(2026-08-07).xlsx"
+        }
+      ]
+    },
+    "2026年8月5日日滚动交易(2026-08-09).xlsx": {
+      "fileName": "2026年8月5日日滚动交易(2026-08-09).xlsx",
+      "tradeDate": "2026-08-05",
+      "runDate": "2026-08-09",
+      "dayOffset": 4,
+      "rows": [
+        {
+          "tradeDate": "2026-08-05",
+          "runDate": "2026-08-09",
+          "dayOffset": 4,
+          "point": 10,
+          "hour": "09:00-10:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 12.858,
+          "rawVolume": 12.858,
+          "price": 319.38,
+          "sourceFileName": "2026年8月5日日滚动交易(2026-08-09).xlsx"
+        },
+        {
+          "tradeDate": "2026-08-05",
+          "runDate": "2026-08-09",
+          "dayOffset": 4,
+          "point": 11,
+          "hour": "10:00-11:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 22.33,
+          "rawVolume": 22.33,
+          "price": 315,
+          "sourceFileName": "2026年8月5日日滚动交易(2026-08-09).xlsx"
         }
       ]
     }
