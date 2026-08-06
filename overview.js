@@ -96,6 +96,13 @@
     "#0369a1",
     "#6d28d9",
   ];
+  const PAIRED_SERIES_COLORS = Object.freeze({
+    load: "#0f766e",
+    nonMarket: "#dc2626",
+    renewable: "#2563eb",
+    tieLine: "#d97706",
+    temperature: "#7c3aed",
+  });
 
   function timeSlotValue(timeSlot) {
     const match = /^(\d{1,2}):(\d{2})$/.exec(String(timeSlot || ""));
@@ -214,6 +221,7 @@
         axis: definition.axis || 0,
         lineType: definition.lineType || "solid",
         decimalPlaces: definition.decimalPlaces ?? null,
+        colorKey: definition.colorKey ?? null,
         data: times.map((time) => {
           let value = byTime.get(time);
           if (typeof value !== "number" && definition.fillWithinHour) {
@@ -235,6 +243,7 @@
       lineType = "solid",
       decimalPlaces = null,
       fillWithinHour = false,
+      colorKey = null,
     ]) => ({
       rows,
       field,
@@ -243,6 +252,7 @@
       lineType,
       decimalPlaces,
       fillWithinHour,
+      colorKey,
     }));
   }
 
@@ -259,28 +269,28 @@
     return {
       system: buildChartModel([
         ...definitions(forecast, [
-          ["load_forecast_mw", "负荷预测", 0, "dashed"],
-          ["non_market_forecast_mw", "非市场化机组预测", 0, "dashed"],
-          ["renewable_forecast_mw", "新能源预测", 0, "dashed"],
-          ["external_import_mw", "区外受电计划", 0, "dashed"],
+          ["load_forecast_mw", "负荷预测", 0, "dashed", null, false, "load"],
+          ["non_market_forecast_mw", "非市场化机组预测", 0, "dashed", null, false, "nonMarket"],
+          ["renewable_forecast_mw", "新能源预测", 0, "dashed", null, false, "renewable"],
+          ["external_import_mw", "区外受电计划", 0, "dashed", null, false, "tieLine"],
         ]),
         ...definitions(realtime, [
-          ["actual_load_mw", "实际负荷"],
-          ["non_market_gen_mw", "非市场化机组出力"],
-          ["renewable_gen_mw", "新能源出力"],
-          ["tie_line_mw", "联络线电力"],
+          ["actual_load_mw", "实际负荷", 0, "solid", null, false, "load"],
+          ["non_market_gen_mw", "非市场化机组出力", 0, "solid", null, false, "nonMarket"],
+          ["renewable_gen_mw", "新能源出力", 0, "solid", null, false, "renewable"],
+          ["tie_line_mw", "联络线电力", 0, "solid", null, false, "tieLine"],
         ]),
       ]),
       loadTemperature: buildChartModel([
         ...definitions(forecast, [
-          ["load_forecast_mw", "预测负荷", 0, "dashed"],
+          ["load_forecast_mw", "预测负荷", 0, "dashed", null, false, "load"],
         ]),
         ...definitions(realtime, [
-          ["actual_load_mw", "实际负荷"],
+          ["actual_load_mw", "实际负荷", 0, "solid", null, false, "load"],
         ]),
         ...definitions(temperature, [
-          ["forecast_temperature_c", "预测温度", 1, "dashed", null, true],
-          ["actual_temperature_c", "实际温度", 1, "solid", null, true],
+          ["forecast_temperature_c", "预测温度", 1, "dashed", null, true, "temperature"],
+          ["actual_temperature_c", "实际温度", 1, "solid", null, true, "temperature"],
         ]),
       ]),
       market: buildChartModel([
@@ -518,23 +528,31 @@
           splitLine: { show: false },
         }] : []),
       ],
-      series: model.series.map((series) => ({
-        name: series.name,
-        type: "line",
-        yAxisIndex: series.axis,
-        data: series.data,
-        tooltip: series.decimalPlaces === null ? undefined : {
-          valueFormatter: (value) => formatOverviewValue(
-            series.decimalPlaces === 0 ? "coalForecast" : "priceForecast",
-            series.decimalPlaces === 0 ? "coal_forecast_mw" : "realtime_ensemble_price",
-            value,
-          ),
-        },
-        showSymbol: false,
-        connectNulls: false,
-        lineStyle: { width: 1.7, type: series.lineType },
-        emphasis: { focus: "series", lineStyle: { width: 2.5 } },
-      })),
+      series: model.series.map((series) => {
+        const pairedColor = PAIRED_SERIES_COLORS[series.colorKey];
+        return {
+          name: series.name,
+          type: "line",
+          yAxisIndex: series.axis,
+          data: series.data,
+          tooltip: series.decimalPlaces === null ? undefined : {
+            valueFormatter: (value) => formatOverviewValue(
+              series.decimalPlaces === 0 ? "coalForecast" : "priceForecast",
+              series.decimalPlaces === 0 ? "coal_forecast_mw" : "realtime_ensemble_price",
+              value,
+            ),
+          },
+          showSymbol: false,
+          connectNulls: false,
+          itemStyle: pairedColor ? { color: pairedColor } : undefined,
+          lineStyle: {
+            width: 1.7,
+            type: series.lineType,
+            ...(pairedColor ? { color: pairedColor } : {}),
+          },
+          emphasis: { focus: "series", lineStyle: { width: 2.5 } },
+        };
+      }),
       graphic: hasValues ? [] : [{
         type: "text",
         left: "center",
