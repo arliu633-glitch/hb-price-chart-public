@@ -293,9 +293,8 @@
           ["actual_temperature_c", "实际温度", 1, "solid", null, true, "temperature"],
         ]),
       ]),
-      market: buildChartModel([
+      priceForecast: buildChartModel([
         ...definitions(clearing, [
-          ["day_ahead_price", "日前节点电价"],
           ["realtime_price", "实时节点电价"],
         ]),
         ...definitions(priceForecast, [
@@ -306,6 +305,12 @@
           ["realtime_catboost_price", "CatBoost预测", 0, "solid", 2],
           ["realtime_lightgbm_price", "LightGBM预测", 0, "solid", 2],
           ["realtime_xgboost_price", "XGBoost预测", 0, "solid", 2],
+        ]),
+      ]),
+      marketPrice: buildChartModel([
+        ...definitions(clearing, [
+          ["day_ahead_price", "日前节点电价"],
+          ["realtime_price", "实时节点电价"],
         ]),
         ...definitions(rolling, [
           ["d2_mid_price", "D-2滚撮中位价"],
@@ -379,7 +384,8 @@
   const chartElements = {
     system: root.document.getElementById("overviewSystemChart"),
     loadTemperature: root.document.getElementById("overviewLoadTemperatureChart"),
-    market: root.document.getElementById("overviewMarketChart"),
+    priceForecast: root.document.getElementById("overviewPriceForecastChart"),
+    marketPrice: root.document.getElementById("overviewMarketPriceChart"),
     clearing: root.document.getElementById("overviewClearingChart"),
     weatherCoal: root.document.getElementById("overviewWeatherCoalChart"),
   };
@@ -571,7 +577,8 @@
     const chartSettings = {
       system: [models.system, ["MW"]],
       loadTemperature: [models.loadTemperature, ["MW", "℃"]],
-      market: [models.market, ["元/MWh"]],
+      priceForecast: [models.priceForecast, ["元/MWh"]],
+      marketPrice: [models.marketPrice, ["元/MWh"]],
       clearing: [models.clearing, ["MW"]],
       weatherCoal: [models.weatherCoal, ["MW"]],
     };

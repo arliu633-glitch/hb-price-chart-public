@@ -554,6 +554,16 @@
       background: #eff6ff;
     }
 
+    .long-term-revenue-period-title {
+      grid-column: 1 / -1;
+      padding: 8px 14px;
+      border-top: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
     .long-term-revenue-label {
       display: block;
       color: #64748b;
@@ -578,8 +588,14 @@
       font-size: 12px;
     }
 
-    .long-term-revenue-summary.is-incomplete .long-term-revenue-value,
-    .long-term-revenue-summary.is-incomplete .long-term-revenue-status {
+    .long-term-revenue-summary.is-incomplete .long-term-revenue-item:not(.is-monthly-cumulative) .long-term-revenue-value,
+    .long-term-revenue-summary.is-incomplete #longTermRevenueStatus {
+      color: #b45309;
+      background: #fffbeb;
+    }
+
+    .long-term-revenue-summary.is-month-incomplete .is-monthly-cumulative .long-term-revenue-value,
+    .long-term-revenue-summary.is-month-incomplete .monthly-cumulative-revenue-status {
       color: #b45309;
       background: #fffbeb;
     }
@@ -2175,9 +2191,13 @@
           <h2 id="overviewSystemTitle">系统供需与披露预测</h2>
           <div class="overview-chart" id="overviewSystemChart" role="img" aria-label="系统供需与披露预测图"></div>
         </section>
-        <section class="overview-chart-panel" aria-labelledby="overviewMarketTitle">
-          <h2 id="overviewMarketTitle">节点电价与日滚撮价格</h2>
-          <div class="overview-chart" id="overviewMarketChart" role="img" aria-label="节点电价与日滚撮价格图"></div>
+        <section class="overview-chart-panel" aria-labelledby="overviewPriceForecastTitle">
+          <h2 id="overviewPriceForecastTitle">实时节点电价预测</h2>
+          <div class="overview-chart" id="overviewPriceForecastChart" role="img" aria-label="实时节点电价预测图"></div>
+        </section>
+        <section class="overview-chart-panel" aria-labelledby="overviewMarketPriceTitle">
+          <h2 id="overviewMarketPriceTitle">节点电价与日滚撮价格</h2>
+          <div class="overview-chart" id="overviewMarketPriceChart" role="img" aria-label="节点电价与日滚撮价格图"></div>
         </section>
         <section class="overview-chart-panel" aria-labelledby="overviewLoadTemperatureTitle">
           <h2 id="overviewLoadTemperatureTitle">负荷与温度</h2>
@@ -2343,6 +2363,28 @@
             <strong class="long-term-revenue-value" id="longTermRevenueDailyRolling">-</strong>
           </div>
           <div class="long-term-revenue-status" id="longTermRevenueStatus">正在读取统一结算点现货实时电价</div>
+          <div class="long-term-revenue-period-title" id="monthlyCumulativeRevenueTitle">当月累计收益</div>
+          <div class="long-term-revenue-item is-total is-monthly-cumulative">
+            <span class="long-term-revenue-label">当月中长期交易总收益</span>
+            <strong class="long-term-revenue-value" id="monthlyCumulativeRevenueTotal">-</strong>
+          </div>
+          <div class="long-term-revenue-item is-monthly-cumulative">
+            <span class="long-term-revenue-label">当月年度集中竞价交易累计收益</span>
+            <strong class="long-term-revenue-value" id="monthlyCumulativeRevenueAnnual">-</strong>
+          </div>
+          <div class="long-term-revenue-item is-monthly-cumulative">
+            <span class="long-term-revenue-label">当月月度集中竞价交易累计收益</span>
+            <strong class="long-term-revenue-value" id="monthlyCumulativeRevenueMonthly">-</strong>
+          </div>
+          <div class="long-term-revenue-item is-monthly-cumulative">
+            <span class="long-term-revenue-label">当月旬度集中竞价交易累计收益</span>
+            <strong class="long-term-revenue-value" id="monthlyCumulativeRevenueTenDay">-</strong>
+          </div>
+          <div class="long-term-revenue-item is-monthly-cumulative">
+            <span class="long-term-revenue-label">当月日滚动撮合交易累计收益</span>
+            <strong class="long-term-revenue-value" id="monthlyCumulativeRevenueDailyRolling">-</strong>
+          </div>
+          <div class="long-term-revenue-status monthly-cumulative-revenue-status" id="monthlyCumulativeRevenueStatus">正在计算当月累计收益</div>
         </div>
       </section>
       <div class="trade-workspace">
@@ -2512,6 +2554,13 @@
     const longTermRevenueDailyRolling = document.getElementById("longTermRevenueDailyRolling");
     const longTermRevenueTotal = document.getElementById("longTermRevenueTotal");
     const longTermRevenueStatus = document.getElementById("longTermRevenueStatus");
+    const monthlyCumulativeRevenueTitle = document.getElementById("monthlyCumulativeRevenueTitle");
+    const monthlyCumulativeRevenueAnnual = document.getElementById("monthlyCumulativeRevenueAnnual");
+    const monthlyCumulativeRevenueMonthly = document.getElementById("monthlyCumulativeRevenueMonthly");
+    const monthlyCumulativeRevenueTenDay = document.getElementById("monthlyCumulativeRevenueTenDay");
+    const monthlyCumulativeRevenueDailyRolling = document.getElementById("monthlyCumulativeRevenueDailyRolling");
+    const monthlyCumulativeRevenueTotal = document.getElementById("monthlyCumulativeRevenueTotal");
+    const monthlyCumulativeRevenueStatus = document.getElementById("monthlyCumulativeRevenueStatus");
     const monthlyImportOpen = document.getElementById("monthlyImportOpen");
     const monthlyImportModal = document.getElementById("monthlyImportModal");
     const monthlyImportClose = document.getElementById("monthlyImportClose");
@@ -2608,6 +2657,9 @@
       missingSpotPricePoints: Array.from({ length: 24 }, (_, index) => index + 1),
     };
     let summarySpotPriceRequestGeneration = 0;
+    let summaryMonthlyRevenueRequestGeneration = 0;
+    const summarySpotPriceCache = new Map();
+    let summaryMonthlyRevenueState = null;
     let activeTradeType = tradeTypeButtons[0]?.dataset.tradeType || "";
     let pendingMonthlyImportRows = [];
     let pendingMonthlyImportFileName = "";
@@ -3798,6 +3850,52 @@
       };
     }
 
+    function calculateMonthlyCumulativeRevenue(monthValue, endDate, spotPayloadByDate, getHourlyData) {
+      const endDay = endDate?.startsWith(`${monthValue}-`)
+        ? Number(endDate.slice(-2))
+        : 0;
+      const expectedDates = Array.from({ length: Math.max(0, endDay) }, (_, index) => (
+        `${monthValue}-${String(index + 1).padStart(2, "0")}`
+      ));
+      const totals = {
+        annual: 0,
+        monthly: 0,
+        tenDay: 0,
+        dailyRolling: 0,
+        total: 0,
+      };
+      const completeDates = [];
+      const skippedDates = [];
+
+      expectedDates.forEach((date) => {
+        const dailySummary = calculateLongTermRevenueSummary(
+          getHourlyData(date),
+          spotPayloadByDate?.[date] || {},
+        );
+        if (!dailySummary.complete) {
+          skippedDates.push(date);
+          return;
+        }
+        completeDates.push(date);
+        Object.keys(totals).forEach((key) => {
+          totals[key] += Number(dailySummary.totals[key] || 0);
+        });
+      });
+
+      if (completeDates.length === 0) {
+        Object.keys(totals).forEach((key) => {
+          totals[key] = null;
+        });
+      }
+      return {
+        complete: expectedDates.length > 0 && skippedDates.length === 0,
+        expectedDates,
+        completeDates,
+        skippedDates,
+        totals,
+      };
+    }
+
     function aggregateDailyRowsByPoint(rows) {
       const grouped = Array.from({ length: 24 }, (_, index) => ({
         label: `${index + 1}`,
@@ -4458,6 +4556,53 @@
       }
     }
 
+    function renderMonthlyCumulativeRevenue(summary, endDate) {
+      if (!longTermRevenueSummary || activeTradeType !== "中长期交易汇总") return;
+      const monthValue = String(endDate || "").slice(0, 7);
+      longTermRevenueSummary.classList.toggle("is-month-incomplete", !summary.complete);
+      if (monthlyCumulativeRevenueTitle) {
+        monthlyCumulativeRevenueTitle.textContent = `${monthValue} 当月累计收益（截至 ${endDate}）`;
+      }
+      const valueElements = {
+        annual: monthlyCumulativeRevenueAnnual,
+        monthly: monthlyCumulativeRevenueMonthly,
+        tenDay: monthlyCumulativeRevenueTenDay,
+        dailyRolling: monthlyCumulativeRevenueDailyRolling,
+        total: monthlyCumulativeRevenueTotal,
+      };
+      Object.entries(valueElements).forEach(([key, element]) => {
+        if (element) element.textContent = formatRevenueValue(summary.totals[key]);
+      });
+      if (monthlyCumulativeRevenueStatus) {
+        const accumulatedCount = summary.completeDates.length;
+        const expectedCount = summary.expectedDates.length;
+        const skippedText = summary.skippedDates.length
+          ? `；未计入 ${summary.skippedDates.length} 天（现货电价24点不完整）`
+          : "";
+        monthlyCumulativeRevenueStatus.textContent = `已累计 ${accumulatedCount}/${expectedCount} 天${skippedText}，截止日期 ${endDate}`;
+      }
+    }
+
+    function renderMonthlyCumulativeRevenueLoading(endDate) {
+      if (!longTermRevenueSummary || activeTradeType !== "中长期交易汇总") return;
+      const valueElements = [
+        monthlyCumulativeRevenueAnnual,
+        monthlyCumulativeRevenueMonthly,
+        monthlyCumulativeRevenueTenDay,
+        monthlyCumulativeRevenueDailyRolling,
+        monthlyCumulativeRevenueTotal,
+      ];
+      valueElements.forEach((element) => {
+        if (element) element.textContent = "计算中";
+      });
+      if (monthlyCumulativeRevenueTitle) {
+        monthlyCumulativeRevenueTitle.textContent = `${String(endDate || "").slice(0, 7)} 当月累计收益（截至 ${endDate}）`;
+      }
+      if (monthlyCumulativeRevenueStatus) {
+        monthlyCumulativeRevenueStatus.textContent = "正在逐日读取统一结算点现货实时电价";
+      }
+    }
+
     function renderAnnualChart() {
       if (!annualChart) return;
       let data = getCentralizedHourlyData();
@@ -4477,6 +4622,15 @@
         const revenueSummary = calculateLongTermRevenueSummary(data, spotPayload);
         data = revenueSummary.hourlyData;
         renderLongTermRevenueSummary(revenueSummary, summaryRunDate);
+        if (summaryMonthlyRevenueState?.endDate === summaryRunDate) {
+          const monthlySummary = calculateMonthlyCumulativeRevenue(
+            getSelectedMonthValue(),
+            summaryRunDate,
+            summaryMonthlyRevenueState.spotPayloadByDate,
+            (date) => getLongTermSummaryHourlyData(getSelectedMonthValue(), date),
+          );
+          renderMonthlyCumulativeRevenue(monthlySummary, summaryRunDate);
+        }
       } else if (longTermRevenueSummary) {
         longTermRevenueSummary.hidden = true;
       }
@@ -5577,9 +5731,10 @@
       return payload;
     }
 
-    async function loadSummarySpotPrices(date = "") {
-      const selectedDate = date || getSelectedSummaryRunDate();
-      const requestGeneration = ++summarySpotPriceRequestGeneration;
+    async function fetchSummarySpotPricePayload(selectedDate, useCache = true) {
+      if (useCache && summarySpotPriceCache.has(selectedDate)) {
+        return summarySpotPriceCache.get(selectedDate);
+      }
       let payload = {
         spotPriceDate: selectedDate,
         spotPrices: [],
@@ -5614,8 +5769,7 @@
           spotPriceError: error instanceof Error ? error.message : "无法读取统一结算点现货实时电价",
         };
       }
-      if (requestGeneration !== summarySpotPriceRequestGeneration) return summarySpotPricePayload;
-      summarySpotPricePayload = {
+      const normalizedPayload = {
         spotPriceDate: payload.spotPriceDate || selectedDate,
         spotPrices: Array.isArray(payload.spotPrices) ? payload.spotPrices : [],
         spotPriceComplete: payload.spotPriceComplete === true,
@@ -5624,8 +5778,45 @@
           : Array.from({ length: 24 }, (_, index) => index + 1),
         spotPriceError: payload.spotPriceError || "",
       };
+      summarySpotPriceCache.set(selectedDate, normalizedPayload);
+      return normalizedPayload;
+    }
+
+    async function loadSummaryMonthlyRevenue(endDate = "") {
+      const selectedEndDate = endDate || getSelectedSummaryRunDate();
+      const monthValue = selectedEndDate.slice(0, 7);
+      const endDay = Number(selectedEndDate.slice(-2)) || 0;
+      const dates = Array.from({ length: endDay }, (_, index) => (
+        `${monthValue}-${String(index + 1).padStart(2, "0")}`
+      ));
+      const requestGeneration = ++summaryMonthlyRevenueRequestGeneration;
+      summaryMonthlyRevenueState = null;
+      renderMonthlyCumulativeRevenueLoading(selectedEndDate);
+      const payloads = await Promise.all(dates.map((date) => fetchSummarySpotPricePayload(date)));
+      if (requestGeneration !== summaryMonthlyRevenueRequestGeneration) return null;
+      const spotPayloadByDate = Object.fromEntries(
+        dates.map((date, index) => [date, payloads[index]]),
+      );
+      summaryMonthlyRevenueState = { endDate: selectedEndDate, spotPayloadByDate };
+      const summary = calculateMonthlyCumulativeRevenue(
+        monthValue,
+        selectedEndDate,
+        spotPayloadByDate,
+        (date) => getLongTermSummaryHourlyData(monthValue, date),
+      );
+      renderMonthlyCumulativeRevenue(summary, selectedEndDate);
+      return summary;
+    }
+
+    async function loadSummarySpotPrices(date = "") {
+      const selectedDate = date || getSelectedSummaryRunDate();
+      const requestGeneration = ++summarySpotPriceRequestGeneration;
+      const payload = await fetchSummarySpotPricePayload(selectedDate, false);
+      if (requestGeneration !== summarySpotPriceRequestGeneration) return summarySpotPricePayload;
+      summarySpotPricePayload = payload;
       if (activeTradeType === "中长期交易汇总" && getSelectedSummaryRunDate() === selectedDate) {
         renderAnnualChart();
+        loadSummaryMonthlyRevenue(selectedDate);
       }
       return summarySpotPricePayload;
     }
@@ -6614,7 +6805,7 @@
   </script>
   <script src="echarts.min.js"></script>
   <script src="exceljs.min.js"></script>
-  <script src="overview.js?v=20260806-1"></script>
+  <script src="overview.js?v=20260813-1"></script>
   <script src="overview-export.js?v=20260801-1"></script>
 </body>
 </html>
