@@ -2527,6 +2527,12 @@
     const uploadButton = document.getElementById("uploadButton");
     const statusText = document.getElementById("status");
     const chartObject = document.getElementById("chartObject");
+    const rollingChartPath = "实时滚动电价折线图.svg";
+
+    function refreshRollingChart() {
+      if (!chartObject) return;
+      chartObject.data = `${rollingChartPath}?v=${Date.now()}`;
+    }
     const pageTabs = Array.from(document.querySelectorAll("[data-page-target]"));
     const pages = Array.from(document.querySelectorAll("[data-page]"));
     const pagePanels = Array.from(document.querySelectorAll("[data-page-panel]"));
@@ -6724,6 +6730,7 @@
     });
 
     chartObject?.addEventListener("load", syncRollingChartTitle);
+    refreshRollingChart();
 
     function setStatus(message, type = "") {
       statusText.textContent = message;
@@ -6774,7 +6781,7 @@
         if (!response.ok || !result.ok) {
           throw new Error(result.message || "解析失败");
         }
-        chartObject.data = `实时滚动电价折线图.svg?v=${Date.now()}`;
+        refreshRollingChart();
         fileInput.value = "";
         setFile(null);
         const publishText = result.published ? "，已发布到公开网页" : "，公开网页已是最新";
