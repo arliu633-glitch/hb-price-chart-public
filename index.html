@@ -6772,6 +6772,18 @@
       setFile(file);
     });
 
+    function buildRollingUploadStatus(result) {
+      const publishText = result.publishError
+        ? "，本地图表已更新，但公开网页发布失败"
+        : result.published
+          ? "，已发布到公开网页"
+          : "，公开网页已是最新";
+      return {
+        message: `更新完成：${result.actualPoints} 个实时点，${result.forecastPoints} 个预测点${publishText}`,
+        type: result.publishError ? "error" : "success",
+      };
+    }
+
     async function updateChart(request, pendingMessage) {
       setStatus(pendingMessage);
 
@@ -6784,8 +6796,8 @@
         refreshRollingChart();
         fileInput.value = "";
         setFile(null);
-        const publishText = result.published ? "，已发布到公开网页" : "，公开网页已是最新";
-        setStatus(`更新完成：${result.actualPoints} 个实时点，${result.forecastPoints} 个预测点${publishText}`, "success");
+        const uploadStatus = buildRollingUploadStatus(result);
+        setStatus(uploadStatus.message, uploadStatus.type);
       } catch (error) {
         setStatus(error.message || "解析失败，请确认已通过 app.py 打开网页", "error");
       } finally {
