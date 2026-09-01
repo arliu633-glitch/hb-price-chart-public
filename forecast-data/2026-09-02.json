@@ -1,0 +1,2124 @@
+{
+  "rows": [
+    {
+      "date": "2026-09-02",
+      "time": "00:15",
+      "coal": 19148,
+      "price": 409.59,
+      "coalModels": {
+        "Linear": 20459,
+        "RandomForest": 18626,
+        "Bagging": 17894,
+        "CatBoost": 19485,
+        "LightGBM": 18905,
+        "XGBoost": 19358
+      },
+      "priceModels": {
+        "Linear": 319.68,
+        "RandomForest": 426.72,
+        "Bagging": 410.75,
+        "CatBoost": 444.0,
+        "LightGBM": 400.06,
+        "XGBoost": 432.39
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "00:30",
+      "coal": 19143,
+      "price": 407.88,
+      "coalModels": {
+        "Linear": 20424,
+        "RandomForest": 18606,
+        "Bagging": 17894,
+        "CatBoost": 19453,
+        "LightGBM": 19008,
+        "XGBoost": 19313
+      },
+      "priceModels": {
+        "Linear": 317.05,
+        "RandomForest": 426.63,
+        "Bagging": 410.75,
+        "CatBoost": 443.83,
+        "LightGBM": 395.83,
+        "XGBoost": 428.88
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "00:45",
+      "coal": 19134,
+      "price": 407.35,
+      "coalModels": {
+        "Linear": 20391,
+        "RandomForest": 18692,
+        "Bagging": 17894,
+        "CatBoost": 19352,
+        "LightGBM": 18928,
+        "XGBoost": 19383
+      },
+      "priceModels": {
+        "Linear": 314.25,
+        "RandomForest": 426.47,
+        "Bagging": 415.09,
+        "CatBoost": 439.75,
+        "LightGBM": 394.81,
+        "XGBoost": 428.9
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "01:00",
+      "coal": 19039,
+      "price": 406.36,
+      "coalModels": {
+        "Linear": 20354,
+        "RandomForest": 18676,
+        "Bagging": 17873,
+        "CatBoost": 19255,
+        "LightGBM": 18693,
+        "XGBoost": 19219
+      },
+      "priceModels": {
+        "Linear": 313.55,
+        "RandomForest": 427.38,
+        "Bagging": 415.49,
+        "CatBoost": 437.22,
+        "LightGBM": 394.02,
+        "XGBoost": 425.7
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "01:15",
+      "coal": 18634,
+      "price": 392.49,
+      "coalModels": {
+        "Linear": 20355,
+        "RandomForest": 17994,
+        "Bagging": 17454,
+        "CatBoost": 18597,
+        "LightGBM": 18199,
+        "XGBoost": 18990
+      },
+      "priceModels": {
+        "Linear": 287.45,
+        "RandomForest": 413.89,
+        "Bagging": 437.75,
+        "CatBoost": 409.01,
+        "LightGBM": 376.28,
+        "XGBoost": 402.67
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "01:30",
+      "coal": 18458,
+      "price": 388.33,
+      "coalModels": {
+        "Linear": 20211,
+        "RandomForest": 17734,
+        "Bagging": 17375,
+        "CatBoost": 18362,
+        "LightGBM": 18028,
+        "XGBoost": 18819
+      },
+      "priceModels": {
+        "Linear": 285.79,
+        "RandomForest": 411.5,
+        "Bagging": 436.95,
+        "CatBoost": 402.45,
+        "LightGBM": 373.6,
+        "XGBoost": 392.36
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "01:45",
+      "coal": 18418,
+      "price": 389.65,
+      "coalModels": {
+        "Linear": 20196,
+        "RandomForest": 17754,
+        "Bagging": 17483,
+        "CatBoost": 18322,
+        "LightGBM": 17889,
+        "XGBoost": 18649
+      },
+      "priceModels": {
+        "Linear": 291.23,
+        "RandomForest": 408.68,
+        "Bagging": 439.79,
+        "CatBoost": 404.44,
+        "LightGBM": 372.5,
+        "XGBoost": 395.13
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "02:00",
+      "coal": 18649,
+      "price": 400.71,
+      "coalModels": {
+        "Linear": 20232,
+        "RandomForest": 18208,
+        "Bagging": 17778,
+        "CatBoost": 18559,
+        "LightGBM": 18124,
+        "XGBoost": 18800
+      },
+      "priceModels": {
+        "Linear": 298.45,
+        "RandomForest": 417.0,
+        "Bagging": 439.96,
+        "CatBoost": 423.14,
+        "LightGBM": 388.23,
+        "XGBoost": 410.34
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "02:15",
+      "coal": 19752,
+      "price": 423.15,
+      "coalModels": {
+        "Linear": 21563,
+        "RandomForest": 19274,
+        "Bagging": 18495,
+        "CatBoost": 19805,
+        "LightGBM": 19414,
+        "XGBoost": 19734
+      },
+      "priceModels": {
+        "Linear": 376.08,
+        "RandomForest": 424.0,
+        "Bagging": 426.35,
+        "CatBoost": 439.32,
+        "LightGBM": 425.92,
+        "XGBoost": 434.94
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "02:30",
+      "coal": 20353,
+      "price": 421.34,
+      "coalModels": {
+        "Linear": 21934,
+        "RandomForest": 19583,
+        "Bagging": 19545,
+        "CatBoost": 20287,
+        "LightGBM": 20064,
+        "XGBoost": 20518
+      },
+      "priceModels": {
+        "Linear": 358.41,
+        "RandomForest": 430.32,
+        "Bagging": 425.79,
+        "CatBoost": 437.42,
+        "LightGBM": 417.6,
+        "XGBoost": 441.94
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "02:45",
+      "coal": 20195,
+      "price": 416.9,
+      "coalModels": {
+        "Linear": 21805,
+        "RandomForest": 19221,
+        "Bagging": 19501,
+        "CatBoost": 20252,
+        "LightGBM": 19946,
+        "XGBoost": 20264
+      },
+      "priceModels": {
+        "Linear": 334.21,
+        "RandomForest": 431.23,
+        "Bagging": 431.87,
+        "CatBoost": 433.98,
+        "LightGBM": 415.01,
+        "XGBoost": 433.24
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "03:00",
+      "coal": 20039,
+      "price": 414.32,
+      "coalModels": {
+        "Linear": 21653,
+        "RandomForest": 19060,
+        "Bagging": 19440,
+        "CatBoost": 20067,
+        "LightGBM": 19725,
+        "XGBoost": 20109
+      },
+      "priceModels": {
+        "Linear": 333.47,
+        "RandomForest": 428.05,
+        "Bagging": 432.36,
+        "CatBoost": 431.1,
+        "LightGBM": 413.38,
+        "XGBoost": 426.13
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "03:15",
+      "coal": 19765,
+      "price": 413.41,
+      "coalModels": {
+        "Linear": 21429,
+        "RandomForest": 18911,
+        "Bagging": 19250,
+        "CatBoost": 19589,
+        "LightGBM": 19366,
+        "XGBoost": 19853
+      },
+      "priceModels": {
+        "Linear": 333.88,
+        "RandomForest": 423.18,
+        "Bagging": 432.85,
+        "CatBoost": 431.32,
+        "LightGBM": 412.86,
+        "XGBoost": 425.37
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "03:30",
+      "coal": 19672,
+      "price": 405.7,
+      "coalModels": {
+        "Linear": 21334,
+        "RandomForest": 18785,
+        "Bagging": 18967,
+        "CatBoost": 19438,
+        "LightGBM": 19389,
+        "XGBoost": 19919
+      },
+      "priceModels": {
+        "Linear": 322.29,
+        "RandomForest": 422.56,
+        "Bagging": 415.25,
+        "CatBoost": 429.4,
+        "LightGBM": 399.04,
+        "XGBoost": 423.44
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "03:45",
+      "coal": 19344,
+      "price": 402.13,
+      "coalModels": {
+        "Linear": 21173,
+        "RandomForest": 18638,
+        "Bagging": 18012,
+        "CatBoost": 19156,
+        "LightGBM": 19107,
+        "XGBoost": 19739
+      },
+      "priceModels": {
+        "Linear": 317.49,
+        "RandomForest": 421.03,
+        "Bagging": 413.9,
+        "CatBoost": 427.68,
+        "LightGBM": 392.46,
+        "XGBoost": 417.62
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "04:00",
+      "coal": 19163,
+      "price": 398.81,
+      "coalModels": {
+        "Linear": 21073,
+        "RandomForest": 18430,
+        "Bagging": 17609,
+        "CatBoost": 18965,
+        "LightGBM": 18962,
+        "XGBoost": 19682
+      },
+      "priceModels": {
+        "Linear": 311.15,
+        "RandomForest": 416.2,
+        "Bagging": 419.02,
+        "CatBoost": 424.3,
+        "LightGBM": 386.02,
+        "XGBoost": 412.82
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "04:15",
+      "coal": 19176,
+      "price": 398.93,
+      "coalModels": {
+        "Linear": 21081,
+        "RandomForest": 18622,
+        "Bagging": 17728,
+        "CatBoost": 18907,
+        "LightGBM": 18870,
+        "XGBoost": 19590
+      },
+      "priceModels": {
+        "Linear": 312.51,
+        "RandomForest": 413.35,
+        "Bagging": 414.48,
+        "CatBoost": 426.31,
+        "LightGBM": 387.3,
+        "XGBoost": 416.67
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "04:30",
+      "coal": 19191,
+      "price": 399.44,
+      "coalModels": {
+        "Linear": 21074,
+        "RandomForest": 18623,
+        "Bagging": 17680,
+        "CatBoost": 18917,
+        "LightGBM": 18942,
+        "XGBoost": 19654
+      },
+      "priceModels": {
+        "Linear": 312.21,
+        "RandomForest": 415.47,
+        "Bagging": 414.91,
+        "CatBoost": 426.36,
+        "LightGBM": 387.47,
+        "XGBoost": 417.01
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "04:45",
+      "coal": 19155,
+      "price": 398.74,
+      "coalModels": {
+        "Linear": 21060,
+        "RandomForest": 18382,
+        "Bagging": 17719,
+        "CatBoost": 18917,
+        "LightGBM": 18946,
+        "XGBoost": 19656
+      },
+      "priceModels": {
+        "Linear": 312.24,
+        "RandomForest": 411.71,
+        "Bagging": 414.91,
+        "CatBoost": 426.26,
+        "LightGBM": 387.36,
+        "XGBoost": 417.01
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "05:00",
+      "coal": 19283,
+      "price": 400.28,
+      "coalModels": {
+        "Linear": 21076,
+        "RandomForest": 18727,
+        "Bagging": 17867,
+        "CatBoost": 19020,
+        "LightGBM": 19054,
+        "XGBoost": 19712
+      },
+      "priceModels": {
+        "Linear": 315.94,
+        "RandomForest": 411.04,
+        "Bagging": 416.32,
+        "CatBoost": 425.05,
+        "LightGBM": 391.7,
+        "XGBoost": 419.33
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "05:15",
+      "coal": 19511,
+      "price": 398.71,
+      "coalModels": {
+        "Linear": 21343,
+        "RandomForest": 18410,
+        "Bagging": 18620,
+        "CatBoost": 19430,
+        "LightGBM": 19262,
+        "XGBoost": 19780
+      },
+      "priceModels": {
+        "Linear": 307.79,
+        "RandomForest": 408.1,
+        "Bagging": 438.51,
+        "CatBoost": 418.6,
+        "LightGBM": 387.0,
+        "XGBoost": 408.31
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "05:30",
+      "coal": 19483,
+      "price": 399.67,
+      "coalModels": {
+        "Linear": 21355,
+        "RandomForest": 18425,
+        "Bagging": 18910,
+        "CatBoost": 19321,
+        "LightGBM": 19084,
+        "XGBoost": 19591
+      },
+      "priceModels": {
+        "Linear": 312.78,
+        "RandomForest": 409.34,
+        "Bagging": 440.02,
+        "CatBoost": 416.64,
+        "LightGBM": 387.77,
+        "XGBoost": 408.58
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "05:45",
+      "coal": 19790,
+      "price": 412.16,
+      "coalModels": {
+        "Linear": 21410,
+        "RandomForest": 18946,
+        "Bagging": 19485,
+        "CatBoost": 19636,
+        "LightGBM": 19403,
+        "XGBoost": 19680
+      },
+      "priceModels": {
+        "Linear": 319.68,
+        "RandomForest": 423.21,
+        "Bagging": 433.72,
+        "CatBoost": 428.7,
+        "LightGBM": 413.52,
+        "XGBoost": 429.82
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "06:00",
+      "coal": 19766,
+      "price": 411.07,
+      "coalModels": {
+        "Linear": 21393,
+        "RandomForest": 18835,
+        "Bagging": 19341,
+        "CatBoost": 19593,
+        "LightGBM": 19429,
+        "XGBoost": 19818
+      },
+      "priceModels": {
+        "Linear": 317.57,
+        "RandomForest": 423.18,
+        "Bagging": 433.37,
+        "CatBoost": 431.1,
+        "LightGBM": 410.13,
+        "XGBoost": 426.4
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "06:15",
+      "coal": 19490,
+      "price": 400.78,
+      "coalModels": {
+        "Linear": 20923,
+        "RandomForest": 18353,
+        "Bagging": 19238,
+        "CatBoost": 19471,
+        "LightGBM": 19141,
+        "XGBoost": 19661
+      },
+      "priceModels": {
+        "Linear": 306.82,
+        "RandomForest": 417.1,
+        "Bagging": 428.63,
+        "CatBoost": 424.11,
+        "LightGBM": 392.53,
+        "XGBoost": 410.47
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "06:30",
+      "coal": 19186,
+      "price": 410.42,
+      "coalModels": {
+        "Linear": 20647,
+        "RandomForest": 18665,
+        "Bagging": 18523,
+        "CatBoost": 18954,
+        "LightGBM": 18804,
+        "XGBoost": 19343
+      },
+      "priceModels": {
+        "Linear": 310.95,
+        "RandomForest": 423.63,
+        "Bagging": 416.05,
+        "CatBoost": 436.42,
+        "LightGBM": 411.47,
+        "XGBoost": 437.8
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "06:45",
+      "coal": 18599,
+      "price": 405.14,
+      "coalModels": {
+        "Linear": 20106,
+        "RandomForest": 18119,
+        "Bagging": 18000,
+        "CatBoost": 18385,
+        "LightGBM": 18182,
+        "XGBoost": 18621
+      },
+      "priceModels": {
+        "Linear": 308.55,
+        "RandomForest": 418.3,
+        "Bagging": 412.56,
+        "CatBoost": 430.48,
+        "LightGBM": 404.45,
+        "XGBoost": 431.03
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "07:00",
+      "coal": 17746,
+      "price": 393.83,
+      "coalModels": {
+        "Linear": 19413,
+        "RandomForest": 17458,
+        "Bagging": 16538,
+        "CatBoost": 17388,
+        "LightGBM": 17486,
+        "XGBoost": 17969
+      },
+      "priceModels": {
+        "Linear": 303.56,
+        "RandomForest": 414.75,
+        "Bagging": 401.23,
+        "CatBoost": 420.61,
+        "LightGBM": 387.68,
+        "XGBoost": 411.03
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "07:15",
+      "coal": 17223,
+      "price": 368.4,
+      "coalModels": {
+        "Linear": 18717,
+        "RandomForest": 16830,
+        "Bagging": 16254,
+        "CatBoost": 16804,
+        "LightGBM": 17064,
+        "XGBoost": 17467
+      },
+      "priceModels": {
+        "Linear": 284.31,
+        "RandomForest": 377.4,
+        "Bagging": 397.11,
+        "CatBoost": 387.38,
+        "LightGBM": 364.44,
+        "XGBoost": 377.55
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "07:30",
+      "coal": 16574,
+      "price": 360.52,
+      "coalModels": {
+        "Linear": 18131,
+        "RandomForest": 15519,
+        "Bagging": 16247,
+        "CatBoost": 15873,
+        "LightGBM": 16470,
+        "XGBoost": 17009
+      },
+      "priceModels": {
+        "Linear": 249.43,
+        "RandomForest": 374.13,
+        "Bagging": 409.71,
+        "CatBoost": 368.72,
+        "LightGBM": 359.32,
+        "XGBoost": 372.65
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "07:45",
+      "coal": 15570,
+      "price": 292.04,
+      "coalModels": {
+        "Linear": 17358,
+        "RandomForest": 14387,
+        "Bagging": 15906,
+        "CatBoost": 14699,
+        "LightGBM": 15084,
+        "XGBoost": 15786
+      },
+      "priceModels": {
+        "Linear": 208.23,
+        "RandomForest": 347.99,
+        "Bagging": 287.28,
+        "CatBoost": 312.36,
+        "LightGBM": 289.07,
+        "XGBoost": 283.79
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "08:00",
+      "coal": 14684,
+      "price": 268.48,
+      "coalModels": {
+        "Linear": 16661,
+        "RandomForest": 13772,
+        "Bagging": 13522,
+        "CatBoost": 14265,
+        "LightGBM": 14457,
+        "XGBoost": 15170
+      },
+      "priceModels": {
+        "Linear": 179.25,
+        "RandomForest": 314.15,
+        "Bagging": 251.12,
+        "CatBoost": 292.33,
+        "LightGBM": 267.25,
+        "XGBoost": 282.31
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "08:15",
+      "coal": 14124,
+      "price": 198.82,
+      "coalModels": {
+        "Linear": 16000,
+        "RandomForest": 13607,
+        "Bagging": 12907,
+        "CatBoost": 13779,
+        "LightGBM": 13741,
+        "XGBoost": 14462
+      },
+      "priceModels": {
+        "Linear": 153.57,
+        "RandomForest": 202.11,
+        "Bagging": 180.12,
+        "CatBoost": 272.92,
+        "LightGBM": 161.99,
+        "XGBoost": 209.57
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "08:30",
+      "coal": 13445,
+      "price": 119.87,
+      "coalModels": {
+        "Linear": 15533,
+        "RandomForest": 13023,
+        "Bagging": 12752,
+        "CatBoost": 13297,
+        "LightGBM": 12601,
+        "XGBoost": 13224
+      },
+      "priceModels": {
+        "Linear": 117.61,
+        "RandomForest": 131.34,
+        "Bagging": 68.8,
+        "CatBoost": 196.32,
+        "LightGBM": 91.63,
+        "XGBoost": 111.59
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "08:45",
+      "coal": 12783,
+      "price": 95.06,
+      "coalModels": {
+        "Linear": 15026,
+        "RandomForest": 12823,
+        "Bagging": 11777,
+        "CatBoost": 12786,
+        "LightGBM": 11716,
+        "XGBoost": 12311
+      },
+      "priceModels": {
+        "Linear": 80.96,
+        "RandomForest": 139.72,
+        "Bagging": 104.09,
+        "CatBoost": 116.26,
+        "LightGBM": 64.98,
+        "XGBoost": 58.93
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "09:00",
+      "coal": 12314,
+      "price": 83.19,
+      "coalModels": {
+        "Linear": 14458,
+        "RandomForest": 12149,
+        "Bagging": 11545,
+        "CatBoost": 12390,
+        "LightGBM": 11380,
+        "XGBoost": 11726
+      },
+      "priceModels": {
+        "Linear": 44.45,
+        "RandomForest": 121.22,
+        "Bagging": 111.77,
+        "CatBoost": 79.71,
+        "LightGBM": 56.31,
+        "XGBoost": 74.6
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "09:15",
+      "coal": 11990,
+      "price": 111.77,
+      "coalModels": {
+        "Linear": 13614,
+        "RandomForest": 11586,
+        "Bagging": 11660,
+        "CatBoost": 12033,
+        "LightGBM": 11300,
+        "XGBoost": 11576
+      },
+      "priceModels": {
+        "Linear": 48.72,
+        "RandomForest": 132.26,
+        "Bagging": 160.13,
+        "CatBoost": 106.72,
+        "LightGBM": 102.26,
+        "XGBoost": 103.64
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "09:30",
+      "coal": 11892,
+      "price": 112.58,
+      "coalModels": {
+        "Linear": 13227,
+        "RandomForest": 11367,
+        "Bagging": 11598,
+        "CatBoost": 12048,
+        "LightGBM": 11343,
+        "XGBoost": 11633
+      },
+      "priceModels": {
+        "Linear": 38.7,
+        "RandomForest": 128.7,
+        "Bagging": 166.0,
+        "CatBoost": 108.74,
+        "LightGBM": 94.55,
+        "XGBoost": 119.32
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "09:45",
+      "coal": 11773,
+      "price": 129.3,
+      "coalModels": {
+        "Linear": 12707,
+        "RandomForest": 11454,
+        "Bagging": 11547,
+        "CatBoost": 11976,
+        "LightGBM": 11276,
+        "XGBoost": 11584
+      },
+      "priceModels": {
+        "Linear": 40.48,
+        "RandomForest": 159.99,
+        "Bagging": 176.37,
+        "CatBoost": 112.23,
+        "LightGBM": 128.32,
+        "XGBoost": 134.88
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "10:00",
+      "coal": 11685,
+      "price": 121.98,
+      "coalModels": {
+        "Linear": 12526,
+        "RandomForest": 11355,
+        "Bagging": 11441,
+        "CatBoost": 11953,
+        "LightGBM": 11195,
+        "XGBoost": 11560
+      },
+      "priceModels": {
+        "Linear": 33.53,
+        "RandomForest": 153.72,
+        "Bagging": 167.93,
+        "CatBoost": 108.92,
+        "LightGBM": 118.02,
+        "XGBoost": 126.24
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "10:15",
+      "coal": 11561,
+      "price": 115.24,
+      "coalModels": {
+        "Linear": 12327,
+        "RandomForest": 11335,
+        "Bagging": 11390,
+        "CatBoost": 11886,
+        "LightGBM": 11102,
+        "XGBoost": 11255
+      },
+      "priceModels": {
+        "Linear": 23.26,
+        "RandomForest": 152.09,
+        "Bagging": 152.68,
+        "CatBoost": 112.57,
+        "LightGBM": 108.35,
+        "XGBoost": 117.74
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "10:30",
+      "coal": 11377,
+      "price": 107.64,
+      "coalModels": {
+        "Linear": 12139,
+        "RandomForest": 11156,
+        "Bagging": 11256,
+        "CatBoost": 11808,
+        "LightGBM": 10873,
+        "XGBoost": 10969
+      },
+      "priceModels": {
+        "Linear": 20.66,
+        "RandomForest": 163.85,
+        "Bagging": 161.65,
+        "CatBoost": 98.63,
+        "LightGBM": 78.07,
+        "XGBoost": 99.0
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "10:45",
+      "coal": 11364,
+      "price": 109.88,
+      "coalModels": {
+        "Linear": 12033,
+        "RandomForest": 11226,
+        "Bagging": 11309,
+        "CatBoost": 11818,
+        "LightGBM": 10854,
+        "XGBoost": 10891
+      },
+      "priceModels": {
+        "Linear": 23.67,
+        "RandomForest": 170.06,
+        "Bagging": 162.37,
+        "CatBoost": 100.14,
+        "LightGBM": 85.56,
+        "XGBoost": 93.56
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "11:00",
+      "coal": 11304,
+      "price": 111.96,
+      "coalModels": {
+        "Linear": 11994,
+        "RandomForest": 11137,
+        "Bagging": 11261,
+        "CatBoost": 11783,
+        "LightGBM": 10719,
+        "XGBoost": 10879
+      },
+      "priceModels": {
+        "Linear": 16.51,
+        "RandomForest": 179.23,
+        "Bagging": 161.58,
+        "CatBoost": 103.26,
+        "LightGBM": 86.55,
+        "XGBoost": 98.09
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "11:15",
+      "coal": 11648,
+      "price": 143.74,
+      "coalModels": {
+        "Linear": 12868,
+        "RandomForest": 11164,
+        "Bagging": 11337,
+        "CatBoost": 12192,
+        "LightGBM": 11019,
+        "XGBoost": 11198
+      },
+      "priceModels": {
+        "Linear": 49.01,
+        "RandomForest": 167.46,
+        "Bagging": 191.97,
+        "CatBoost": 148.83,
+        "LightGBM": 139.01,
+        "XGBoost": 140.89
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "11:30",
+      "coal": 11937,
+      "price": 170.52,
+      "coalModels": {
+        "Linear": 13128,
+        "RandomForest": 11554,
+        "Bagging": 11359,
+        "CatBoost": 12578,
+        "LightGBM": 11391,
+        "XGBoost": 11500
+      },
+      "priceModels": {
+        "Linear": 63.06,
+        "RandomForest": 177.38,
+        "Bagging": 186.86,
+        "CatBoost": 164.57,
+        "LightGBM": 197.82,
+        "XGBoost": 205.79
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "11:45",
+      "coal": 11933,
+      "price": 161.16,
+      "coalModels": {
+        "Linear": 13156,
+        "RandomForest": 11622,
+        "Bagging": 11359,
+        "CatBoost": 12343,
+        "LightGBM": 11493,
+        "XGBoost": 11498
+      },
+      "priceModels": {
+        "Linear": 54.93,
+        "RandomForest": 157.6,
+        "Bagging": 200.69,
+        "CatBoost": 158.56,
+        "LightGBM": 179.81,
+        "XGBoost": 188.21
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "12:00",
+      "coal": 11724,
+      "price": 131.77,
+      "coalModels": {
+        "Linear": 13052,
+        "RandomForest": 11207,
+        "Bagging": 11323,
+        "CatBoost": 12165,
+        "LightGBM": 11225,
+        "XGBoost": 11242
+      },
+      "priceModels": {
+        "Linear": 33.34,
+        "RandomForest": 141.72,
+        "Bagging": 169.25,
+        "CatBoost": 137.72,
+        "LightGBM": 139.5,
+        "XGBoost": 143.31
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "12:15",
+      "coal": 11508,
+      "price": 110.85,
+      "coalModels": {
+        "Linear": 12816,
+        "RandomForest": 11019,
+        "Bagging": 11112,
+        "CatBoost": 12055,
+        "LightGBM": 10921,
+        "XGBoost": 11005
+      },
+      "priceModels": {
+        "Linear": 18.46,
+        "RandomForest": 122.71,
+        "Bagging": 143.7,
+        "CatBoost": 118.15,
+        "LightGBM": 120.89,
+        "XGBoost": 116.88
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "12:30",
+      "coal": 11499,
+      "price": 97.58,
+      "coalModels": {
+        "Linear": 12778,
+        "RandomForest": 11010,
+        "Bagging": 11071,
+        "CatBoost": 12088,
+        "LightGBM": 10930,
+        "XGBoost": 10998
+      },
+      "priceModels": {
+        "Linear": 14.32,
+        "RandomForest": 111.56,
+        "Bagging": 119.04,
+        "CatBoost": 115.46,
+        "LightGBM": 101.04,
+        "XGBoost": 101.93
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "12:45",
+      "coal": 11461,
+      "price": 99.07,
+      "coalModels": {
+        "Linear": 12766,
+        "RandomForest": 10980,
+        "Bagging": 11071,
+        "CatBoost": 12000,
+        "LightGBM": 10894,
+        "XGBoost": 10932
+      },
+      "priceModels": {
+        "Linear": 14.74,
+        "RandomForest": 118.46,
+        "Bagging": 131.48,
+        "CatBoost": 106.28,
+        "LightGBM": 107.02,
+        "XGBoost": 93.95
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "13:00",
+      "coal": 11493,
+      "price": 115.03,
+      "coalModels": {
+        "Linear": 12898,
+        "RandomForest": 11015,
+        "Bagging": 11137,
+        "CatBoost": 11966,
+        "LightGBM": 10862,
+        "XGBoost": 10944
+      },
+      "priceModels": {
+        "Linear": 28.02,
+        "RandomForest": 135.51,
+        "Bagging": 149.42,
+        "CatBoost": 114.26,
+        "LightGBM": 130.59,
+        "XGBoost": 109.24
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "13:15",
+      "coal": 11610,
+      "price": 103.94,
+      "coalModels": {
+        "Linear": 13206,
+        "RandomForest": 11046,
+        "Bagging": 11148,
+        "CatBoost": 12032,
+        "LightGBM": 10974,
+        "XGBoost": 11095
+      },
+      "priceModels": {
+        "Linear": 27.23,
+        "RandomForest": 120.85,
+        "Bagging": 139.88,
+        "CatBoost": 113.68,
+        "LightGBM": 92.19,
+        "XGBoost": 109.39
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "13:30",
+      "coal": 11686,
+      "price": 117.49,
+      "coalModels": {
+        "Linear": 13366,
+        "RandomForest": 11176,
+        "Bagging": 11225,
+        "CatBoost": 11985,
+        "LightGBM": 11048,
+        "XGBoost": 11147
+      },
+      "priceModels": {
+        "Linear": 36.81,
+        "RandomForest": 136.68,
+        "Bagging": 150.56,
+        "CatBoost": 118.51,
+        "LightGBM": 113.51,
+        "XGBoost": 127.55
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "13:45",
+      "coal": 11769,
+      "price": 125.27,
+      "coalModels": {
+        "Linear": 13627,
+        "RandomForest": 11234,
+        "Bagging": 11225,
+        "CatBoost": 12017,
+        "LightGBM": 11088,
+        "XGBoost": 11230
+      },
+      "priceModels": {
+        "Linear": 42.25,
+        "RandomForest": 144.36,
+        "Bagging": 156.03,
+        "CatBoost": 118.81,
+        "LightGBM": 135.78,
+        "XGBoost": 132.54
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "14:00",
+      "coal": 11908,
+      "price": 119.47,
+      "coalModels": {
+        "Linear": 14035,
+        "RandomForest": 11296,
+        "Bagging": 11235,
+        "CatBoost": 12185,
+        "LightGBM": 11157,
+        "XGBoost": 11319
+      },
+      "priceModels": {
+        "Linear": 43.06,
+        "RandomForest": 133.15,
+        "Bagging": 147.5,
+        "CatBoost": 116.91,
+        "LightGBM": 128.13,
+        "XGBoost": 128.03
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "14:15",
+      "coal": 12093,
+      "price": 133.08,
+      "coalModels": {
+        "Linear": 14378,
+        "RandomForest": 11608,
+        "Bagging": 11370,
+        "CatBoost": 12200,
+        "LightGBM": 11155,
+        "XGBoost": 11597
+      },
+      "priceModels": {
+        "Linear": 55.15,
+        "RandomForest": 149.75,
+        "Bagging": 162.81,
+        "CatBoost": 127.79,
+        "LightGBM": 136.64,
+        "XGBoost": 145.91
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "14:30",
+      "coal": 12359,
+      "price": 124.18,
+      "coalModels": {
+        "Linear": 14652,
+        "RandomForest": 11623,
+        "Bagging": 11610,
+        "CatBoost": 12451,
+        "LightGBM": 11540,
+        "XGBoost": 12028
+      },
+      "priceModels": {
+        "Linear": 70.82,
+        "RandomForest": 126.81,
+        "Bagging": 122.28,
+        "CatBoost": 128.03,
+        "LightGBM": 138.22,
+        "XGBoost": 145.18
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "14:45",
+      "coal": 12641,
+      "price": 136.22,
+      "coalModels": {
+        "Linear": 14929,
+        "RandomForest": 12092,
+        "Bagging": 11671,
+        "CatBoost": 12726,
+        "LightGBM": 11865,
+        "XGBoost": 12305
+      },
+      "priceModels": {
+        "Linear": 91.83,
+        "RandomForest": 137.9,
+        "Bagging": 113.16,
+        "CatBoost": 148.87,
+        "LightGBM": 156.68,
+        "XGBoost": 157.34
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "15:00",
+      "coal": 12833,
+      "price": 173.05,
+      "coalModels": {
+        "Linear": 15165,
+        "RandomForest": 12347,
+        "Bagging": 11850,
+        "CatBoost": 12935,
+        "LightGBM": 11984,
+        "XGBoost": 12453
+      },
+      "priceModels": {
+        "Linear": 106.68,
+        "RandomForest": 196.43,
+        "Bagging": 178.85,
+        "CatBoost": 176.33,
+        "LightGBM": 188.41,
+        "XGBoost": 173.76
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "15:15",
+      "coal": 12909,
+      "price": 149.71,
+      "coalModels": {
+        "Linear": 15034,
+        "RandomForest": 12688,
+        "Bagging": 11861,
+        "CatBoost": 13132,
+        "LightGBM": 12082,
+        "XGBoost": 12415
+      },
+      "priceModels": {
+        "Linear": 113.55,
+        "RandomForest": 187.28,
+        "Bagging": 125.55,
+        "CatBoost": 184.97,
+        "LightGBM": 137.95,
+        "XGBoost": 138.03
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "15:30",
+      "coal": 13393,
+      "price": 129.73,
+      "coalModels": {
+        "Linear": 15458,
+        "RandomForest": 13096,
+        "Bagging": 12365,
+        "CatBoost": 13680,
+        "LightGBM": 12606,
+        "XGBoost": 12918
+      },
+      "priceModels": {
+        "Linear": 128.75,
+        "RandomForest": 183.18,
+        "Bagging": 66.19,
+        "CatBoost": 211.75,
+        "LightGBM": 79.38,
+        "XGBoost": 106.24
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "15:45",
+      "coal": 13662,
+      "price": 134.62,
+      "coalModels": {
+        "Linear": 15993,
+        "RandomForest": 13386,
+        "Bagging": 12451,
+        "CatBoost": 13825,
+        "LightGBM": 12868,
+        "XGBoost": 13182
+      },
+      "priceModels": {
+        "Linear": 139.16,
+        "RandomForest": 164.65,
+        "Bagging": 57.18,
+        "CatBoost": 217.78,
+        "LightGBM": 107.92,
+        "XGBoost": 120.25
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "16:00",
+      "coal": 14077,
+      "price": 139.75,
+      "coalModels": {
+        "Linear": 16515,
+        "RandomForest": 13848,
+        "Bagging": 12864,
+        "CatBoost": 14228,
+        "LightGBM": 13211,
+        "XGBoost": 13518
+      },
+      "priceModels": {
+        "Linear": 154.95,
+        "RandomForest": 175.04,
+        "Bagging": 52.15,
+        "CatBoost": 224.12,
+        "LightGBM": 116.83,
+        "XGBoost": 117.17
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "16:15",
+      "coal": 14651,
+      "price": 211.85,
+      "coalModels": {
+        "Linear": 17185,
+        "RandomForest": 14360,
+        "Bagging": 13213,
+        "CatBoost": 14697,
+        "LightGBM": 13947,
+        "XGBoost": 14200
+      },
+      "priceModels": {
+        "Linear": 176.93,
+        "RandomForest": 212.88,
+        "Bagging": 204.52,
+        "CatBoost": 259.73,
+        "LightGBM": 206.79,
+        "XGBoost": 200.46
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "16:30",
+      "coal": 15318,
+      "price": 273.58,
+      "coalModels": {
+        "Linear": 17810,
+        "RandomForest": 15162,
+        "Bagging": 13826,
+        "CatBoost": 15077,
+        "LightGBM": 14755,
+        "XGBoost": 14967
+      },
+      "priceModels": {
+        "Linear": 206.92,
+        "RandomForest": 294.78,
+        "Bagging": 245.55,
+        "CatBoost": 313.84,
+        "LightGBM": 268.38,
+        "XGBoost": 293.89
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "16:45",
+      "coal": 16384,
+      "price": 298.84,
+      "coalModels": {
+        "Linear": 18451,
+        "RandomForest": 15534,
+        "Bagging": 15995,
+        "CatBoost": 15547,
+        "LightGBM": 15995,
+        "XGBoost": 16531
+      },
+      "priceModels": {
+        "Linear": 234.63,
+        "RandomForest": 341.14,
+        "Bagging": 243.46,
+        "CatBoost": 334.67,
+        "LightGBM": 297.09,
+        "XGBoost": 324.06
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "17:00",
+      "coal": 17097,
+      "price": 326.57,
+      "coalModels": {
+        "Linear": 19124,
+        "RandomForest": 16529,
+        "Bagging": 16412,
+        "CatBoost": 16232,
+        "LightGBM": 16716,
+        "XGBoost": 17306
+      },
+      "priceModels": {
+        "Linear": 260.33,
+        "RandomForest": 373.42,
+        "Bagging": 281.73,
+        "CatBoost": 351.5,
+        "LightGBM": 335.57,
+        "XGBoost": 338.29
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "17:15",
+      "coal": 16960,
+      "price": 267.11,
+      "coalModels": {
+        "Linear": 18710,
+        "RandomForest": 16606,
+        "Bagging": 16327,
+        "CatBoost": 16431,
+        "LightGBM": 16459,
+        "XGBoost": 17011
+      },
+      "priceModels": {
+        "Linear": 217.49,
+        "RandomForest": 321.82,
+        "Bagging": 263.35,
+        "CatBoost": 289.12,
+        "LightGBM": 252.39,
+        "XGBoost": 243.69
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "17:30",
+      "coal": 17823,
+      "price": 280.2,
+      "coalModels": {
+        "Linear": 19198,
+        "RandomForest": 17436,
+        "Bagging": 17962,
+        "CatBoost": 16956,
+        "LightGBM": 17420,
+        "XGBoost": 17800
+      },
+      "priceModels": {
+        "Linear": 220.73,
+        "RandomForest": 327.52,
+        "Bagging": 278.58,
+        "CatBoost": 302.97,
+        "LightGBM": 267.97,
+        "XGBoost": 266.38
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "17:45",
+      "coal": 18053,
+      "price": 364.99,
+      "coalModels": {
+        "Linear": 19471,
+        "RandomForest": 17840,
+        "Bagging": 18054,
+        "CatBoost": 17158,
+        "LightGBM": 17717,
+        "XGBoost": 17902
+      },
+      "priceModels": {
+        "Linear": 235.93,
+        "RandomForest": 394.32,
+        "Bagging": 411.5,
+        "CatBoost": 361.92,
+        "LightGBM": 363.86,
+        "XGBoost": 388.45
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "18:00",
+      "coal": 18346,
+      "price": 374.86,
+      "coalModels": {
+        "Linear": 19737,
+        "RandomForest": 18280,
+        "Bagging": 18484,
+        "CatBoost": 17333,
+        "LightGBM": 18117,
+        "XGBoost": 17951
+      },
+      "priceModels": {
+        "Linear": 248.11,
+        "RandomForest": 405.63,
+        "Bagging": 422.31,
+        "CatBoost": 380.72,
+        "LightGBM": 379.16,
+        "XGBoost": 379.56
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "18:15",
+      "coal": 18445,
+      "price": 365.05,
+      "coalModels": {
+        "Linear": 19988,
+        "RandomForest": 18733,
+        "Bagging": 18517,
+        "CatBoost": 17262,
+        "LightGBM": 17994,
+        "XGBoost": 17977
+      },
+      "priceModels": {
+        "Linear": 241.12,
+        "RandomForest": 400.95,
+        "Bagging": 406.23,
+        "CatBoost": 375.58,
+        "LightGBM": 362.93,
+        "XGBoost": 370.36
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "18:30",
+      "coal": 18781,
+      "price": 380.5,
+      "coalModels": {
+        "Linear": 20069,
+        "RandomForest": 19270,
+        "Bagging": 18959,
+        "CatBoost": 17591,
+        "LightGBM": 18443,
+        "XGBoost": 18187
+      },
+      "priceModels": {
+        "Linear": 253.18,
+        "RandomForest": 411.38,
+        "Bagging": 412.91,
+        "CatBoost": 389.32,
+        "LightGBM": 386.19,
+        "XGBoost": 396.26
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "18:45",
+      "coal": 18765,
+      "price": 378.69,
+      "coalModels": {
+        "Linear": 20100,
+        "RandomForest": 19248,
+        "Bagging": 18821,
+        "CatBoost": 17554,
+        "LightGBM": 18469,
+        "XGBoost": 18222
+      },
+      "priceModels": {
+        "Linear": 254.15,
+        "RandomForest": 402.12,
+        "Bagging": 410.19,
+        "CatBoost": 392.7,
+        "LightGBM": 386.61,
+        "XGBoost": 393.46
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "19:00",
+      "coal": 18761,
+      "price": 379.08,
+      "coalModels": {
+        "Linear": 20027,
+        "RandomForest": 19143,
+        "Bagging": 19090,
+        "CatBoost": 17638,
+        "LightGBM": 18421,
+        "XGBoost": 18093
+      },
+      "priceModels": {
+        "Linear": 256.73,
+        "RandomForest": 398.38,
+        "Bagging": 406.4,
+        "CatBoost": 399.0,
+        "LightGBM": 385.92,
+        "XGBoost": 395.74
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "19:15",
+      "coal": 19208,
+      "price": 392.31,
+      "coalModels": {
+        "Linear": 21059,
+        "RandomForest": 19055,
+        "Bagging": 19026,
+        "CatBoost": 18522,
+        "LightGBM": 18732,
+        "XGBoost": 18637
+      },
+      "priceModels": {
+        "Linear": 307.54,
+        "RandomForest": 411.6,
+        "Bagging": 394.55,
+        "CatBoost": 409.75,
+        "LightGBM": 400.19,
+        "XGBoost": 407.67
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "19:30",
+      "coal": 18995,
+      "price": 383.99,
+      "coalModels": {
+        "Linear": 20945,
+        "RandomForest": 18893,
+        "Bagging": 18898,
+        "CatBoost": 18171,
+        "LightGBM": 18447,
+        "XGBoost": 18391
+      },
+      "priceModels": {
+        "Linear": 306.91,
+        "RandomForest": 398.48,
+        "Bagging": 391.28,
+        "CatBoost": 403.42,
+        "LightGBM": 385.55,
+        "XGBoost": 397.81
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "19:45",
+      "coal": 18514,
+      "price": 376.16,
+      "coalModels": {
+        "Linear": 20655,
+        "RandomForest": 18506,
+        "Bagging": 17530,
+        "CatBoost": 17822,
+        "LightGBM": 18073,
+        "XGBoost": 18221
+      },
+      "priceModels": {
+        "Linear": 296.84,
+        "RandomForest": 395.19,
+        "Bagging": 389.64,
+        "CatBoost": 396.27,
+        "LightGBM": 369.23,
+        "XGBoost": 388.56
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "20:00",
+      "coal": 18346,
+      "price": 369.61,
+      "coalModels": {
+        "Linear": 20437,
+        "RandomForest": 18320,
+        "Bagging": 17384,
+        "CatBoost": 17554,
+        "LightGBM": 17886,
+        "XGBoost": 18222
+      },
+      "priceModels": {
+        "Linear": 286.89,
+        "RandomForest": 387.92,
+        "Bagging": 387.72,
+        "CatBoost": 390.71,
+        "LightGBM": 358.38,
+        "XGBoost": 383.98
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "20:15",
+      "coal": 18244,
+      "price": 368.34,
+      "coalModels": {
+        "Linear": 20339,
+        "RandomForest": 18252,
+        "Bagging": 17244,
+        "CatBoost": 17511,
+        "LightGBM": 17770,
+        "XGBoost": 18072
+      },
+      "priceModels": {
+        "Linear": 285.45,
+        "RandomForest": 387.36,
+        "Bagging": 386.91,
+        "CatBoost": 391.28,
+        "LightGBM": 354.27,
+        "XGBoost": 382.6
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "20:30",
+      "coal": 18083,
+      "price": 362.98,
+      "coalModels": {
+        "Linear": 20278,
+        "RandomForest": 17945,
+        "Bagging": 16995,
+        "CatBoost": 17354,
+        "LightGBM": 17646,
+        "XGBoost": 17990
+      },
+      "priceModels": {
+        "Linear": 280.3,
+        "RandomForest": 381.97,
+        "Bagging": 392.02,
+        "CatBoost": 386.53,
+        "LightGBM": 345.77,
+        "XGBoost": 369.11
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "20:45",
+      "coal": 17847,
+      "price": 357.16,
+      "coalModels": {
+        "Linear": 20179,
+        "RandomForest": 17473,
+        "Bagging": 16697,
+        "CatBoost": 17264,
+        "LightGBM": 17382,
+        "XGBoost": 17786
+      },
+      "priceModels": {
+        "Linear": 273.5,
+        "RandomForest": 381.91,
+        "Bagging": 405.18,
+        "CatBoost": 367.69,
+        "LightGBM": 339.04,
+        "XGBoost": 353.14
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "21:00",
+      "coal": 17663,
+      "price": 347.88,
+      "coalModels": {
+        "Linear": 20094,
+        "RandomForest": 17032,
+        "Bagging": 16682,
+        "CatBoost": 17043,
+        "LightGBM": 17216,
+        "XGBoost": 17606
+      },
+      "priceModels": {
+        "Linear": 269.77,
+        "RandomForest": 369.47,
+        "Bagging": 395.17,
+        "CatBoost": 355.81,
+        "LightGBM": 338.67,
+        "XGBoost": 337.4
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "21:15",
+      "coal": 17589,
+      "price": 342.34,
+      "coalModels": {
+        "Linear": 20017,
+        "RandomForest": 16984,
+        "Bagging": 16652,
+        "CatBoost": 16874,
+        "LightGBM": 17136,
+        "XGBoost": 17568
+      },
+      "priceModels": {
+        "Linear": 261.42,
+        "RandomForest": 366.23,
+        "Bagging": 395.17,
+        "CatBoost": 351.09,
+        "LightGBM": 327.8,
+        "XGBoost": 330.52
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "21:30",
+      "coal": 17654,
+      "price": 362.66,
+      "coalModels": {
+        "Linear": 20014,
+        "RandomForest": 17118,
+        "Bagging": 16632,
+        "CatBoost": 17134,
+        "LightGBM": 17315,
+        "XGBoost": 17419
+      },
+      "priceModels": {
+        "Linear": 270.71,
+        "RandomForest": 382.36,
+        "Bagging": 404.39,
+        "CatBoost": 368.0,
+        "LightGBM": 361.79,
+        "XGBoost": 364.3
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "21:45",
+      "coal": 17573,
+      "price": 349.47,
+      "coalModels": {
+        "Linear": 20012,
+        "RandomForest": 16827,
+        "Bagging": 16677,
+        "CatBoost": 17093,
+        "LightGBM": 17139,
+        "XGBoost": 17399
+      },
+      "priceModels": {
+        "Linear": 265.46,
+        "RandomForest": 378.93,
+        "Bagging": 390.11,
+        "CatBoost": 357.55,
+        "LightGBM": 341.08,
+        "XGBoost": 340.96
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "22:00",
+      "coal": 17577,
+      "price": 354.93,
+      "coalModels": {
+        "Linear": 19987,
+        "RandomForest": 16810,
+        "Bagging": 16597,
+        "CatBoost": 17122,
+        "LightGBM": 17173,
+        "XGBoost": 17480
+      },
+      "priceModels": {
+        "Linear": 264.83,
+        "RandomForest": 389.77,
+        "Bagging": 394.71,
+        "CatBoost": 356.94,
+        "LightGBM": 345.61,
+        "XGBoost": 353.4
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "22:15",
+      "coal": 17583,
+      "price": 349.21,
+      "coalModels": {
+        "Linear": 20083,
+        "RandomForest": 16972,
+        "Bagging": 16554,
+        "CatBoost": 17075,
+        "LightGBM": 17168,
+        "XGBoost": 17339
+      },
+      "priceModels": {
+        "Linear": 263.08,
+        "RandomForest": 381.88,
+        "Bagging": 392.09,
+        "CatBoost": 351.56,
+        "LightGBM": 337.4,
+        "XGBoost": 346.04
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "22:30",
+      "coal": 17777,
+      "price": 378.29,
+      "coalModels": {
+        "Linear": 20105,
+        "RandomForest": 17151,
+        "Bagging": 16588,
+        "CatBoost": 17421,
+        "LightGBM": 17488,
+        "XGBoost": 17618
+      },
+      "priceModels": {
+        "Linear": 272.24,
+        "RandomForest": 407.87,
+        "Bagging": 418.43,
+        "CatBoost": 385.59,
+        "LightGBM": 377.04,
+        "XGBoost": 380.24
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "22:45",
+      "coal": 17824,
+      "price": 373.17,
+      "coalModels": {
+        "Linear": 20110,
+        "RandomForest": 17155,
+        "Bagging": 16680,
+        "CatBoost": 17622,
+        "LightGBM": 17450,
+        "XGBoost": 17650
+      },
+      "priceModels": {
+        "Linear": 273.7,
+        "RandomForest": 392.73,
+        "Bagging": 418.18,
+        "CatBoost": 386.83,
+        "LightGBM": 368.02,
+        "XGBoost": 373.11
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "23:00",
+      "coal": 18144,
+      "price": 389.94,
+      "coalModels": {
+        "Linear": 20177,
+        "RandomForest": 17625,
+        "Bagging": 16989,
+        "CatBoost": 18037,
+        "LightGBM": 17846,
+        "XGBoost": 17939
+      },
+      "priceModels": {
+        "Linear": 284.46,
+        "RandomForest": 420.11,
+        "Bagging": 410.57,
+        "CatBoost": 415.37,
+        "LightGBM": 385.32,
+        "XGBoost": 395.43
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "23:15",
+      "coal": 18670,
+      "price": 388.94,
+      "coalModels": {
+        "Linear": 20458,
+        "RandomForest": 17644,
+        "Bagging": 18224,
+        "CatBoost": 18475,
+        "LightGBM": 18637,
+        "XGBoost": 18380
+      },
+      "priceModels": {
+        "Linear": 285.34,
+        "RandomForest": 397.91,
+        "Bagging": 423.5,
+        "CatBoost": 402.42,
+        "LightGBM": 393.82,
+        "XGBoost": 403.51
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "23:30",
+      "coal": 18484,
+      "price": 383.51,
+      "coalModels": {
+        "Linear": 20377,
+        "RandomForest": 17527,
+        "Bagging": 18212,
+        "CatBoost": 18358,
+        "LightGBM": 18085,
+        "XGBoost": 18146
+      },
+      "priceModels": {
+        "Linear": 284.63,
+        "RandomForest": 396.56,
+        "Bagging": 424.51,
+        "CatBoost": 394.71,
+        "LightGBM": 382.83,
+        "XGBoost": 391.79
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "23:45",
+      "coal": 18238,
+      "price": 390.02,
+      "coalModels": {
+        "Linear": 20166,
+        "RandomForest": 17636,
+        "Bagging": 17381,
+        "CatBoost": 18103,
+        "LightGBM": 17905,
+        "XGBoost": 18008
+      },
+      "priceModels": {
+        "Linear": 292.1,
+        "RandomForest": 411.66,
+        "Bagging": 411.07,
+        "CatBoost": 416.7,
+        "LightGBM": 386.03,
+        "XGBoost": 396.35
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "time": "24:00",
+      "coal": 18567,
+      "price": 393.42,
+      "coalModels": {
+        "Linear": 20084,
+        "RandomForest": 18070,
+        "Bagging": 18077,
+        "CatBoost": 18285,
+        "LightGBM": 18314,
+        "XGBoost": 18393
+      },
+      "priceModels": {
+        "Linear": 296.52,
+        "RandomForest": 417.71,
+        "Bagging": 389.72,
+        "CatBoost": 429.33,
+        "LightGBM": 387.52,
+        "XGBoost": 413.72
+      }
+    }
+  ],
+  "dates": [
+    "2026-09-02"
+  ],
+  "summary": {
+    "points": 96,
+    "days": 1
+  },
+  "resultFile": "河北电网披露及电价预估数据-20260902.xlsx"
+}
