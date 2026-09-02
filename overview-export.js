@@ -17,7 +17,7 @@
     priceForecast: ["trading_date", "time_slot", "period", "realtime_ensemble_price", "realtime_linear_price", "realtime_rf_price", "realtime_bagging_price", "realtime_catboost_price", "realtime_lightgbm_price", "realtime_xgboost_price"],
     rollingAuction: ["trading_date", "time_slot", "d2_mid_price", "d2_low_price", "d2_high_price"],
     temperature: ["trading_date", "time_slot", "actual_temperature_c", "forecast_temperature_c"],
-    realtime: ["id", "province_code", "trading_date", "period", "time_slot", "actual_load_mw", "non_market_gen_mw", "renewable_gen_mw", "tie_line_mw", "source_file", "uploaded_at"],
+    realtime: ["id", "province_code", "trading_date", "period", "time_slot", "actual_load_mw", "non_market_gen_mw", "renewable_gen_mw", "renewable_solar_gen_mw", "renewable_wind_gen_mw", "tie_line_mw", "source_file", "uploaded_at"],
     clearing: ["trading_date", "period", "time_slot", "day_ahead_price", "realtime_price", "storage_mw", "other_mw", "distributed_pv_mw", "solar_mw", "nuclear_mw", "hydro_mw", "gas_mw", "oil_mw", "coal_mw", "wind_mw", "thermal_units", "thermal_total_mw"],
   });
 

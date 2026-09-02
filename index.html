@@ -600,6 +600,79 @@
       background: #fffbeb;
     }
 
+    .monthly-hourly-revenue-panel {
+      margin-top: 12px;
+      border-top: 1px solid #d8dee8;
+      background: #ffffff;
+    }
+
+    .monthly-hourly-revenue-title {
+      padding: 12px 14px;
+      background: #f1f5f9;
+      color: #1e3a5f;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .monthly-hourly-revenue-table-wrap {
+      overflow: auto;
+    }
+
+    .monthly-hourly-revenue-table {
+      width: 100%;
+      min-width: 1380px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .monthly-hourly-revenue-table th,
+    .monthly-hourly-revenue-table td {
+      height: 36px;
+      padding: 7px 12px;
+      border: 1px solid #d8dee8;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .monthly-hourly-revenue-table th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 700;
+    }
+
+    .monthly-hourly-revenue-table thead th {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .monthly-hourly-revenue-table th:first-child,
+    .monthly-hourly-revenue-table th:nth-child(2),
+    .monthly-hourly-revenue-table td:first-child,
+    .monthly-hourly-revenue-table td:nth-child(2) {
+      text-align: center;
+    }
+
+    .monthly-hourly-revenue-table tbody tr:hover td {
+      background: #eff6ff;
+    }
+
+    .monthly-hourly-revenue-table tfoot th,
+    .monthly-hourly-revenue-table tfoot td {
+      background: #eff6ff;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .monthly-hourly-revenue-value.is-negative {
+      color: #dc2626;
+    }
+
+    .monthly-hourly-revenue-status {
+      padding: 8px 14px;
+      color: #64748b;
+      font-size: 12px;
+    }
+
     @media (max-width: 900px) {
       .long-term-revenue-summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1553,6 +1626,12 @@
       font: inherit;
     }
 
+    .overview-date-separator {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
     .overview-date-button {
       width: 34px;
       height: 34px;
@@ -1765,17 +1844,91 @@
 
     .overview-chart-panel h2 {
       margin: 0;
-      padding: 10px 12px;
-      border-bottom: 1px solid #e2e8f0;
       color: #1e293b;
       font-size: 13px;
       line-height: 1.3;
       letter-spacing: 0;
     }
 
+    .overview-chart-titlebar {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 6px 8px 6px 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .overview-chart-expand,
+    .overview-chart-dialog-close {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      background: #ffffff;
+      color: #1d4ed8;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .overview-chart-expand:hover,
+    .overview-chart-dialog-close:hover {
+      border-color: #93c5fd;
+      background: #eff6ff;
+    }
+
     .overview-chart {
       width: 100%;
       height: 320px;
+    }
+
+    .overview-chart-dialog {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: grid;
+      place-items: center;
+      padding: clamp(8px, 1.2vw, 20px);
+      background: rgba(15, 23, 42, 0.46);
+    }
+
+    .overview-chart-dialog-panel {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      background: #ffffff;
+      box-shadow: 0 24px 64px rgba(15, 23, 42, 0.28);
+    }
+
+    .overview-chart-dialog-header {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px 8px 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .overview-chart-dialog-header h2 {
+      margin: 0;
+      color: #0f172a;
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+
+    .overview-expanded-chart {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
     }
 
     .overview-details {
@@ -1796,6 +1949,26 @@
       color: #0f172a;
       font-size: 15px;
       letter-spacing: 0;
+    }
+
+    .overview-detail-date-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .overview-detail-date-field select {
+      height: 32px;
+      padding: 0 30px 0 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      background: #ffffff;
+      color: #0f172a;
+      font: inherit;
     }
 
     .overview-status {
@@ -1878,11 +2051,10 @@
       background: #f1f5f9;
       color: #334155;
       font-weight: 700;
+      text-align: center;
     }
 
-    .overview-table th:first-child,
     .overview-table td:first-child,
-    .overview-table th:nth-child(2),
     .overview-table td:nth-child(2) {
       text-align: left;
     }
@@ -2080,7 +2252,7 @@
             <span>日滚撮交易结果（可选）</span>
             <div class="forecast-file-control" id="rollingTradeFileDropZone">
               <button class="forecast-file-choose" id="rollingTradeFileChoose" type="button">选择Excel文件</button>
-              <span class="forecast-file-name" id="rollingTradeFileName">未选择文件，文件名需以 yyyy年mm月dd日日滚动交易(yyyy-mm-dd) 开头</span>
+              <span class="forecast-file-name" id="rollingTradeFileName">未选择文件，文件名需以 yyyy年m月d日日滚动交易(yyyy-m-d) 开头，月、日可为1或2位</span>
             </div>
             <input id="rollingTradeFile" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx">
           </div>
@@ -2178,8 +2350,13 @@
       <div class="overview-toolbar">
         <button class="overview-date-button" id="overviewPreviousDate" type="button" title="上一有数据日期" aria-label="上一有数据日期">&#8249;</button>
         <label class="overview-date-field" for="overviewDate">
-          数据日期
-          <input id="overviewDate" type="date" aria-label="选择数据概览日期">
+          开始日期
+          <input id="overviewDate" type="date" aria-label="选择数据概览开始日期">
+        </label>
+        <span class="overview-date-separator">至</span>
+        <label class="overview-date-field" for="overviewEndDate">
+          结束日期
+          <input id="overviewEndDate" type="date" aria-label="选择数据概览结束日期">
         </label>
         <button class="overview-date-button" id="overviewNextDate" type="button" title="下一有数据日期" aria-label="下一有数据日期">&#8250;</button>
         <span class="overview-range" id="overviewRange"></span>
@@ -2188,33 +2365,43 @@
       <div class="overview-coverage" id="overviewCoverage" aria-label="所选日期数据覆盖情况"></div>
       <div class="overview-chart-grid">
         <section class="overview-chart-panel" aria-labelledby="overviewSystemTitle">
-          <h2 id="overviewSystemTitle">系统供需与披露预测</h2>
+          <div class="overview-chart-titlebar"><h2 id="overviewSystemTitle">系统供需与披露预测</h2><button class="overview-chart-expand" id="overviewSystemExpand" type="button" title="放大查看" aria-label="放大查看系统供需与披露预测图">&#9974;</button></div>
           <div class="overview-chart" id="overviewSystemChart" role="img" aria-label="系统供需与披露预测图"></div>
         </section>
-        <section class="overview-chart-panel" aria-labelledby="overviewPriceForecastTitle">
-          <h2 id="overviewPriceForecastTitle">实时节点电价预测</h2>
-          <div class="overview-chart" id="overviewPriceForecastChart" role="img" aria-label="实时节点电价预测图"></div>
-        </section>
-        <section class="overview-chart-panel" aria-labelledby="overviewMarketPriceTitle">
-          <h2 id="overviewMarketPriceTitle">节点电价与日滚撮价格</h2>
-          <div class="overview-chart" id="overviewMarketPriceChart" role="img" aria-label="节点电价与日滚撮价格图"></div>
-        </section>
-        <section class="overview-chart-panel" aria-labelledby="overviewLoadTemperatureTitle">
-          <h2 id="overviewLoadTemperatureTitle">负荷与温度</h2>
-          <div class="overview-chart" id="overviewLoadTemperatureChart" role="img" aria-label="负荷与温度图"></div>
-        </section>
-        <section class="overview-chart-panel" aria-labelledby="overviewClearingTitle">
-          <h2 id="overviewClearingTitle">市场出清电源结构</h2>
-          <div class="overview-chart" id="overviewClearingChart" role="img" aria-label="市场出清电源结构图"></div>
-        </section>
         <section class="overview-chart-panel" aria-labelledby="overviewWeatherCoalTitle">
-          <h2 id="overviewWeatherCoalTitle">燃煤出力预测</h2>
+          <div class="overview-chart-titlebar"><h2 id="overviewWeatherCoalTitle">燃煤出力预测</h2><button class="overview-chart-expand" id="overviewWeatherCoalExpand" type="button" title="放大查看" aria-label="放大查看燃煤出力预测图">&#9974;</button></div>
           <div class="overview-chart" id="overviewWeatherCoalChart" role="img" aria-label="燃煤出力预测图"></div>
         </section>
+        <section class="overview-chart-panel" aria-labelledby="overviewMarketPriceTitle">
+          <div class="overview-chart-titlebar"><h2 id="overviewMarketPriceTitle">节点电价与日滚撮价格</h2><button class="overview-chart-expand" id="overviewMarketPriceExpand" type="button" title="放大查看" aria-label="放大查看节点电价与日滚撮价格图">&#9974;</button></div>
+          <div class="overview-chart" id="overviewMarketPriceChart" role="img" aria-label="节点电价与日滚撮价格图"></div>
+        </section>
+        <section class="overview-chart-panel" aria-labelledby="overviewPriceForecastTitle">
+          <div class="overview-chart-titlebar"><h2 id="overviewPriceForecastTitle">实时节点电价预测</h2><button class="overview-chart-expand" id="overviewPriceForecastExpand" type="button" title="放大查看" aria-label="放大查看实时节点电价预测图">&#9974;</button></div>
+          <div class="overview-chart" id="overviewPriceForecastChart" role="img" aria-label="实时节点电价预测图"></div>
+        </section>
+        <section class="overview-chart-panel" aria-labelledby="overviewClearingTitle">
+          <div class="overview-chart-titlebar"><h2 id="overviewClearingTitle">市场出清电源结构</h2><button class="overview-chart-expand" id="overviewClearingExpand" type="button" title="放大查看" aria-label="放大查看市场出清电源结构图">&#9974;</button></div>
+          <div class="overview-chart" id="overviewClearingChart" role="img" aria-label="市场出清电源结构图"></div>
+        </section>
+        <section class="overview-chart-panel" aria-labelledby="overviewLoadTemperatureTitle">
+          <div class="overview-chart-titlebar"><h2 id="overviewLoadTemperatureTitle">负荷与温度</h2><button class="overview-chart-expand" id="overviewLoadTemperatureExpand" type="button" title="放大查看" aria-label="放大查看负荷与温度图">&#9974;</button></div>
+          <div class="overview-chart" id="overviewLoadTemperatureChart" role="img" aria-label="负荷与温度图"></div>
+        </section>
       </div>
+      <section class="overview-chart-dialog" id="overviewChartDialog" role="dialog" aria-modal="true" aria-labelledby="overviewChartDialogTitle" tabindex="-1" hidden>
+        <div class="overview-chart-dialog-panel">
+          <header class="overview-chart-dialog-header">
+            <h2 id="overviewChartDialogTitle">图表放大查看</h2>
+            <button class="overview-chart-dialog-close" id="overviewChartDialogClose" type="button" title="关闭" aria-label="关闭放大图表">&times;</button>
+          </header>
+          <div class="overview-expanded-chart" id="overviewExpandedChart" role="img" aria-label="放大图表"></div>
+        </div>
+      </section>
       <section class="overview-details" aria-labelledby="overviewDetailsTitle">
         <div class="overview-details-header">
           <h2 id="overviewDetailsTitle">历史数据明细</h2>
+          <label class="overview-detail-date-field" for="overviewDetailDate">明细日期<select id="overviewDetailDate" aria-label="选择历史数据明细日期"></select></label>
           <p class="overview-status" id="overviewStatus" role="status" aria-live="polite">正在读取本地历史数据索引...</p>
         </div>
         <div class="overview-dataset-tabs" id="overviewDatasetTabs" aria-label="历史数据类型"></div>
@@ -2324,7 +2511,8 @@
               <span class="annual-legend-item"><span class="annual-legend-line"></span>成交电价(元/MWh)</span>
               <span class="annual-legend-item" id="summarySpotPriceLegend" hidden><span class="annual-legend-spot-line"></span>统一结算点现货实时电价(元/MWh)</span>
             </div>
-            <button class="trade-import-button" id="monthlyTenDayExport" type="button" hidden>月度及旬度交易结果导出</button>
+            <button class="trade-import-button" id="monthlyTradeExport" type="button" hidden>月度集中竞价交易结果导出</button>
+            <button class="trade-import-button" id="tenDayTradeExport" type="button" hidden>旬度集中竞价交易结果导出</button>
             <button class="trade-import-button" id="monthlyImportOpen" type="button" hidden>导入</button>
             <label class="trade-month-field trade-ten-day-inline" id="summaryRunDateField" hidden>
               运行日
@@ -2386,6 +2574,33 @@
           </div>
           <div class="long-term-revenue-status monthly-cumulative-revenue-status" id="monthlyCumulativeRevenueStatus">正在计算当月累计收益</div>
         </div>
+        <section class="monthly-hourly-revenue-panel" id="monthlyHourlyRevenuePanel" hidden>
+          <div class="monthly-hourly-revenue-title" id="monthlyHourlyRevenueTitle">当月逐小时各交易品种累计收益</div>
+          <div class="monthly-hourly-revenue-table-wrap">
+            <table class="monthly-hourly-revenue-table" aria-label="当月24小时各交易品种累计收益">
+              <thead>
+                <tr>
+                  <th scope="col" rowspan="2">时间</th>
+                  <th scope="col" rowspan="2">时点</th>
+                  <th scope="col" rowspan="2">中长期交易总收益(元)</th>
+                  <th scope="col" rowspan="2">年度集中竞价交易收益(元)</th>
+                  <th scope="col" rowspan="2">月度集中竞价交易收益(元)</th>
+                  <th scope="colgroup" colspan="4">旬度集中竞价交易收益(元)</th>
+                  <th scope="col" rowspan="2">日滚动撮合交易收益(元)</th>
+                </tr>
+                <tr>
+                  <th scope="col">总收益</th>
+                  <th scope="col">上旬收益</th>
+                  <th scope="col">中旬收益</th>
+                  <th scope="col">下旬收益</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyHourlyRevenueBody"></tbody>
+              <tfoot id="monthlyHourlyRevenueFoot"></tfoot>
+            </table>
+          </div>
+          <div class="monthly-hourly-revenue-status" id="monthlyHourlyRevenueStatus">正在计算当月逐小时累计收益</div>
+        </section>
       </section>
       <div class="trade-workspace">
         <div class="trade-table-wrap">
@@ -2567,6 +2782,11 @@
     const monthlyCumulativeRevenueDailyRolling = document.getElementById("monthlyCumulativeRevenueDailyRolling");
     const monthlyCumulativeRevenueTotal = document.getElementById("monthlyCumulativeRevenueTotal");
     const monthlyCumulativeRevenueStatus = document.getElementById("monthlyCumulativeRevenueStatus");
+    const monthlyHourlyRevenuePanel = document.getElementById("monthlyHourlyRevenuePanel");
+    const monthlyHourlyRevenueTitle = document.getElementById("monthlyHourlyRevenueTitle");
+    const monthlyHourlyRevenueBody = document.getElementById("monthlyHourlyRevenueBody");
+    const monthlyHourlyRevenueFoot = document.getElementById("monthlyHourlyRevenueFoot");
+    const monthlyHourlyRevenueStatus = document.getElementById("monthlyHourlyRevenueStatus");
     const monthlyImportOpen = document.getElementById("monthlyImportOpen");
     const monthlyImportModal = document.getElementById("monthlyImportModal");
     const monthlyImportClose = document.getElementById("monthlyImportClose");
@@ -2595,7 +2815,8 @@
     const tenDayImportEditClose = document.getElementById("tenDayImportEditClose");
     const tenDayImportEditCancel = document.getElementById("tenDayImportEditCancel");
     const tenDayImportEditApply = document.getElementById("tenDayImportEditApply");
-    const monthlyTenDayExport = document.getElementById("monthlyTenDayExport");
+    const monthlyTradeExport = document.getElementById("monthlyTradeExport");
+    const tenDayTradeExport = document.getElementById("tenDayTradeExport");
     const tradeMatrixCaption = document.getElementById("tradeMatrixCaption");
     const tradeMatrixHead = document.getElementById("tradeMatrixHead");
     const tradeMatrixBody = document.getElementById("tradeMatrixBody");
@@ -2684,6 +2905,7 @@
     const annualImportStorageKey = "annualTradeImportRowsByFile";
     const tenDayImportStorageKey = "tenDayTradeImportRowsByPeriod";
     const dailyRollingStorageKey = "dailyRollingTradeRowsByRunDate";
+    const importedDataUpdatedAtStorageKey = "tradeImportUpdatedAt";
     const selectedPlantStorageKey = "selectedPlantName";
     const defaultPlantName = "井陉经开储能（井陉科瑞新能源科技有限公司）";
     const forecastModelNames = ["Linear", "RandomForest", "Bagging", "CatBoost", "LightGBM", "XGBoost"];
@@ -3033,6 +3255,7 @@
         payload[fileName] = record;
       });
       localStorage.setItem(monthlyImportStorageKey, JSON.stringify(payload));
+      localStorage.setItem(importedDataUpdatedAtStorageKey, new Date().toISOString());
     }
 
     function saveAnnualImportRows() {
@@ -3041,6 +3264,7 @@
         payload[fileName] = record;
       });
       localStorage.setItem(annualImportStorageKey, JSON.stringify(payload));
+      localStorage.setItem(importedDataUpdatedAtStorageKey, new Date().toISOString());
     }
 
     function saveTenDayImportRows() {
@@ -3049,6 +3273,7 @@
         payload[fileName] = record;
       });
       localStorage.setItem(tenDayImportStorageKey, JSON.stringify(payload));
+      localStorage.setItem(importedDataUpdatedAtStorageKey, new Date().toISOString());
     }
 
     function saveDailyRollingRows() {
@@ -3057,6 +3282,7 @@
         payload[fileName] = record;
       });
       localStorage.setItem(dailyRollingStorageKey, JSON.stringify(payload));
+      localStorage.setItem(importedDataUpdatedAtStorageKey, new Date().toISOString());
     }
 
     function mapToObject(map) {
@@ -3078,6 +3304,22 @@
       };
     }
 
+    function hasLocalImportRows() {
+      return monthlyImportFiles.size > 0
+        || annualImportFiles.size > 0
+        || tenDayImportFiles.size > 0
+        || dailyRollingFiles.size > 0;
+    }
+
+    function shouldRestorePublishedImportRows(publishedUpdatedAt, localUpdatedAt, hasLocalData) {
+      if (!hasLocalData) return true;
+      const publishedTime = Date.parse(publishedUpdatedAt || "");
+      const localTime = Date.parse(localUpdatedAt || "");
+      if (!Number.isFinite(localTime)) return true;
+      if (!Number.isFinite(publishedTime)) return false;
+      return publishedTime >= localTime;
+    }
+
     function restoreImportedDataPayload(payload) {
       if (!payload || typeof payload !== "object") return false;
       localStorage.setItem(monthlyImportStorageKey, JSON.stringify(payload.monthly || {}));
@@ -3086,6 +3328,9 @@
       localStorage.setItem(dailyRollingStorageKey, JSON.stringify(payload.dailyRolling || {}));
       if (payload.selectedPlantName) {
         localStorage.setItem(selectedPlantStorageKey, payload.selectedPlantName);
+      }
+      if (payload.updatedAt) {
+        localStorage.setItem(importedDataUpdatedAtStorageKey, payload.updatedAt);
       }
       monthlyImportFiles.clear();
       annualImportFiles.clear();
@@ -3106,6 +3351,8 @@
         }
         if (!response.ok) return;
         const payload = await response.json();
+        const localUpdatedAt = localStorage.getItem(importedDataUpdatedAtStorageKey);
+        if (!shouldRestorePublishedImportRows(payload.updatedAt, localUpdatedAt, hasLocalImportRows())) return;
         if (!restoreImportedDataPayload(payload)) return;
         updatePlantSelectOptions();
         syncPlantContext();
@@ -3197,7 +3444,7 @@
     }
 
     function getCurrentImportExpectedNames() {
-      if (isDailyRollingImportMode()) return ["yyyy年mm月dd日日滚动交易(yyyy-mm-dd)"];
+      if (isDailyRollingImportMode()) return ["yyyy年m月d日日滚动交易(yyyy-m-d)"];
       if (isAnnualImportMode()) return getExpectedAnnualImportNames();
       return isTenDayImportMode() ? getExpectedTenDayImportNames() : getExpectedMonthlyImportNames();
     }
@@ -3209,15 +3456,26 @@
 
     function isValidDailyRollingFileName(fileName) {
       return /\.xlsx$/i.test(String(fileName || ""))
-        && /^\d{4}年\d{1,2}月\d{1,2}日日滚动交易\(\d{4}-\d{2}-\d{2}\)/.test(getFileStem(fileName));
+        && Boolean(parseDailyRollingFileName(fileName));
     }
 
     function parseDailyRollingFileName(fileName) {
-      const match = getFileStem(fileName).match(/^(\d{4})年(\d{1,2})月(\d{1,2})日日滚动交易\((\d{4}-\d{2}-\d{2})\)/);
+      const match = getFileStem(fileName).match(/^(\d{4})年(\d{1,2})月(\d{1,2})日日滚动交易\((\d{4})-(\d{1,2})-(\d{1,2})\)/);
       if (!match) return null;
+      const normalizeDate = (yearText, monthText, dayText) => {
+        const year = Number(yearText);
+        const month = Number(monthText);
+        const day = Number(dayText);
+        const value = new Date(Date.UTC(year, month - 1, day));
+        if (value.getUTCFullYear() !== year || value.getUTCMonth() + 1 !== month || value.getUTCDate() !== day) return "";
+        return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      };
+      const tradeDate = normalizeDate(match[1], match[2], match[3]);
+      const runDate = normalizeDate(match[4], match[5], match[6]);
+      if (!tradeDate || !runDate) return null;
       return {
-        tradeDate: `${match[1]}-${String(Number(match[2])).padStart(2, "0")}-${String(Number(match[3])).padStart(2, "0")}`,
-        runDate: match[4],
+        tradeDate,
+        runDate,
       };
     }
 
@@ -3870,10 +4128,27 @@
         dailyRolling: 0,
         total: 0,
       };
+      const hourlyTotals = Array.from({ length: 24 }, (_, index) => ({
+        point: index + 1,
+        hour: `${index}:00-${index + 1}:00`,
+        annual: 0,
+        monthly: 0,
+        tenDay: 0,
+        tenDayEarly: 0,
+        tenDayMiddle: 0,
+        tenDayLate: 0,
+        dailyRolling: 0,
+        total: 0,
+      }));
       const completeDates = [];
       const skippedDates = [];
+      const typeKeyByName = new Map(LONG_TERM_REVENUE_TYPES.map((item) => [item.tradeType, item.key]));
 
       expectedDates.forEach((date) => {
+        const day = Number(date.slice(-2));
+        const tenDayPeriodKey = day <= 10
+          ? "tenDayEarly"
+          : day <= 20 ? "tenDayMiddle" : "tenDayLate";
         const dailySummary = calculateLongTermRevenueSummary(
           getHourlyData(date),
           spotPayloadByDate?.[date] || {},
@@ -3886,11 +4161,27 @@
         Object.keys(totals).forEach((key) => {
           totals[key] += Number(dailySummary.totals[key] || 0);
         });
+        dailySummary.hourlyData.forEach((hourlyItem, index) => {
+          (hourlyItem.details || []).forEach((detail) => {
+            const key = typeKeyByName.get(detail.tradeType);
+            if (key) {
+              const revenue = Number(detail.revenue || 0);
+              hourlyTotals[index][key] += revenue;
+              if (key === "tenDay") hourlyTotals[index][tenDayPeriodKey] += revenue;
+            }
+          });
+          hourlyTotals[index].total += Number(hourlyItem.revenue || 0);
+        });
       });
 
       if (completeDates.length === 0) {
         Object.keys(totals).forEach((key) => {
           totals[key] = null;
+        });
+        hourlyTotals.forEach((item) => {
+          ["annual", "monthly", "tenDay", "tenDayEarly", "tenDayMiddle", "tenDayLate", "dailyRolling", "total"].forEach((key) => {
+            item[key] = null;
+          });
         });
       }
       return {
@@ -3899,6 +4190,7 @@
         completeDates,
         skippedDates,
         totals,
+        hourlyTotals,
       };
     }
 
@@ -3966,12 +4258,10 @@
       return { monthValue, rows: exportRows, sourceRecordCount };
     }
 
-    function buildMonthlyTenDayExportRows() {
+    function buildCentralizedTradeExportRows(sourceType) {
       const monthValue = getSelectedMonthValue();
       const daysInMonth = getDaysInMonth(monthValue);
-      const monthlyRows = getRowsForSelectedPlant(getMonthlyRowsForMonth(monthValue));
-      const tenDayValues = ["early", "middle", "late"];
-      let sourceRecordCount = monthlyRows.length;
+      let sourceRecordCount = 0;
       const dailyPointMap = new Map();
 
       const addAllocatedRows = (rows, startDay, endDay, divisor) => {
@@ -3988,14 +4278,20 @@
         }
       };
 
-      addAllocatedRows(monthlyRows, 1, daysInMonth, daysInMonth);
-
-      tenDayValues.forEach((tenDayValue) => {
-        const range = getTenDayRangeByValue(monthValue, tenDayValue);
-        const rows = getRowsForSelectedPlant(getTenDayRowsForPeriod(`${monthValue}-${tenDayValue}`));
-        sourceRecordCount += rows.length;
-        addAllocatedRows(rows, range.start, range.end, range.end - range.start + 1);
-      });
+      if (sourceType === "monthly") {
+        const monthlyRows = getRowsForSelectedPlant(getMonthlyRowsForMonth(monthValue));
+        sourceRecordCount = monthlyRows.length;
+        addAllocatedRows(monthlyRows, 1, daysInMonth, daysInMonth);
+      } else if (sourceType === "tenDay") {
+        ["early", "middle", "late"].forEach((tenDayValue) => {
+          const range = getTenDayRangeByValue(monthValue, tenDayValue);
+          const rows = getRowsForSelectedPlant(getTenDayRowsForPeriod(`${monthValue}-${tenDayValue}`));
+          sourceRecordCount += rows.length;
+          addAllocatedRows(rows, range.start, range.end, range.end - range.start + 1);
+        });
+      } else {
+        throw new Error("不支持的集中竞价交易导出类型。");
+      }
 
       const exportRows = [];
       for (let day = 1; day <= daysInMonth; day += 1) {
@@ -4015,15 +4311,15 @@
       return { monthValue, rows: exportRows, sourceRecordCount };
     }
 
-    async function exportMonthlyTenDayRows() {
-      const { monthValue, rows, sourceRecordCount } = buildMonthlyTenDayExportRows();
+    async function exportMonthlyTradeRows() {
+      const { monthValue, rows, sourceRecordCount } = buildCentralizedTradeExportRows("monthly");
       if (!sourceRecordCount) {
-        alert("所选月份没有可导出的月度及旬度集中竞价交易结果。");
+        alert("所选月份没有可导出的月度集中竞价交易结果。");
         return;
       }
-      if (monthlyTenDayExport) monthlyTenDayExport.disabled = true;
+      if (monthlyTradeExport) monthlyTradeExport.disabled = true;
       try {
-        const response = await fetch("/export-monthly-ten-day-trade", {
+        const response = await fetch("/export-monthly-trade", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -4038,7 +4334,7 @@
         }
         const blob = await response.blob();
         const [year, month] = monthValue.split("-");
-        const downloadName = `${year}年${Number(month)}月月度及旬度交易结果.xlsx`;
+        const downloadName = `${year}年${Number(month)}月月度集中竞价交易结果.xlsx`;
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
@@ -4050,7 +4346,46 @@
       } catch (error) {
         alert(error.message || "导出失败");
       } finally {
-        if (monthlyTenDayExport) monthlyTenDayExport.disabled = false;
+        if (monthlyTradeExport) monthlyTradeExport.disabled = false;
+      }
+    }
+
+    async function exportTenDayTradeRows() {
+      const { monthValue, rows, sourceRecordCount } = buildCentralizedTradeExportRows("tenDay");
+      if (!sourceRecordCount) {
+        alert("所选月份没有可导出的旬度集中竞价交易结果。");
+        return;
+      }
+      if (tenDayTradeExport) tenDayTradeExport.disabled = true;
+      try {
+        const response = await fetch("/export-ten-day-trade", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            monthValue,
+            plantName: getSelectedPlantLabel(),
+            rows,
+          }),
+        });
+        if (!response.ok) {
+          const errorPayload = await response.json().catch(() => ({}));
+          throw new Error(errorPayload.message || "导出失败");
+        }
+        const blob = await response.blob();
+        const [year, month] = monthValue.split("-");
+        const downloadName = `${year}年${Number(month)}月旬度集中竞价交易结果.xlsx`;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = downloadName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        alert(error.message || "导出失败");
+      } finally {
+        if (tenDayTradeExport) tenDayTradeExport.disabled = false;
       }
     }
 
@@ -4455,7 +4790,8 @@
       const usesDailyRolling = activeTradeType === "日滚动撮合交易";
       if (annualChartPanel) annualChartPanel.hidden = !usesMonthlyChart;
       if (monthlyImportOpen) monthlyImportOpen.hidden = !["年度集中竞价交易", "月度集中竞价交易", "旬度集中竞价交易"].includes(activeTradeType);
-      if (monthlyTenDayExport) monthlyTenDayExport.hidden = activeTradeType !== "月度集中竞价交易";
+      if (monthlyTradeExport) monthlyTradeExport.hidden = activeTradeType !== "月度集中竞价交易";
+      if (tenDayTradeExport) tenDayTradeExport.hidden = activeTradeType !== "旬度集中竞价交易";
       if (summaryRunDateField) summaryRunDateField.hidden = activeTradeType !== "中长期交易汇总";
       if (tradeTenDayField) tradeTenDayField.hidden = activeTradeType !== "旬度集中竞价交易";
       const dayOverview = document.querySelector(".trade-day-overview");
@@ -4587,6 +4923,47 @@
           : "";
         monthlyCumulativeRevenueStatus.textContent = `已累计 ${accumulatedCount}/${expectedCount} 天${skippedText}，截止日期 ${endDate}`;
       }
+      renderMonthlyHourlyRevenue(summary, endDate);
+    }
+
+    function renderMonthlyHourlyRevenue(summary, endDate) {
+      if (!monthlyHourlyRevenuePanel || !monthlyHourlyRevenueBody || !monthlyHourlyRevenueFoot) return;
+      monthlyHourlyRevenuePanel.hidden = activeTradeType !== "中长期交易汇总";
+      if (monthlyHourlyRevenuePanel.hidden) return;
+      if (monthlyHourlyRevenueTitle) {
+        monthlyHourlyRevenueTitle.textContent = `${String(endDate || "").slice(0, 7)} 当月逐小时各交易品种累计收益（截至 ${endDate}）`;
+      }
+      const keys = ["total", "annual", "monthly", "tenDay", "tenDayEarly", "tenDayMiddle", "tenDayLate", "dailyRolling"];
+      const revenueCell = (value) => {
+        const numericValue = Number(value);
+        const className = Number.isFinite(numericValue) && numericValue < 0 ? " is-negative" : "";
+        const text = Number.isFinite(numericValue)
+          ? numericValue.toLocaleString("zh-CN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : "-";
+        return `<td class="monthly-hourly-revenue-value${className}">${text}</td>`;
+      };
+      monthlyHourlyRevenueBody.innerHTML = (summary.hourlyTotals || []).map((item) => `
+        <tr>
+          <td>${item.hour}</td>
+          <td>${item.point}</td>
+          ${keys.map((key) => revenueCell(item[key])).join("")}
+        </tr>
+      `).join("");
+      const displayTotals = {
+        ...summary.totals,
+        tenDayEarly: (summary.hourlyTotals || []).reduce((sum, item) => sum + Number(item.tenDayEarly || 0), 0),
+        tenDayMiddle: (summary.hourlyTotals || []).reduce((sum, item) => sum + Number(item.tenDayMiddle || 0), 0),
+        tenDayLate: (summary.hourlyTotals || []).reduce((sum, item) => sum + Number(item.tenDayLate || 0), 0),
+      };
+      monthlyHourlyRevenueFoot.innerHTML = `
+        <tr>
+          <th scope="row" colspan="2">合计</th>
+          ${keys.map((key) => revenueCell(displayTotals[key])).join("")}
+        </tr>
+      `;
+      if (monthlyHourlyRevenueStatus) {
+        monthlyHourlyRevenueStatus.textContent = `已累计 ${summary.completeDates.length}/${summary.expectedDates.length} 天；各时点收益按当月1日至 ${endDate} 逐日汇总`;
+      }
     }
 
     function renderMonthlyCumulativeRevenueLoading(endDate) {
@@ -4607,6 +4984,13 @@
       if (monthlyCumulativeRevenueStatus) {
         monthlyCumulativeRevenueStatus.textContent = "正在逐日读取统一结算点现货实时电价";
       }
+      if (monthlyHourlyRevenuePanel) monthlyHourlyRevenuePanel.hidden = false;
+      if (monthlyHourlyRevenueTitle) {
+        monthlyHourlyRevenueTitle.textContent = `${String(endDate || "").slice(0, 7)} 当月逐小时各交易品种累计收益（截至 ${endDate}）`;
+      }
+      if (monthlyHourlyRevenueBody) monthlyHourlyRevenueBody.innerHTML = "";
+      if (monthlyHourlyRevenueFoot) monthlyHourlyRevenueFoot.innerHTML = "";
+      if (monthlyHourlyRevenueStatus) monthlyHourlyRevenueStatus.textContent = "正在计算当月24小时累计收益";
     }
 
     function renderAnnualChart() {
@@ -4639,6 +5023,7 @@
         }
       } else if (longTermRevenueSummary) {
         longTermRevenueSummary.hidden = true;
+        if (monthlyHourlyRevenuePanel) monthlyHourlyRevenuePanel.hidden = true;
       }
       if (annualTitle) {
         let titlePrefix = `${selectedYear}年${Number(selectedMonth)}月${activeTradeType}`;
@@ -5200,7 +5585,7 @@
       if (monthlyImportTitle) monthlyImportTitle.textContent = importTitle;
       if (monthlyImportFileHint) {
         monthlyImportFileHint.textContent = dailyMode
-          ? `可一次选择或拖入多个文件，文件名以：${expectedNames[0]} 开头`
+          ? `可一次选择或拖入多个文件，文件名以：${expectedNames[0]} 开头；月份和日期可为1或2位并可任意组合`
           : `点击选择或拖入文件，文件名以：${expectedNames[0]} 开头`;
       }
       if (monthlyImportFile) monthlyImportFile.multiple = dailyMode;
@@ -5476,7 +5861,7 @@
       const candidates = Array.from(files || []);
       if (candidates.length !== 1 || !isValidDailyRollingFileName(candidates[0].name)) {
         selectedRollingTradeFile = null;
-        if (rollingTradeFileName) rollingTradeFileName.textContent = "文件名需以 yyyy年mm月dd日日滚动交易(yyyy-mm-dd) 开头";
+        if (rollingTradeFileName) rollingTradeFileName.textContent = "文件名需以 yyyy年m月d日日滚动交易(yyyy-m-d) 开头，月、日可为1或2位";
         updateRollingTradeImportState();
         setForecastStatus("日滚撮交易结果文件名应以规定名称开头，且为 xlsx 格式", "error");
         return;
@@ -5500,7 +5885,7 @@
     function resetSelectedRollingTradeFile() {
       selectedRollingTradeFile = null;
       if (rollingTradeFileInput) rollingTradeFileInput.value = "";
-      if (rollingTradeFileName) rollingTradeFileName.textContent = "未选择文件，文件名需以 yyyy年mm月dd日日滚动交易(yyyy-mm-dd) 开头";
+      if (rollingTradeFileName) rollingTradeFileName.textContent = "未选择文件，文件名需以 yyyy年m月d日日滚动交易(yyyy-m-d) 开头，月、日可为1或2位";
       updateRollingTradeImportState();
     }
 
@@ -6503,7 +6888,8 @@
     monthlyImportOpen?.addEventListener("click", openMonthlyImportModal);
     dailyRollingImportOpen?.addEventListener("click", openMonthlyImportModal);
     dailyRollingExport?.addEventListener("click", exportDailyRollingRows);
-    monthlyTenDayExport?.addEventListener("click", exportMonthlyTenDayRows);
+    monthlyTradeExport?.addEventListener("click", exportMonthlyTradeRows);
+    tenDayTradeExport?.addEventListener("click", exportTenDayTradeRows);
     monthlyImportClose?.addEventListener("click", closeMonthlyImportModal);
     monthlyImportCancel?.addEventListener("click", closeMonthlyImportModal);
     monthlyImportApply?.addEventListener("click", applyMonthlyImportRows);
@@ -6824,7 +7210,7 @@
   </script>
   <script src="echarts.min.js"></script>
   <script src="exceljs.min.js"></script>
-  <script src="overview.js?v=20260813-1"></script>
-  <script src="overview-export.js?v=20260801-1"></script>
+  <script src="overview.js?v=20260902-1"></script>
+  <script src="overview-export.js?v=20260831-2"></script>
 </body>
 </html>
