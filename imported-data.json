@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-04T06:12:16.099Z",
+  "updatedAt": "2026-09-06T06:09:06.927Z",
   "monthly": {
     "2026年7月月度集中竞价交易结果.xlsx": {
       "fileName": "2026年7月月度集中竞价交易结果.xlsx",
@@ -9373,6 +9373,61 @@
           "rawVolume": 2,
           "price": 118,
           "sourceFileName": "2026年09月03日日滚动交易(2026-9-05) (1).xlsx"
+        }
+      ]
+    },
+    "2026年9月4日日滚动交易(2026-09-07).xlsx": {
+      "fileName": "2026年9月4日日滚动交易(2026-09-07).xlsx",
+      "tradeDate": "2026-09-04",
+      "runDate": "2026-09-07",
+      "dayOffset": 3,
+      "rows": [
+        {
+          "tradeDate": "2026-09-04",
+          "runDate": "2026-09-07",
+          "dayOffset": 3,
+          "point": 11,
+          "hour": "10:00-11:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -13,
+          "rawVolume": 13,
+          "price": 267,
+          "sourceFileName": "2026年9月4日日滚动交易(2026-09-07).xlsx"
+        }
+      ]
+    },
+    "2026年9月4日日滚动交易(2026-09-06) (1).xlsx": {
+      "fileName": "2026年9月4日日滚动交易(2026-09-06) (1).xlsx",
+      "tradeDate": "2026-09-04",
+      "runDate": "2026-09-06",
+      "dayOffset": 2,
+      "rows": [
+        {
+          "tradeDate": "2026-09-04",
+          "runDate": "2026-09-06",
+          "dayOffset": 2,
+          "point": 11,
+          "hour": "10:00-11:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 30,
+          "rawVolume": 30,
+          "price": 199,
+          "sourceFileName": "2026年9月4日日滚动交易(2026-09-06) (1).xlsx"
+        },
+        {
+          "tradeDate": "2026-09-04",
+          "runDate": "2026-09-06",
+          "dayOffset": 2,
+          "point": 13,
+          "hour": "12:00-13:00",
+          "tradeUnit": "井陉经开储能（发电110kV）",
+          "direction": "卖出",
+          "volume": 60,
+          "rawVolume": 60,
+          "price": 205.11,
+          "sourceFileName": "2026年9月4日日滚动交易(2026-09-06) (1).xlsx"
         }
       ]
     }
