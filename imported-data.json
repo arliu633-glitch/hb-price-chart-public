@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-18T06:48:09.741Z",
+  "updatedAt": "2026-09-20T07:04:29.051Z",
   "monthly": {
     "2026年7月月度集中竞价交易结果.xlsx": {
       "fileName": "2026年7月月度集中竞价交易结果.xlsx",
@@ -8017,9 +8017,9 @@
       "periodValue": "2026-09-late",
       "rows": [
         {
+          "partyRole": "buyer",
           "serial": "1",
           "sellerName": "深能河北售电",
-          "partyRole": "buyer",
           "sheetName": "Sheet1",
           "dateRange": "2026-09-21-2026-09-30",
           "segment": "h9:08:00-09:00",
@@ -8031,9 +8031,9 @@
           "memberName": "深能河北售电有限公司"
         },
         {
+          "partyRole": "buyer",
           "serial": "2",
           "sellerName": "邯峰电厂2号机",
-          "partyRole": "buyer",
           "sheetName": "Sheet1",
           "dateRange": "2026-09-21-2026-09-30",
           "segment": "h9:08:00-09:00",
@@ -10543,6 +10543,113 @@
           "rawVolume": 30,
           "price": 175,
           "sourceFileName": "2026年09月17日日滚动交易(2026-9-19).xlsx"
+        }
+      ]
+    },
+    "2026年9月20日日滚动交易(2026-09-22).xlsx": {
+      "fileName": "2026年9月20日日滚动交易(2026-09-22).xlsx",
+      "tradeDate": "2026-09-20",
+      "runDate": "2026-09-22",
+      "dayOffset": 2,
+      "rows": [
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-22",
+          "dayOffset": 2,
+          "point": 13,
+          "hour": "12:00-13:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -30,
+          "rawVolume": 30,
+          "price": 155,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-22).xlsx"
+        },
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-22",
+          "dayOffset": 2,
+          "point": 14,
+          "hour": "13:00-14:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -50,
+          "rawVolume": 50,
+          "price": 169.8,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-22).xlsx"
+        }
+      ]
+    },
+    "2026年9月20日日滚动交易(2026-09-23).xlsx": {
+      "fileName": "2026年9月20日日滚动交易(2026-09-23).xlsx",
+      "tradeDate": "2026-09-20",
+      "runDate": "2026-09-23",
+      "dayOffset": 3,
+      "rows": [
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-23",
+          "dayOffset": 3,
+          "point": 10,
+          "hour": "09:00-10:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -2.44,
+          "rawVolume": 2.44,
+          "price": 160,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-23).xlsx"
+        },
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-23",
+          "dayOffset": 3,
+          "point": 11,
+          "hour": "10:00-11:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -1.82,
+          "rawVolume": 1.82,
+          "price": 160.01,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-23).xlsx"
+        },
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-23",
+          "dayOffset": 3,
+          "point": 12,
+          "hour": "11:00-12:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -1.8,
+          "rawVolume": 1.8,
+          "price": 160.01,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-23).xlsx"
+        },
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-23",
+          "dayOffset": 3,
+          "point": 13,
+          "hour": "12:00-13:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -35.45,
+          "rawVolume": 35.45,
+          "price": 201.35,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-23).xlsx"
+        },
+        {
+          "tradeDate": "2026-09-20",
+          "runDate": "2026-09-23",
+          "dayOffset": 3,
+          "point": 14,
+          "hour": "13:00-14:00",
+          "tradeUnit": "井陉经开储能（用电110kV）",
+          "direction": "买入",
+          "volume": -30,
+          "rawVolume": 30,
+          "price": 208.17,
+          "sourceFileName": "2026年9月20日日滚动交易(2026-09-23).xlsx"
         }
       ]
     }
