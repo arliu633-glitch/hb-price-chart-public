@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2800" height="900" viewBox="0 0 2800 900" data-plot-left="108" data-plot-right="2736" data-plot-top="190" data-plot-bottom="788" data-price-axis-min="-100" data-price-axis-max="500" data-price-axis-break-count="0">
+<svg xmlns="http://www.w3.org/2000/svg" width="2800" height="900" viewBox="0 0 2800 900" data-plot-left="108" data-plot-right="2736" data-plot-top="190" data-plot-bottom="788" data-price-axis-min="100" data-price-axis-max="550" data-price-axis-break-count="0">
 <defs>
 <clipPath id="plot-clip">
 <rect x="108" y="190" width="2628" height="598"/>
@@ -25,7 +25,7 @@ text{font-family:'Microsoft YaHei','SimHei',Arial,sans-serif;fill:#1f2937}
 .tooltip text{fill:#ffffff;font-size:15px}
 </style>
 <rect width="100%" height="100%" fill="#ffffff"/>
-<text x="1400.0" y="42" text-anchor="middle" font-size="34" font-weight="700">2026-10-14 河北南网实时机组滚动发电计划</text>
+<text x="1400.0" y="42" text-anchor="middle" font-size="34" font-weight="700">2026-10-15 河北南网实时机组滚动发电计划</text>
 <script><![CDATA[
 function showTip(evt, zone){
   const svg = zone.ownerSVGElement;
@@ -85,31 +85,25 @@ function hideTip(evt){
 <text x="2748" y="254.80" text-anchor="start" font-size="13" fill="#166534">160</text>
 <text x="2748" y="195.00" text-anchor="start" font-size="13" fill="#166534">200</text>
 <line class="grid" x1="108" y1="788.00" x2="2736" y2="788.00"/>
-<text x="96" y="793.00" text-anchor="end" font-size="13">-100</text>
-<line class="grid" x1="108" y1="738.17" x2="2736" y2="738.17"/>
-<text x="96" y="743.17" text-anchor="end" font-size="13">-50</text>
-<line class="zero-price-line" x1="108" y1="688.33" x2="2736" y2="688.33"/>
-<text class="zero-price-label" x="96" y="693.33" text-anchor="end" font-size="13">0</text>
-<line class="grid" x1="108" y1="638.50" x2="2736" y2="638.50"/>
-<text x="96" y="643.50" text-anchor="end" font-size="13">50</text>
+<text x="96" y="793.00" text-anchor="end" font-size="13">100</text>
+<line class="grid" x1="108" y1="721.56" x2="2736" y2="721.56"/>
+<text x="96" y="726.56" text-anchor="end" font-size="13">150</text>
+<line class="grid" x1="108" y1="655.11" x2="2736" y2="655.11"/>
+<text x="96" y="660.11" text-anchor="end" font-size="13">200</text>
 <line class="grid" x1="108" y1="588.67" x2="2736" y2="588.67"/>
-<text x="96" y="593.67" text-anchor="end" font-size="13">100</text>
-<line class="grid" x1="108" y1="538.83" x2="2736" y2="538.83"/>
-<text x="96" y="543.83" text-anchor="end" font-size="13">150</text>
-<line class="grid" x1="108" y1="489.00" x2="2736" y2="489.00"/>
-<text x="96" y="494.00" text-anchor="end" font-size="13">200</text>
-<line class="grid" x1="108" y1="439.17" x2="2736" y2="439.17"/>
-<text x="96" y="444.17" text-anchor="end" font-size="13">250</text>
+<text x="96" y="593.67" text-anchor="end" font-size="13">250</text>
+<line class="grid" x1="108" y1="522.22" x2="2736" y2="522.22"/>
+<text x="96" y="527.22" text-anchor="end" font-size="13">300</text>
+<line class="grid" x1="108" y1="455.78" x2="2736" y2="455.78"/>
+<text x="96" y="460.78" text-anchor="end" font-size="13">350</text>
 <line class="grid" x1="108" y1="389.33" x2="2736" y2="389.33"/>
-<text x="96" y="394.33" text-anchor="end" font-size="13">300</text>
-<line class="grid" x1="108" y1="339.50" x2="2736" y2="339.50"/>
-<text x="96" y="344.50" text-anchor="end" font-size="13">350</text>
-<line class="grid" x1="108" y1="289.67" x2="2736" y2="289.67"/>
-<text x="96" y="294.67" text-anchor="end" font-size="13">400</text>
-<line class="grid" x1="108" y1="239.83" x2="2736" y2="239.83"/>
-<text x="96" y="244.83" text-anchor="end" font-size="13">450</text>
+<text x="96" y="394.33" text-anchor="end" font-size="13">400</text>
+<line class="grid" x1="108" y1="322.89" x2="2736" y2="322.89"/>
+<text x="96" y="327.89" text-anchor="end" font-size="13">450</text>
+<line class="grid" x1="108" y1="256.44" x2="2736" y2="256.44"/>
+<text x="96" y="261.44" text-anchor="end" font-size="13">500</text>
 <line class="grid" x1="108" y1="190.00" x2="2736" y2="190.00"/>
-<text x="96" y="195.00" text-anchor="end" font-size="13">500</text>
+<text x="96" y="195.00" text-anchor="end" font-size="13">550</text>
 <line class="grid minor" x1="108.00" y1="190" x2="108.00" y2="788"/>
 <text x="108.00" y="816" text-anchor="end" font-size="10" transform="rotate(-60 108.00 816)">0:15</text>
 <line class="grid minor" x1="135.66" y1="190" x2="135.66" y2="788"/>
@@ -303,102 +297,48 @@ function hideTip(evt){
 <line class="grid" x1="2736.00" y1="190" x2="2736.00" y2="788"/>
 <text x="2736.00" y="816" text-anchor="end" font-size="10" transform="rotate(-60 2736.00 816)">0:00</text>
 <g clip-path="url(#plot-clip)">
-<rect class="bar" x="108.00" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="126.66" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="154.33" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="181.99" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="209.65" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="237.32" y="459.10" width="7" height="29.90"/>
+<rect class="bar" x="108.00" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="126.66" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="154.33" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="181.99" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="209.65" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="237.32" y="489.00" width="7" height="0.00"/>
 <rect class="bar" x="264.98" y="489.00" width="7" height="0.00"/>
 <rect class="bar" x="292.64" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="320.31" y="427.71" width="7" height="61.29"/>
-<rect class="bar" x="347.97" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="375.63" y="459.10" width="7" height="29.90"/>
-<rect class="bar" x="403.29" y="439.66" width="7" height="49.34"/>
-<rect class="bar" x="430.96" y="439.66" width="7" height="49.34"/>
-<rect class="bar" x="458.62" y="439.66" width="7" height="49.34"/>
-<rect class="bar" x="486.28" y="439.66" width="7" height="49.34"/>
-<rect class="bar" x="513.95" y="420.23" width="7" height="68.77"/>
-<rect class="bar" x="541.61" y="420.23" width="7" height="68.77"/>
-<rect class="bar" x="569.27" y="412.75" width="7" height="76.25"/>
-<rect class="bar" x="596.94" y="412.75" width="7" height="76.25"/>
-<rect class="bar" x="624.60" y="412.75" width="7" height="76.25"/>
-<rect class="bar" x="652.26" y="399.30" width="7" height="89.70"/>
-<rect class="bar" x="679.93" y="399.30" width="7" height="89.70"/>
-<rect class="bar" x="707.59" y="400.79" width="7" height="88.21"/>
-<rect class="bar" x="735.25" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="762.92" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="790.58" y="294.65" width="7" height="194.35"/>
-<rect class="bar" x="818.24" y="294.65" width="7" height="194.35"/>
-<rect class="bar" x="845.91" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="873.57" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="901.23" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="928.89" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="956.56" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="320.31" y="287.18" width="7" height="201.82"/>
+<rect class="bar" x="347.97" y="438.17" width="7" height="50.83"/>
+<rect class="bar" x="375.63" y="438.17" width="7" height="50.83"/>
+<rect class="bar" x="403.29" y="438.17" width="7" height="50.83"/>
+<rect class="bar" x="430.96" y="438.17" width="7" height="50.83"/>
+<rect class="bar" x="458.62" y="438.17" width="7" height="50.83"/>
+<rect class="bar" x="486.28" y="438.17" width="7" height="50.83"/>
+<rect class="bar" x="513.95" y="436.67" width="7" height="52.33"/>
+<rect class="bar" x="541.61" y="436.67" width="7" height="52.33"/>
+<rect class="bar" x="569.27" y="436.67" width="7" height="52.33"/>
+<rect class="bar" x="596.94" y="433.68" width="7" height="55.32"/>
+<rect class="bar" x="624.60" y="420.23" width="7" height="68.77"/>
+<rect class="bar" x="652.26" y="420.23" width="7" height="68.77"/>
+<rect class="bar" x="679.93" y="420.23" width="7" height="68.77"/>
+<rect class="bar" x="707.59" y="420.23" width="7" height="68.77"/>
+<rect class="bar" x="735.25" y="420.23" width="7" height="68.77"/>
+<rect class="bar" x="762.92" y="420.23" width="7" height="68.77"/>
+<rect class="bar" x="790.58" y="369.40" width="7" height="119.60"/>
+<rect class="bar" x="818.24" y="308.11" width="7" height="180.89"/>
+<rect class="bar" x="845.91" y="308.11" width="7" height="180.89"/>
+<rect class="bar" x="873.57" y="308.11" width="7" height="180.89"/>
+<rect class="bar" x="901.23" y="308.11" width="7" height="180.89"/>
+<rect class="bar" x="928.89" y="308.11" width="7" height="180.89"/>
+<rect class="bar" x="956.56" y="394.82" width="7" height="94.18"/>
 <rect class="bar" x="984.22" y="489.00" width="7" height="0.00"/>
 <rect class="bar" x="1011.88" y="489.00" width="7" height="0.00"/>
 <rect class="bar" x="1039.55" y="489.00" width="7" height="0.00"/>
 <rect class="bar" x="1067.21" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1094.87" y="489.00" width="7" height="44.85"/>
-<rect class="bar" x="1122.54" y="489.00" width="7" height="44.85"/>
-<rect class="bar" x="1150.20" y="489.00" width="7" height="153.98"/>
-<rect class="bar" x="1177.86" y="489.00" width="7" height="185.38"/>
-<rect class="bar" x="1205.53" y="489.00" width="7" height="185.38"/>
-<rect class="bar" x="1233.19" y="489.00" width="7" height="185.38"/>
-<rect class="bar" x="1260.85" y="489.00" width="7" height="185.38"/>
-<rect class="bar" x="1288.52" y="489.00" width="7" height="185.38"/>
-<rect class="bar" x="1316.18" y="489.00" width="7" height="183.88"/>
-<rect class="bar" x="1343.84" y="489.00" width="7" height="76.24"/>
-<rect class="bar" x="1371.51" y="489.00" width="7" height="76.24"/>
-<rect class="bar" x="1399.17" y="489.00" width="7" height="107.64"/>
-<rect class="bar" x="1426.83" y="489.00" width="7" height="153.98"/>
-<rect class="bar" x="1454.49" y="489.00" width="7" height="153.98"/>
-<rect class="bar" x="1482.16" y="489.00" width="7" height="145.02"/>
-<rect class="bar" x="1509.82" y="489.00" width="7" height="145.02"/>
-<rect class="bar" x="1537.48" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1565.15" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1592.81" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1620.47" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1648.14" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1675.80" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1703.46" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1731.13" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1758.79" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1786.45" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1814.12" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1841.78" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1869.44" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1897.11" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1924.77" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1952.43" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="1980.09" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2007.76" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2035.42" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2063.08" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2090.75" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2118.41" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2146.07" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2173.74" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2201.40" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2229.06" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2256.73" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2284.39" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2312.05" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2339.72" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2367.38" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2395.04" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2422.71" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2450.37" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2478.03" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2505.69" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2533.36" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2561.02" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2588.68" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2616.35" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2644.01" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2671.67" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2699.34" y="489.00" width="7" height="0.00"/>
-<rect class="bar" x="2718.00" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="1094.87" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="1122.54" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="1150.20" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="1177.86" y="489.00" width="7" height="0.00"/>
+<rect class="bar" x="1205.53" y="489.00" width="7" height="201.83"/>
+<rect class="bar" x="1233.19" y="489.00" width="7" height="201.83"/>
 <rect class="long-term-volume-bar" x="220.65" y="444.15" width="7" height="44.85"/>
 <rect class="long-term-volume-bar" x="248.32" y="444.15" width="7" height="44.85"/>
 <rect class="long-term-volume-bar" x="275.98" y="444.15" width="7" height="44.85"/>
@@ -467,198 +407,122 @@ function hideTip(evt){
 <rect class="long-term-volume-bar" x="2682.67" y="489.00" width="7" height="74.75"/>
 <rect class="long-term-volume-bar" x="2710.34" y="489.00" width="7" height="74.75"/>
 <rect class="long-term-volume-bar" x="2729.00" y="489.00" width="7" height="74.75"/>
-<polyline class="actual" points="108.00,310.35 135.66,356.55 163.33,355.78 190.99,358.58 218.65,379.20 246.32,356.55 273.98,400.01 301.64,356.21 329.31,395.18 356.97,354.66 384.63,421.63 412.29,439.89 439.96,437.43 467.62,430.04 495.28,430.04 522.95,433.85 550.61,428.76 578.27,399.89 605.94,424.08 633.60,400.01 661.26,358.55 688.93,344.48 716.59,391.06 744.25,358.58 771.92,244.82 799.58,401.74 827.24,403.57 854.91,359.17 882.57,358.55 910.23,436.67 937.89,440.45 965.56,441.09 993.22,424.22 1020.88,688.33 1048.55,688.33"/>
-<polyline class="actual" points="1103.87,688.33"/>
-<polyline class="actual" points="1159.20,688.33 1186.86,688.33"/>
-<polyline class="actual" points="1242.19,688.33 1269.85,688.33 1297.52,688.33 1325.18,688.33 1352.84,688.33"/>
-<polyline class="actual" points="1408.17,688.33 1435.83,688.33"/>
-<polyline class="actual" points="1491.16,688.33"/>
-<polyline class="actual" points="1546.48,688.33 1574.15,688.33"/>
-<polyline class="actual" points="1629.47,688.33"/>
-<polyline class="actual" points="1684.80,440.39"/>
-<polyline class="actual" points="1740.13,424.22"/>
-<polyline class="actual" points="1795.45,344.48 1823.12,298.81"/>
-<polyline class="actual" points="1878.44,349.03 1906.11,353.23 1933.77,308.94 1961.43,424.08 1989.09,393.66 2016.76,355.78 2044.42,355.94 2072.08,395.18 2099.75,358.98 2127.41,396.36 2155.07,420.56 2182.74,399.07 2210.40,421.63 2238.06,404.93 2265.73,424.22 2293.39,424.08 2321.05,433.85 2348.72,424.22 2376.38,358.98 2404.04,396.36 2431.71,358.55 2459.37,356.17 2487.03,358.24 2514.69,379.20 2542.36,402.19 2570.02,399.94 2597.68,358.24 2625.35,358.55 2653.01,356.55 2680.67,379.20"/>
-<polyline class="forecast" points="2680.67,379.20 2708.34,361.05 2736.00,347.12"/>
-<polyline class="forecast fallback" points="1048.55,688.33 1076.21,688.33 1103.87,688.33"/>
-<polyline class="forecast fallback" points="1103.87,688.33 1131.54,688.33 1159.20,688.33"/>
-<polyline class="forecast fallback" points="1186.86,688.33 1214.53,688.33 1242.19,688.33"/>
-<polyline class="forecast fallback" points="1352.84,688.33 1380.51,688.33 1408.17,688.33"/>
-<polyline class="forecast fallback" points="1435.83,688.33 1463.49,688.33 1491.16,688.33"/>
-<polyline class="forecast fallback" points="1491.16,688.33 1518.82,688.33 1546.48,688.33"/>
-<polyline class="forecast fallback" points="1574.15,688.33 1601.81,688.33 1629.47,688.33"/>
-<polyline class="forecast fallback" points="1629.47,688.33 1657.14,688.33 1684.80,440.39"/>
-<polyline class="forecast fallback" points="1684.80,440.39 1712.46,391.06 1740.13,424.22"/>
-<polyline class="forecast fallback" points="1740.13,424.22 1767.79,358.55 1795.45,344.48"/>
-<polyline class="forecast fallback" points="1823.12,298.81 1850.78,273.21 1878.44,349.03"/>
-<polyline class="long-term" points="218.65,269.73 246.32,269.73 273.98,269.73 301.64,269.73"/>
-<polyline class="long-term" points="550.61,269.73 578.27,269.73 605.94,269.73 633.60,269.73"/>
-<polyline class="long-term" points="882.57,275.91 910.23,275.91 937.89,275.91 965.56,275.91 993.22,353.17 1020.88,353.17 1048.55,353.17 1076.21,353.17 1103.87,458.54 1131.54,458.54 1159.20,458.54 1186.86,458.54 1214.53,484.02 1242.19,484.02 1269.85,484.02 1297.52,484.02 1325.18,485.17 1352.84,485.17 1380.51,485.17 1408.17,485.17 1435.83,509.57 1463.49,509.57 1491.16,509.57 1518.82,509.57 1546.48,489.00 1574.15,489.00 1601.81,489.00 1629.47,489.00"/>
-<polyline class="long-term" points="1878.44,264.75 1906.11,264.75 1933.77,264.75 1961.43,264.75 1989.09,266.00 2016.76,266.00 2044.42,266.00 2072.08,266.00 2099.75,267.74 2127.41,267.74 2155.07,267.74 2182.74,267.74 2210.40,272.22 2238.06,272.22 2265.73,272.22 2293.39,272.22 2321.05,274.71 2348.72,274.71 2376.38,274.71 2404.04,274.71 2431.71,274.72 2459.37,274.72 2487.03,274.72 2514.69,274.72 2542.36,279.30 2570.02,279.30 2597.68,279.30 2625.35,279.30 2653.01,271.83 2680.67,271.83 2708.34,271.83 2736.00,271.83"/>
-<circle cx="108.00" cy="310.35" r="3" fill="#2563eb"/>
-<circle cx="135.66" cy="356.55" r="3" fill="#2563eb"/>
-<circle cx="163.33" cy="355.78" r="3" fill="#2563eb"/>
-<circle cx="190.99" cy="358.58" r="3" fill="#2563eb"/>
-<circle cx="218.65" cy="379.20" r="3" fill="#2563eb"/>
-<circle cx="246.32" cy="356.55" r="3" fill="#2563eb"/>
-<circle cx="273.98" cy="400.01" r="3" fill="#2563eb"/>
-<circle cx="301.64" cy="356.21" r="3" fill="#2563eb"/>
-<circle cx="329.31" cy="395.18" r="3" fill="#2563eb"/>
-<circle cx="356.97" cy="354.66" r="3" fill="#2563eb"/>
-<circle cx="384.63" cy="421.63" r="3" fill="#2563eb"/>
-<circle cx="412.29" cy="439.89" r="3" fill="#2563eb"/>
-<circle cx="439.96" cy="437.43" r="3" fill="#2563eb"/>
-<circle cx="467.62" cy="430.04" r="3" fill="#2563eb"/>
-<circle cx="495.28" cy="430.04" r="3" fill="#2563eb"/>
-<circle cx="522.95" cy="433.85" r="3" fill="#2563eb"/>
-<circle cx="550.61" cy="428.76" r="3" fill="#2563eb"/>
-<circle cx="578.27" cy="399.89" r="3" fill="#2563eb"/>
-<circle cx="605.94" cy="424.08" r="3" fill="#2563eb"/>
-<circle cx="633.60" cy="400.01" r="3" fill="#2563eb"/>
-<circle cx="661.26" cy="358.55" r="3" fill="#2563eb"/>
-<circle cx="688.93" cy="344.48" r="3" fill="#2563eb"/>
-<circle cx="716.59" cy="391.06" r="3" fill="#2563eb"/>
-<circle cx="744.25" cy="358.58" r="3" fill="#2563eb"/>
-<circle cx="771.92" cy="244.82" r="3" fill="#2563eb"/>
-<circle cx="799.58" cy="401.74" r="3" fill="#2563eb"/>
-<circle cx="827.24" cy="403.57" r="3" fill="#2563eb"/>
-<circle cx="854.91" cy="359.17" r="3" fill="#2563eb"/>
-<circle cx="882.57" cy="358.55" r="3" fill="#2563eb"/>
-<circle cx="910.23" cy="436.67" r="3" fill="#2563eb"/>
-<circle cx="937.89" cy="440.45" r="3" fill="#2563eb"/>
-<circle cx="965.56" cy="441.09" r="3" fill="#2563eb"/>
-<circle cx="993.22" cy="424.22" r="3" fill="#2563eb"/>
-<circle cx="1020.88" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1048.55" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1103.87" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1159.20" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1186.86" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1242.19" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1269.85" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1297.52" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1325.18" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1352.84" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1408.17" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1435.83" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1491.16" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1546.48" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1574.15" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1629.47" cy="688.33" r="3" fill="#2563eb"/>
-<circle cx="1684.80" cy="440.39" r="3" fill="#2563eb"/>
-<circle cx="1740.13" cy="424.22" r="3" fill="#2563eb"/>
-<circle cx="1795.45" cy="344.48" r="3" fill="#2563eb"/>
-<circle cx="1823.12" cy="298.81" r="3" fill="#2563eb"/>
-<circle cx="1878.44" cy="349.03" r="3" fill="#2563eb"/>
-<circle cx="1906.11" cy="353.23" r="3" fill="#2563eb"/>
-<circle cx="1933.77" cy="308.94" r="3" fill="#2563eb"/>
-<circle cx="1961.43" cy="424.08" r="3" fill="#2563eb"/>
-<circle cx="1989.09" cy="393.66" r="3" fill="#2563eb"/>
-<circle cx="2016.76" cy="355.78" r="3" fill="#2563eb"/>
-<circle cx="2044.42" cy="355.94" r="3" fill="#2563eb"/>
-<circle cx="2072.08" cy="395.18" r="3" fill="#2563eb"/>
-<circle cx="2099.75" cy="358.98" r="3" fill="#2563eb"/>
-<circle cx="2127.41" cy="396.36" r="3" fill="#2563eb"/>
-<circle cx="2155.07" cy="420.56" r="3" fill="#2563eb"/>
-<circle cx="2182.74" cy="399.07" r="3" fill="#2563eb"/>
-<circle cx="2210.40" cy="421.63" r="3" fill="#2563eb"/>
-<circle cx="2238.06" cy="404.93" r="3" fill="#2563eb"/>
-<circle cx="2265.73" cy="424.22" r="3" fill="#2563eb"/>
-<circle cx="2293.39" cy="424.08" r="3" fill="#2563eb"/>
-<circle cx="2321.05" cy="433.85" r="3" fill="#2563eb"/>
-<circle cx="2348.72" cy="424.22" r="3" fill="#2563eb"/>
-<circle cx="2376.38" cy="358.98" r="3" fill="#2563eb"/>
-<circle cx="2404.04" cy="396.36" r="3" fill="#2563eb"/>
-<circle cx="2431.71" cy="358.55" r="3" fill="#2563eb"/>
-<circle cx="2459.37" cy="356.17" r="3" fill="#2563eb"/>
-<circle cx="2487.03" cy="358.24" r="3" fill="#2563eb"/>
-<circle cx="2514.69" cy="379.20" r="3" fill="#2563eb"/>
-<circle cx="2542.36" cy="402.19" r="3" fill="#2563eb"/>
-<circle cx="2570.02" cy="399.94" r="3" fill="#2563eb"/>
-<circle cx="2597.68" cy="358.24" r="3" fill="#2563eb"/>
-<circle cx="2625.35" cy="358.55" r="3" fill="#2563eb"/>
-<circle cx="2653.01" cy="356.55" r="3" fill="#2563eb"/>
-<circle cx="2680.67" cy="379.20" r="3" fill="#2563eb"/>
-<circle cx="2708.34" cy="361.05" r="4" fill="#dc2626"/>
-<circle cx="2736.00" cy="347.12" r="4" fill="#dc2626"/>
-<circle cx="1076.21" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1131.54" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1214.53" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1380.51" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1463.49" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1518.82" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1601.81" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1657.14" cy="688.33" r="4" fill="#dc2626"/>
-<circle cx="1712.46" cy="391.06" r="4" fill="#dc2626"/>
-<circle cx="1767.79" cy="358.55" r="4" fill="#dc2626"/>
-<circle cx="1850.78" cy="273.21" r="4" fill="#dc2626"/>
-<circle cx="218.65" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="246.32" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="273.98" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="301.64" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="550.61" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="578.27" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="605.94" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="633.60" cy="269.73" r="3" fill="#d97706"/>
-<circle cx="882.57" cy="275.91" r="3" fill="#d97706"/>
-<circle cx="910.23" cy="275.91" r="3" fill="#d97706"/>
-<circle cx="937.89" cy="275.91" r="3" fill="#d97706"/>
-<circle cx="965.56" cy="275.91" r="3" fill="#d97706"/>
-<circle cx="993.22" cy="353.17" r="3" fill="#d97706"/>
-<circle cx="1020.88" cy="353.17" r="3" fill="#d97706"/>
-<circle cx="1048.55" cy="353.17" r="3" fill="#d97706"/>
-<circle cx="1076.21" cy="353.17" r="3" fill="#d97706"/>
-<circle cx="1103.87" cy="458.54" r="3" fill="#d97706"/>
-<circle cx="1131.54" cy="458.54" r="3" fill="#d97706"/>
-<circle cx="1159.20" cy="458.54" r="3" fill="#d97706"/>
-<circle cx="1186.86" cy="458.54" r="3" fill="#d97706"/>
-<circle cx="1214.53" cy="484.02" r="3" fill="#d97706"/>
-<circle cx="1242.19" cy="484.02" r="3" fill="#d97706"/>
-<circle cx="1269.85" cy="484.02" r="3" fill="#d97706"/>
-<circle cx="1297.52" cy="484.02" r="3" fill="#d97706"/>
-<circle cx="1325.18" cy="485.17" r="3" fill="#d97706"/>
-<circle cx="1352.84" cy="485.17" r="3" fill="#d97706"/>
-<circle cx="1380.51" cy="485.17" r="3" fill="#d97706"/>
-<circle cx="1408.17" cy="485.17" r="3" fill="#d97706"/>
-<circle cx="1435.83" cy="509.57" r="3" fill="#d97706"/>
-<circle cx="1463.49" cy="509.57" r="3" fill="#d97706"/>
-<circle cx="1491.16" cy="509.57" r="3" fill="#d97706"/>
-<circle cx="1518.82" cy="509.57" r="3" fill="#d97706"/>
-<circle cx="1546.48" cy="489.00" r="3" fill="#d97706"/>
-<circle cx="1574.15" cy="489.00" r="3" fill="#d97706"/>
-<circle cx="1601.81" cy="489.00" r="3" fill="#d97706"/>
-<circle cx="1629.47" cy="489.00" r="3" fill="#d97706"/>
-<circle cx="1878.44" cy="264.75" r="3" fill="#d97706"/>
-<circle cx="1906.11" cy="264.75" r="3" fill="#d97706"/>
-<circle cx="1933.77" cy="264.75" r="3" fill="#d97706"/>
-<circle cx="1961.43" cy="264.75" r="3" fill="#d97706"/>
-<circle cx="1989.09" cy="266.00" r="3" fill="#d97706"/>
-<circle cx="2016.76" cy="266.00" r="3" fill="#d97706"/>
-<circle cx="2044.42" cy="266.00" r="3" fill="#d97706"/>
-<circle cx="2072.08" cy="266.00" r="3" fill="#d97706"/>
-<circle cx="2099.75" cy="267.74" r="3" fill="#d97706"/>
-<circle cx="2127.41" cy="267.74" r="3" fill="#d97706"/>
-<circle cx="2155.07" cy="267.74" r="3" fill="#d97706"/>
-<circle cx="2182.74" cy="267.74" r="3" fill="#d97706"/>
-<circle cx="2210.40" cy="272.22" r="3" fill="#d97706"/>
-<circle cx="2238.06" cy="272.22" r="3" fill="#d97706"/>
-<circle cx="2265.73" cy="272.22" r="3" fill="#d97706"/>
-<circle cx="2293.39" cy="272.22" r="3" fill="#d97706"/>
-<circle cx="2321.05" cy="274.71" r="3" fill="#d97706"/>
-<circle cx="2348.72" cy="274.71" r="3" fill="#d97706"/>
-<circle cx="2376.38" cy="274.71" r="3" fill="#d97706"/>
-<circle cx="2404.04" cy="274.71" r="3" fill="#d97706"/>
-<circle cx="2431.71" cy="274.72" r="3" fill="#d97706"/>
-<circle cx="2459.37" cy="274.72" r="3" fill="#d97706"/>
-<circle cx="2487.03" cy="274.72" r="3" fill="#d97706"/>
-<circle cx="2514.69" cy="274.72" r="3" fill="#d97706"/>
-<circle cx="2542.36" cy="279.30" r="3" fill="#d97706"/>
-<circle cx="2570.02" cy="279.30" r="3" fill="#d97706"/>
-<circle cx="2597.68" cy="279.30" r="3" fill="#d97706"/>
-<circle cx="2625.35" cy="279.30" r="3" fill="#d97706"/>
-<circle cx="2653.01" cy="271.83" r="3" fill="#d97706"/>
-<circle cx="2680.67" cy="271.83" r="3" fill="#d97706"/>
-<circle cx="2708.34" cy="271.83" r="3" fill="#d97706"/>
-<circle cx="2736.00" cy="271.83" r="3" fill="#d97706"/>
+<polyline class="actual" points="108.00,403.43 135.66,401.81 163.33,396.67 190.99,402.57 218.65,401.81 246.32,401.81 273.98,471.42 301.64,476.15 329.31,289.41 356.97,388.58 384.63,401.24 412.29,396.67 439.96,358.42 467.62,355.93 495.28,297.00 522.95,329.53 550.61,295.65 578.27,297.51 605.94,297.51 633.60,342.48 661.26,345.25 688.93,302.26 716.59,346.04 744.25,292.02 771.92,289.40 799.58,355.51 827.24,357.35 854.91,345.25 882.57,289.41 910.23,302.26 937.89,355.51 965.56,465.01 993.22,465.01 1020.88,476.50 1048.55,554.01"/>
+<polyline class="forecast" points="1048.55,554.01 1076.21,649.94 1103.87,661.48 1131.54,657.22 1159.20,649.94 1186.86,646.03 1214.53,601.96 1242.19,608.06"/>
+<polyline class="long-term" points="218.65,362.76 246.32,362.76 273.98,362.76 301.64,362.76"/>
+<polyline class="long-term" points="550.61,362.76 578.27,362.76 605.94,362.76 633.60,362.76"/>
+<polyline class="long-term" points="882.57,370.99 910.23,370.99 937.89,370.99 965.56,370.99 993.22,474.01 1020.88,474.01 1048.55,474.01 1076.21,474.01 1103.87,614.50 1131.54,614.50 1159.20,614.50 1186.86,614.50 1214.53,648.47 1242.19,648.47 1269.85,648.47 1297.52,648.47 1325.18,650.01 1352.84,650.01 1380.51,650.01 1408.17,650.01 1435.83,682.54 1463.49,682.54 1491.16,682.54 1518.82,682.54 1546.48,655.11 1574.15,655.11 1601.81,655.11 1629.47,655.11"/>
+<polyline class="long-term" points="1878.44,356.11 1906.11,356.11 1933.77,356.11 1961.43,356.11 1989.09,357.78 2016.76,357.78 2044.42,357.78 2072.08,357.78 2099.75,360.10 2127.41,360.10 2155.07,360.10 2182.74,360.10 2210.40,366.06 2238.06,366.06 2265.73,366.06 2293.39,366.06 2321.05,369.39 2348.72,369.39 2376.38,369.39 2404.04,369.39 2431.71,369.40 2459.37,369.40 2487.03,369.40 2514.69,369.40 2542.36,375.51 2570.02,375.51 2597.68,375.51 2625.35,375.51 2653.01,365.55 2680.67,365.55 2708.34,365.55 2736.00,365.55"/>
+<circle cx="108.00" cy="403.43" r="3" fill="#2563eb"/>
+<circle cx="135.66" cy="401.81" r="3" fill="#2563eb"/>
+<circle cx="163.33" cy="396.67" r="3" fill="#2563eb"/>
+<circle cx="190.99" cy="402.57" r="3" fill="#2563eb"/>
+<circle cx="218.65" cy="401.81" r="3" fill="#2563eb"/>
+<circle cx="246.32" cy="401.81" r="3" fill="#2563eb"/>
+<circle cx="273.98" cy="471.42" r="3" fill="#2563eb"/>
+<circle cx="301.64" cy="476.15" r="3" fill="#2563eb"/>
+<circle cx="329.31" cy="289.41" r="3" fill="#2563eb"/>
+<circle cx="356.97" cy="388.58" r="3" fill="#2563eb"/>
+<circle cx="384.63" cy="401.24" r="3" fill="#2563eb"/>
+<circle cx="412.29" cy="396.67" r="3" fill="#2563eb"/>
+<circle cx="439.96" cy="358.42" r="3" fill="#2563eb"/>
+<circle cx="467.62" cy="355.93" r="3" fill="#2563eb"/>
+<circle cx="495.28" cy="297.00" r="3" fill="#2563eb"/>
+<circle cx="522.95" cy="329.53" r="3" fill="#2563eb"/>
+<circle cx="550.61" cy="295.65" r="3" fill="#2563eb"/>
+<circle cx="578.27" cy="297.51" r="3" fill="#2563eb"/>
+<circle cx="605.94" cy="297.51" r="3" fill="#2563eb"/>
+<circle cx="633.60" cy="342.48" r="3" fill="#2563eb"/>
+<circle cx="661.26" cy="345.25" r="3" fill="#2563eb"/>
+<circle cx="688.93" cy="302.26" r="3" fill="#2563eb"/>
+<circle cx="716.59" cy="346.04" r="3" fill="#2563eb"/>
+<circle cx="744.25" cy="292.02" r="3" fill="#2563eb"/>
+<circle cx="771.92" cy="289.40" r="3" fill="#2563eb"/>
+<circle cx="799.58" cy="355.51" r="3" fill="#2563eb"/>
+<circle cx="827.24" cy="357.35" r="3" fill="#2563eb"/>
+<circle cx="854.91" cy="345.25" r="3" fill="#2563eb"/>
+<circle cx="882.57" cy="289.41" r="3" fill="#2563eb"/>
+<circle cx="910.23" cy="302.26" r="3" fill="#2563eb"/>
+<circle cx="937.89" cy="355.51" r="3" fill="#2563eb"/>
+<circle cx="965.56" cy="465.01" r="3" fill="#2563eb"/>
+<circle cx="993.22" cy="465.01" r="3" fill="#2563eb"/>
+<circle cx="1020.88" cy="476.50" r="3" fill="#2563eb"/>
+<circle cx="1048.55" cy="554.01" r="3" fill="#2563eb"/>
+<circle cx="1076.21" cy="649.94" r="4" fill="#dc2626"/>
+<circle cx="1103.87" cy="661.48" r="4" fill="#dc2626"/>
+<circle cx="1131.54" cy="657.22" r="4" fill="#dc2626"/>
+<circle cx="1159.20" cy="649.94" r="4" fill="#dc2626"/>
+<circle cx="1186.86" cy="646.03" r="4" fill="#dc2626"/>
+<circle cx="1214.53" cy="601.96" r="4" fill="#dc2626"/>
+<circle cx="1242.19" cy="608.06" r="4" fill="#dc2626"/>
+<circle cx="218.65" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="246.32" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="273.98" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="301.64" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="550.61" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="578.27" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="605.94" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="633.60" cy="362.76" r="3" fill="#d97706"/>
+<circle cx="882.57" cy="370.99" r="3" fill="#d97706"/>
+<circle cx="910.23" cy="370.99" r="3" fill="#d97706"/>
+<circle cx="937.89" cy="370.99" r="3" fill="#d97706"/>
+<circle cx="965.56" cy="370.99" r="3" fill="#d97706"/>
+<circle cx="993.22" cy="474.01" r="3" fill="#d97706"/>
+<circle cx="1020.88" cy="474.01" r="3" fill="#d97706"/>
+<circle cx="1048.55" cy="474.01" r="3" fill="#d97706"/>
+<circle cx="1076.21" cy="474.01" r="3" fill="#d97706"/>
+<circle cx="1103.87" cy="614.50" r="3" fill="#d97706"/>
+<circle cx="1131.54" cy="614.50" r="3" fill="#d97706"/>
+<circle cx="1159.20" cy="614.50" r="3" fill="#d97706"/>
+<circle cx="1186.86" cy="614.50" r="3" fill="#d97706"/>
+<circle cx="1214.53" cy="648.47" r="3" fill="#d97706"/>
+<circle cx="1242.19" cy="648.47" r="3" fill="#d97706"/>
+<circle cx="1269.85" cy="648.47" r="3" fill="#d97706"/>
+<circle cx="1297.52" cy="648.47" r="3" fill="#d97706"/>
+<circle cx="1325.18" cy="650.01" r="3" fill="#d97706"/>
+<circle cx="1352.84" cy="650.01" r="3" fill="#d97706"/>
+<circle cx="1380.51" cy="650.01" r="3" fill="#d97706"/>
+<circle cx="1408.17" cy="650.01" r="3" fill="#d97706"/>
+<circle cx="1435.83" cy="682.54" r="3" fill="#d97706"/>
+<circle cx="1463.49" cy="682.54" r="3" fill="#d97706"/>
+<circle cx="1491.16" cy="682.54" r="3" fill="#d97706"/>
+<circle cx="1518.82" cy="682.54" r="3" fill="#d97706"/>
+<circle cx="1546.48" cy="655.11" r="3" fill="#d97706"/>
+<circle cx="1574.15" cy="655.11" r="3" fill="#d97706"/>
+<circle cx="1601.81" cy="655.11" r="3" fill="#d97706"/>
+<circle cx="1629.47" cy="655.11" r="3" fill="#d97706"/>
+<circle cx="1878.44" cy="356.11" r="3" fill="#d97706"/>
+<circle cx="1906.11" cy="356.11" r="3" fill="#d97706"/>
+<circle cx="1933.77" cy="356.11" r="3" fill="#d97706"/>
+<circle cx="1961.43" cy="356.11" r="3" fill="#d97706"/>
+<circle cx="1989.09" cy="357.78" r="3" fill="#d97706"/>
+<circle cx="2016.76" cy="357.78" r="3" fill="#d97706"/>
+<circle cx="2044.42" cy="357.78" r="3" fill="#d97706"/>
+<circle cx="2072.08" cy="357.78" r="3" fill="#d97706"/>
+<circle cx="2099.75" cy="360.10" r="3" fill="#d97706"/>
+<circle cx="2127.41" cy="360.10" r="3" fill="#d97706"/>
+<circle cx="2155.07" cy="360.10" r="3" fill="#d97706"/>
+<circle cx="2182.74" cy="360.10" r="3" fill="#d97706"/>
+<circle cx="2210.40" cy="366.06" r="3" fill="#d97706"/>
+<circle cx="2238.06" cy="366.06" r="3" fill="#d97706"/>
+<circle cx="2265.73" cy="366.06" r="3" fill="#d97706"/>
+<circle cx="2293.39" cy="366.06" r="3" fill="#d97706"/>
+<circle cx="2321.05" cy="369.39" r="3" fill="#d97706"/>
+<circle cx="2348.72" cy="369.39" r="3" fill="#d97706"/>
+<circle cx="2376.38" cy="369.39" r="3" fill="#d97706"/>
+<circle cx="2404.04" cy="369.39" r="3" fill="#d97706"/>
+<circle cx="2431.71" cy="369.40" r="3" fill="#d97706"/>
+<circle cx="2459.37" cy="369.40" r="3" fill="#d97706"/>
+<circle cx="2487.03" cy="369.40" r="3" fill="#d97706"/>
+<circle cx="2514.69" cy="369.40" r="3" fill="#d97706"/>
+<circle cx="2542.36" cy="375.51" r="3" fill="#d97706"/>
+<circle cx="2570.02" cy="375.51" r="3" fill="#d97706"/>
+<circle cx="2597.68" cy="375.51" r="3" fill="#d97706"/>
+<circle cx="2625.35" cy="375.51" r="3" fill="#d97706"/>
+<circle cx="2653.01" cy="365.55" r="3" fill="#d97706"/>
+<circle cx="2680.67" cy="365.55" r="3" fill="#d97706"/>
+<circle cx="2708.34" cy="365.55" r="3" fill="#d97706"/>
+<circle cx="2736.00" cy="365.55" r="3" fill="#d97706"/>
 </g>
 <line class="axis" x1="108" y1="489.00" x2="2736" y2="489.00"/>
 <line class="axis" x1="108" y1="190" x2="108" y2="788"/>
@@ -689,100 +553,100 @@ function hideTip(evt){
 <text id="tip-long-term" x="14" y="165"></text>
 <text id="tip-long-term-volume" x="14" y="192"></text>
 </g>
-<rect class="hover-zone" x="108.00" y="190" width="13.83" height="598" data-x="108.00" data-time="0:15" data-output="20 MW" data-actual-price="379.25 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="310.35" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="121.83" y="190" width="27.66" height="598" data-x="135.66" data-time="0:30" data-output="20 MW" data-actual-price="332.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="356.55" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="149.49" y="190" width="27.66" height="598" data-x="163.33" data-time="0:45" data-output="20 MW" data-actual-price="333.67 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="355.78" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="177.16" y="190" width="27.66" height="598" data-x="190.99" data-time="1:00" data-output="20 MW" data-actual-price="330.86 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="358.58" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="204.82" y="190" width="27.66" height="598" data-x="218.65" data-time="1:15" data-output="20 MW" data-actual-price="310.17 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="379.20" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="232.48" y="190" width="27.66" height="598" data-x="246.32" data-time="1:30" data-output="20 MW" data-actual-price="332.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.55" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="260.15" y="190" width="27.66" height="598" data-x="273.98" data-time="1:45" data-output="0 MW" data-actual-price="289.29 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="400.01" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="287.81" y="190" width="27.66" height="598" data-x="301.64" data-time="2:00" data-output="0 MW" data-actual-price="333.23 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.21" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="315.47" y="190" width="27.66" height="598" data-x="329.31" data-time="2:15" data-output="41 MW" data-actual-price="294.13 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="395.18" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="343.14" y="190" width="27.66" height="598" data-x="356.97" data-time="2:30" data-output="20 MW" data-actual-price="334.79 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="354.66" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="370.80" y="190" width="27.66" height="598" data-x="384.63" data-time="2:45" data-output="20 MW" data-actual-price="267.60 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="421.63" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="398.46" y="190" width="27.66" height="598" data-x="412.29" data-time="3:00" data-output="33 MW" data-actual-price="249.27 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="439.89" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="426.13" y="190" width="27.66" height="598" data-x="439.96" data-time="3:15" data-output="33 MW" data-actual-price="251.74 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="437.43" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="453.79" y="190" width="27.66" height="598" data-x="467.62" data-time="3:30" data-output="33 MW" data-actual-price="259.16 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="430.04" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="481.45" y="190" width="27.66" height="598" data-x="495.28" data-time="3:45" data-output="33 MW" data-actual-price="259.16 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="430.04" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="509.12" y="190" width="27.66" height="598" data-x="522.95" data-time="4:00" data-output="46 MW" data-actual-price="255.33 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="433.85" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="536.78" y="190" width="27.66" height="598" data-x="550.61" data-time="4:15" data-output="46 MW" data-actual-price="260.44 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="428.76" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="564.44" y="190" width="27.66" height="598" data-x="578.27" data-time="4:30" data-output="51 MW" data-actual-price="289.41 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="399.89" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="592.11" y="190" width="27.66" height="598" data-x="605.94" data-time="4:45" data-output="51 MW" data-actual-price="265.14 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="424.08" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="619.77" y="190" width="27.66" height="598" data-x="633.60" data-time="5:00" data-output="51 MW" data-actual-price="289.29 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="400.01" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="647.43" y="190" width="27.66" height="598" data-x="661.26" data-time="5:15" data-output="60 MW" data-actual-price="330.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="358.55" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="675.09" y="190" width="27.66" height="598" data-x="688.93" data-time="5:30" data-output="60 MW" data-actual-price="345.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="344.48" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="702.76" y="190" width="27.66" height="598" data-x="716.59" data-time="5:45" data-output="59 MW" data-actual-price="298.27 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="391.06" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="730.42" y="190" width="27.66" height="598" data-x="744.25" data-time="6:00" data-output="0 MW" data-actual-price="330.86 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="358.58" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="758.08" y="190" width="27.66" height="598" data-x="771.92" data-time="6:15" data-output="0 MW" data-actual-price="445.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="244.82" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="785.75" y="190" width="27.66" height="598" data-x="799.58" data-time="6:30" data-output="130 MW" data-actual-price="287.55 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="401.74" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="813.41" y="190" width="27.66" height="598" data-x="827.24" data-time="6:45" data-output="130 MW" data-actual-price="285.72 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="403.57" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="841.07" y="190" width="27.66" height="598" data-x="854.91" data-time="7:00" data-output="0 MW" data-actual-price="330.26 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="359.17" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="868.74" y="190" width="27.66" height="598" data-x="882.57" data-time="7:15" data-output="0 MW" data-actual-price="330.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="358.55" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="896.40" y="190" width="27.66" height="598" data-x="910.23" data-time="7:30" data-output="0 MW" data-actual-price="252.50 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="436.67" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="924.06" y="190" width="27.66" height="598" data-x="937.89" data-time="7:45" data-output="0 MW" data-actual-price="248.71 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="440.45" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="951.73" y="190" width="27.66" height="598" data-x="965.56" data-time="8:00" data-output="0 MW" data-actual-price="248.07 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="441.09" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="979.39" y="190" width="27.66" height="598" data-x="993.22" data-time="8:15" data-output="0 MW" data-actual-price="265.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="424.22" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1007.05" y="190" width="27.66" height="598" data-x="1020.88" data-time="8:30" data-output="0 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1034.72" y="190" width="27.66" height="598" data-x="1048.55" data-time="8:45" data-output="0 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1062.38" y="190" width="27.66" height="598" data-x="1076.21" data-time="9:00" data-output="0 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1090.04" y="190" width="27.66" height="598" data-x="1103.87" data-time="9:15" data-output="-30 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1117.71" y="190" width="27.66" height="598" data-x="1131.54" data-time="9:30" data-output="-30 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1145.37" y="190" width="27.66" height="598" data-x="1159.20" data-time="9:45" data-output="-103 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1173.03" y="190" width="27.66" height="598" data-x="1186.86" data-time="10:00" data-output="-124 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1200.69" y="190" width="27.66" height="598" data-x="1214.53" data-time="10:15" data-output="-124 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1228.36" y="190" width="27.66" height="598" data-x="1242.19" data-time="10:30" data-output="-124 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1256.02" y="190" width="27.66" height="598" data-x="1269.85" data-time="10:45" data-output="-124 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1283.68" y="190" width="27.66" height="598" data-x="1297.52" data-time="11:00" data-output="-124 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1311.35" y="190" width="27.66" height="598" data-x="1325.18" data-time="11:15" data-output="-123 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="688.33" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1339.01" y="190" width="27.66" height="598" data-x="1352.84" data-time="11:30" data-output="-51 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="688.33" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1366.67" y="190" width="27.66" height="598" data-x="1380.51" data-time="11:45" data-output="-51 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="688.33" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1394.34" y="190" width="27.66" height="598" data-x="1408.17" data-time="12:00" data-output="-72 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="688.33" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1422.00" y="190" width="27.66" height="598" data-x="1435.83" data-time="12:15" data-output="-103 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="688.33" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1449.66" y="190" width="27.66" height="598" data-x="1463.49" data-time="12:30" data-output="-103 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="688.33" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1477.33" y="190" width="27.66" height="598" data-x="1491.16" data-time="12:45" data-output="-97 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="688.33" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1504.99" y="190" width="27.66" height="598" data-x="1518.82" data-time="13:00" data-output="-97 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="688.33" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1532.65" y="190" width="27.66" height="598" data-x="1546.48" data-time="13:15" data-output="0 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1560.32" y="190" width="27.66" height="598" data-x="1574.15" data-time="13:30" data-output="0 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1587.98" y="190" width="27.66" height="598" data-x="1601.81" data-time="13:45" data-output="0 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1615.64" y="190" width="27.66" height="598" data-x="1629.47" data-time="14:00" data-output="0 MW" data-actual-price="0.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="688.33" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1643.31" y="190" width="27.66" height="598" data-x="1657.14" data-time="14:15" data-output="0 MW" data-actual-price="--" data-forecast-price="0.00 元/MWh" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="688.33" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1670.97" y="190" width="27.66" height="598" data-x="1684.80" data-time="14:30" data-output="0 MW" data-actual-price="248.77 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="440.39" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1698.63" y="190" width="27.66" height="598" data-x="1712.46" data-time="14:45" data-output="0 MW" data-actual-price="--" data-forecast-price="298.27 元/MWh" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="391.06" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1726.29" y="190" width="27.66" height="598" data-x="1740.13" data-time="15:00" data-output="0 MW" data-actual-price="265.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="424.22" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1753.96" y="190" width="27.66" height="598" data-x="1767.79" data-time="15:15" data-output="0 MW" data-actual-price="--" data-forecast-price="330.89 元/MWh" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="358.55" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1781.62" y="190" width="27.66" height="598" data-x="1795.45" data-time="15:30" data-output="0 MW" data-actual-price="345.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="344.48" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1809.28" y="190" width="27.66" height="598" data-x="1823.12" data-time="15:45" data-output="0 MW" data-actual-price="390.83 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="298.81" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1836.95" y="190" width="27.66" height="598" data-x="1850.78" data-time="16:00" data-output="0 MW" data-actual-price="--" data-forecast-price="416.51 元/MWh" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="273.21" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1864.61" y="190" width="27.66" height="598" data-x="1878.44" data-time="16:15" data-output="0 MW" data-actual-price="340.44 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="349.03" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1892.27" y="190" width="27.66" height="598" data-x="1906.11" data-time="16:30" data-output="0 MW" data-actual-price="336.22 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="353.23" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1919.94" y="190" width="27.66" height="598" data-x="1933.77" data-time="16:45" data-output="0 MW" data-actual-price="380.66 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="308.94" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1947.60" y="190" width="27.66" height="598" data-x="1961.43" data-time="17:00" data-output="0 MW" data-actual-price="265.14 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="424.08" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="1975.26" y="190" width="27.66" height="598" data-x="1989.09" data-time="17:15" data-output="0 MW" data-actual-price="295.66 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="393.66" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2002.93" y="190" width="27.66" height="598" data-x="2016.76" data-time="17:30" data-output="0 MW" data-actual-price="333.67 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="355.78" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2030.59" y="190" width="27.66" height="598" data-x="2044.42" data-time="17:45" data-output="0 MW" data-actual-price="333.51 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="355.94" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2058.25" y="190" width="27.66" height="598" data-x="2072.08" data-time="18:00" data-output="0 MW" data-actual-price="294.13 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="395.18" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2085.92" y="190" width="27.66" height="598" data-x="2099.75" data-time="18:15" data-output="0 MW" data-actual-price="330.45 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="358.98" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2113.58" y="190" width="27.66" height="598" data-x="2127.41" data-time="18:30" data-output="0 MW" data-actual-price="292.95 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="396.36" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2141.24" y="190" width="27.66" height="598" data-x="2155.07" data-time="18:45" data-output="0 MW" data-actual-price="268.67 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="420.56" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2168.91" y="190" width="27.66" height="598" data-x="2182.74" data-time="19:00" data-output="0 MW" data-actual-price="290.23 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="399.07" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2196.57" y="190" width="27.66" height="598" data-x="2210.40" data-time="19:15" data-output="0 MW" data-actual-price="267.60 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="421.63" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2224.23" y="190" width="27.66" height="598" data-x="2238.06" data-time="19:30" data-output="0 MW" data-actual-price="284.35 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="404.93" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2251.89" y="190" width="27.66" height="598" data-x="2265.73" data-time="19:45" data-output="0 MW" data-actual-price="265.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="424.22" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2279.56" y="190" width="27.66" height="598" data-x="2293.39" data-time="20:00" data-output="0 MW" data-actual-price="265.14 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="424.08" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2307.22" y="190" width="27.66" height="598" data-x="2321.05" data-time="20:15" data-output="0 MW" data-actual-price="255.33 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="433.85" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2334.88" y="190" width="27.66" height="598" data-x="2348.72" data-time="20:30" data-output="0 MW" data-actual-price="265.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="424.22" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2362.55" y="190" width="27.66" height="598" data-x="2376.38" data-time="20:45" data-output="0 MW" data-actual-price="330.45 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="358.98" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2390.21" y="190" width="27.66" height="598" data-x="2404.04" data-time="21:00" data-output="0 MW" data-actual-price="292.95 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="396.36" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2417.87" y="190" width="27.66" height="598" data-x="2431.71" data-time="21:15" data-output="0 MW" data-actual-price="330.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="358.55" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2445.54" y="190" width="27.66" height="598" data-x="2459.37" data-time="21:30" data-output="0 MW" data-actual-price="333.27 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.17" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2473.20" y="190" width="27.66" height="598" data-x="2487.03" data-time="21:45" data-output="0 MW" data-actual-price="331.20 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="358.24" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2500.86" y="190" width="27.66" height="598" data-x="2514.69" data-time="22:00" data-output="0 MW" data-actual-price="310.17 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="379.20" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2528.53" y="190" width="27.66" height="598" data-x="2542.36" data-time="22:15" data-output="0 MW" data-actual-price="287.10 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="402.19" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2556.19" y="190" width="27.66" height="598" data-x="2570.02" data-time="22:30" data-output="0 MW" data-actual-price="289.36 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="399.94" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2583.85" y="190" width="27.66" height="598" data-x="2597.68" data-time="22:45" data-output="0 MW" data-actual-price="331.20 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="358.24" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2611.52" y="190" width="27.66" height="598" data-x="2625.35" data-time="23:00" data-output="0 MW" data-actual-price="330.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="358.55" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2639.18" y="190" width="27.66" height="598" data-x="2653.01" data-time="23:15" data-output="0 MW" data-actual-price="332.89 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="356.55" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2666.84" y="190" width="27.66" height="598" data-x="2680.67" data-time="23:30" data-output="0 MW" data-actual-price="310.17 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="379.20" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2694.51" y="190" width="27.66" height="598" data-x="2708.34" data-time="23:45" data-output="0 MW" data-actual-price="--" data-forecast-price="328.38 元/MWh" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="361.05" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
-<rect class="hover-zone" x="2722.17" y="190" width="13.83" height="598" data-x="2736.00" data-time="0:00" data-output="0 MW" data-actual-price="--" data-forecast-price="342.35 元/MWh" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="347.12" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="108.00" y="190" width="13.83" height="598" data-x="108.00" data-time="0:15" data-output="0 MW" data-actual-price="389.39 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="403.43" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="121.83" y="190" width="27.66" height="598" data-x="135.66" data-time="0:30" data-output="0 MW" data-actual-price="390.61 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="401.81" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="149.49" y="190" width="27.66" height="598" data-x="163.33" data-time="0:45" data-output="0 MW" data-actual-price="394.48 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="396.67" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="177.16" y="190" width="27.66" height="598" data-x="190.99" data-time="1:00" data-output="0 MW" data-actual-price="390.04 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="402.57" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="204.82" y="190" width="27.66" height="598" data-x="218.65" data-time="1:15" data-output="0 MW" data-actual-price="390.61 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="401.81" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="232.48" y="190" width="27.66" height="598" data-x="246.32" data-time="1:30" data-output="0 MW" data-actual-price="390.61 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="401.81" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="260.15" y="190" width="27.66" height="598" data-x="273.98" data-time="1:45" data-output="0 MW" data-actual-price="338.23 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="471.42" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="287.81" y="190" width="27.66" height="598" data-x="301.64" data-time="2:00" data-output="0 MW" data-actual-price="334.67 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="476.15" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="315.47" y="190" width="27.66" height="598" data-x="329.31" data-time="2:15" data-output="135 MW" data-actual-price="475.19 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="289.41" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="343.14" y="190" width="27.66" height="598" data-x="356.97" data-time="2:30" data-output="34 MW" data-actual-price="400.57 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="388.58" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="370.80" y="190" width="27.66" height="598" data-x="384.63" data-time="2:45" data-output="34 MW" data-actual-price="391.04 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="401.24" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="398.46" y="190" width="27.66" height="598" data-x="412.29" data-time="3:00" data-output="34 MW" data-actual-price="394.48 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="396.67" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="426.13" y="190" width="27.66" height="598" data-x="439.96" data-time="3:15" data-output="34 MW" data-actual-price="423.26 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="358.42" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="453.79" y="190" width="27.66" height="598" data-x="467.62" data-time="3:30" data-output="34 MW" data-actual-price="425.14 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="355.93" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="481.45" y="190" width="27.66" height="598" data-x="495.28" data-time="3:45" data-output="34 MW" data-actual-price="469.48 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="297.00" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="509.12" y="190" width="27.66" height="598" data-x="522.95" data-time="4:00" data-output="35 MW" data-actual-price="445.00 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="329.53" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="536.78" y="190" width="27.66" height="598" data-x="550.61" data-time="4:15" data-output="35 MW" data-actual-price="470.50 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="295.65" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="564.44" y="190" width="27.66" height="598" data-x="578.27" data-time="4:30" data-output="35 MW" data-actual-price="469.10 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="297.51" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="592.11" y="190" width="27.66" height="598" data-x="605.94" data-time="4:45" data-output="37 MW" data-actual-price="469.10 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="297.51" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="619.77" y="190" width="27.66" height="598" data-x="633.60" data-time="5:00" data-output="46 MW" data-actual-price="435.26 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="420.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="342.48" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="647.43" y="190" width="27.66" height="598" data-x="661.26" data-time="5:15" data-output="46 MW" data-actual-price="433.17 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="345.25" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="675.09" y="190" width="27.66" height="598" data-x="688.93" data-time="5:30" data-output="46 MW" data-actual-price="465.52 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="302.26" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="702.76" y="190" width="27.66" height="598" data-x="716.59" data-time="5:45" data-output="46 MW" data-actual-price="432.58 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="346.04" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="730.42" y="190" width="27.66" height="598" data-x="744.25" data-time="6:00" data-output="46 MW" data-actual-price="473.23 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="292.02" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="758.08" y="190" width="27.66" height="598" data-x="771.92" data-time="6:15" data-output="46 MW" data-actual-price="475.20 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="289.40" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="785.75" y="190" width="27.66" height="598" data-x="799.58" data-time="6:30" data-output="80 MW" data-actual-price="425.45 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="355.51" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="813.41" y="190" width="27.66" height="598" data-x="827.24" data-time="6:45" data-output="121 MW" data-actual-price="424.07 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="357.35" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="841.07" y="190" width="27.66" height="598" data-x="854.91" data-time="7:00" data-output="121 MW" data-actual-price="433.17 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="345.25" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="868.74" y="190" width="27.66" height="598" data-x="882.57" data-time="7:15" data-output="121 MW" data-actual-price="475.19 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="289.41" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="896.40" y="190" width="27.66" height="598" data-x="910.23" data-time="7:30" data-output="121 MW" data-actual-price="465.52 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="302.26" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="924.06" y="190" width="27.66" height="598" data-x="937.89" data-time="7:45" data-output="121 MW" data-actual-price="425.45 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="355.51" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="951.73" y="190" width="27.66" height="598" data-x="965.56" data-time="8:00" data-output="63 MW" data-actual-price="343.05 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="413.80 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="465.01" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="979.39" y="190" width="27.66" height="598" data-x="993.22" data-time="8:15" data-output="0 MW" data-actual-price="343.05 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="465.01" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1007.05" y="190" width="27.66" height="598" data-x="1020.88" data-time="8:30" data-output="0 MW" data-actual-price="334.41 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="476.50" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1034.72" y="190" width="27.66" height="598" data-x="1048.55" data-time="8:45" data-output="0 MW" data-actual-price="276.08 元/MWh" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="554.01" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1062.38" y="190" width="27.66" height="598" data-x="1076.21" data-time="9:00" data-output="0 MW" data-actual-price="--" data-forecast-price="203.89 元/MWh" data-day-ahead-price="--" data-long-term-price="336.28 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="649.94" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1090.04" y="190" width="27.66" height="598" data-x="1103.87" data-time="9:15" data-output="0 MW" data-actual-price="--" data-forecast-price="195.21 元/MWh" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="661.48" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1117.71" y="190" width="27.66" height="598" data-x="1131.54" data-time="9:30" data-output="0 MW" data-actual-price="--" data-forecast-price="198.41 元/MWh" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="657.22" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1145.37" y="190" width="27.66" height="598" data-x="1159.20" data-time="9:45" data-output="0 MW" data-actual-price="--" data-forecast-price="203.89 元/MWh" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="649.94" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1173.03" y="190" width="27.66" height="598" data-x="1186.86" data-time="10:00" data-output="0 MW" data-actual-price="--" data-forecast-price="206.83 元/MWh" data-day-ahead-price="--" data-long-term-price="230.56 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="646.03" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1200.69" y="190" width="27.66" height="598" data-x="1214.53" data-time="10:15" data-output="-135 MW" data-actual-price="--" data-forecast-price="240.00 元/MWh" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="601.96" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1228.36" y="190" width="27.66" height="598" data-x="1242.19" data-time="10:30" data-output="-135 MW" data-actual-price="--" data-forecast-price="235.41 元/MWh" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="608.06" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1256.02" y="190" width="27.66" height="598" data-x="1269.85" data-time="10:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="648.47" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1283.68" y="190" width="27.66" height="598" data-x="1297.52" data-time="11:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="205.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="648.47" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1311.35" y="190" width="27.66" height="598" data-x="1325.18" data-time="11:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="650.01" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1339.01" y="190" width="27.66" height="598" data-x="1352.84" data-time="11:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="650.01" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1366.67" y="190" width="27.66" height="598" data-x="1380.51" data-time="11:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="650.01" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1394.34" y="190" width="27.66" height="598" data-x="1408.17" data-time="12:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="203.84 元/MWh" data-long-term-volume="-54.68 MWh" data-curve-y="650.01" data-long-term-volume-y="570.74" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1422.00" y="190" width="27.66" height="598" data-x="1435.83" data-time="12:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="682.54" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1449.66" y="190" width="27.66" height="598" data-x="1463.49" data-time="12:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="682.54" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1477.33" y="190" width="27.66" height="598" data-x="1491.16" data-time="12:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="682.54" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1504.99" y="190" width="27.66" height="598" data-x="1518.82" data-time="13:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="179.36 元/MWh" data-long-term-volume="-83.32 MWh" data-curve-y="682.54" data-long-term-volume-y="613.57" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1532.65" y="190" width="27.66" height="598" data-x="1546.48" data-time="13:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="655.11" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1560.32" y="190" width="27.66" height="598" data-x="1574.15" data-time="13:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="655.11" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1587.98" y="190" width="27.66" height="598" data-x="1601.81" data-time="13:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="655.11" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1615.64" y="190" width="27.66" height="598" data-x="1629.47" data-time="14:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="200.00 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="655.11" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1643.31" y="190" width="27.66" height="598" data-x="1657.14" data-time="14:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1670.97" y="190" width="27.66" height="598" data-x="1684.80" data-time="14:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1698.63" y="190" width="27.66" height="598" data-x="1712.46" data-time="14:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1726.29" y="190" width="27.66" height="598" data-x="1740.13" data-time="15:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1753.96" y="190" width="27.66" height="598" data-x="1767.79" data-time="15:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1781.62" y="190" width="27.66" height="598" data-x="1795.45" data-time="15:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1809.28" y="190" width="27.66" height="598" data-x="1823.12" data-time="15:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1836.95" y="190" width="27.66" height="598" data-x="1850.78" data-time="16:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="--" data-long-term-volume="--" data-curve-y="" data-long-term-volume-y="" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1864.61" y="190" width="27.66" height="598" data-x="1878.44" data-time="16:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.11" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1892.27" y="190" width="27.66" height="598" data-x="1906.11" data-time="16:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.11" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1919.94" y="190" width="27.66" height="598" data-x="1933.77" data-time="16:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.11" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1947.60" y="190" width="27.66" height="598" data-x="1961.43" data-time="17:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="425.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="356.11" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="1975.26" y="190" width="27.66" height="598" data-x="1989.09" data-time="17:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="357.78" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2002.93" y="190" width="27.66" height="598" data-x="2016.76" data-time="17:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="357.78" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2030.59" y="190" width="27.66" height="598" data-x="2044.42" data-time="17:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="357.78" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2058.25" y="190" width="27.66" height="598" data-x="2072.08" data-time="18:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="423.75 元/MWh" data-long-term-volume="-46.10 MWh" data-curve-y="357.78" data-long-term-volume-y="557.91" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2085.92" y="190" width="27.66" height="598" data-x="2099.75" data-time="18:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="360.10" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2113.58" y="190" width="27.66" height="598" data-x="2127.41" data-time="18:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="360.10" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2141.24" y="190" width="27.66" height="598" data-x="2155.07" data-time="18:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="360.10" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2168.91" y="190" width="27.66" height="598" data-x="2182.74" data-time="19:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="422.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="360.10" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2196.57" y="190" width="27.66" height="598" data-x="2210.40" data-time="19:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="366.06" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2224.23" y="190" width="27.66" height="598" data-x="2238.06" data-time="19:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="366.06" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2251.89" y="190" width="27.66" height="598" data-x="2265.73" data-time="19:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="366.06" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2279.56" y="190" width="27.66" height="598" data-x="2293.39" data-time="20:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.51 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="366.06" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2307.22" y="190" width="27.66" height="598" data-x="2321.05" data-time="20:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.39" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2334.88" y="190" width="27.66" height="598" data-x="2348.72" data-time="20:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.39" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2362.55" y="190" width="27.66" height="598" data-x="2376.38" data-time="20:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.39" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2390.21" y="190" width="27.66" height="598" data-x="2404.04" data-time="21:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.01 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.39" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2417.87" y="190" width="27.66" height="598" data-x="2431.71" data-time="21:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.40" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2445.54" y="190" width="27.66" height="598" data-x="2459.37" data-time="21:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.40" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2473.20" y="190" width="27.66" height="598" data-x="2487.03" data-time="21:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.40" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2500.86" y="190" width="27.66" height="598" data-x="2514.69" data-time="22:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="415.00 元/MWh" data-long-term-volume="30.00 MWh" data-curve-y="369.40" data-long-term-volume-y="444.15" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2528.53" y="190" width="27.66" height="598" data-x="2542.36" data-time="22:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="375.51" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2556.19" y="190" width="27.66" height="598" data-x="2570.02" data-time="22:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="375.51" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2583.85" y="190" width="27.66" height="598" data-x="2597.68" data-time="22:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="375.51" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2611.52" y="190" width="27.66" height="598" data-x="2625.35" data-time="23:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="410.40 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="375.51" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2639.18" y="190" width="27.66" height="598" data-x="2653.01" data-time="23:15" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="365.55" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2666.84" y="190" width="27.66" height="598" data-x="2680.67" data-time="23:30" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="365.55" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2694.51" y="190" width="27.66" height="598" data-x="2708.34" data-time="23:45" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="365.55" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
+<rect class="hover-zone" x="2722.17" y="190" width="13.83" height="598" data-x="2736.00" data-time="0:00" data-output="--" data-actual-price="--" data-forecast-price="--" data-day-ahead-price="--" data-long-term-price="417.90 元/MWh" data-long-term-volume="-50.00 MWh" data-curve-y="365.55" data-long-term-volume-y="563.75" onmousemove="showTip(evt,this)" onmouseenter="showTip(evt,this)" onmouseleave="hideTip(evt)"/>
 </svg>
