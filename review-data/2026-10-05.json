@@ -101,9 +101,493 @@
   "spotPriceComplete": true,
   "missingSpotPricePoints": [],
   "dayAheadPriceDate": "2026-10-05",
-  "dayAheadPrices": [],
-  "dayAheadPriceComplete": false,
-  "missingDayAheadPricePoints": [
+  "dayAheadPrices": [
+    {
+      "point": 1,
+      "time": "0:15",
+      "price": 357.26
+    },
+    {
+      "point": 2,
+      "time": "0:30",
+      "price": 357.26
+    },
+    {
+      "point": 3,
+      "time": "0:45",
+      "price": 357.26
+    },
+    {
+      "point": 4,
+      "time": "1:00",
+      "price": 357.26
+    },
+    {
+      "point": 5,
+      "time": "1:15",
+      "price": 357.26
+    },
+    {
+      "point": 6,
+      "time": "1:30",
+      "price": 357.26
+    },
+    {
+      "point": 7,
+      "time": "1:45",
+      "price": 357.26
+    },
+    {
+      "point": 8,
+      "time": "2:00",
+      "price": 357.26
+    },
+    {
+      "point": 9,
+      "time": "2:15",
+      "price": 464.64
+    },
+    {
+      "point": 10,
+      "time": "2:30",
+      "price": 464.64
+    },
+    {
+      "point": 11,
+      "time": "2:45",
+      "price": 464.64
+    },
+    {
+      "point": 12,
+      "time": "3:00",
+      "price": 464.64
+    },
+    {
+      "point": 13,
+      "time": "3:15",
+      "price": 376.39
+    },
+    {
+      "point": 14,
+      "time": "3:30",
+      "price": 376.39
+    },
+    {
+      "point": 15,
+      "time": "3:45",
+      "price": 376.39
+    },
+    {
+      "point": 16,
+      "time": "4:00",
+      "price": 376.39
+    },
+    {
+      "point": 17,
+      "time": "4:15",
+      "price": 376.39
+    },
+    {
+      "point": 18,
+      "time": "4:30",
+      "price": 376.39
+    },
+    {
+      "point": 19,
+      "time": "4:45",
+      "price": 376.39
+    },
+    {
+      "point": 20,
+      "time": "5:00",
+      "price": 376.39
+    },
+    {
+      "point": 21,
+      "time": "5:15",
+      "price": 356.83
+    },
+    {
+      "point": 22,
+      "time": "5:30",
+      "price": 356.83
+    },
+    {
+      "point": 23,
+      "time": "5:45",
+      "price": 356.83
+    },
+    {
+      "point": 24,
+      "time": "6:00",
+      "price": 356.83
+    },
+    {
+      "point": 25,
+      "time": "6:15",
+      "price": 357.26
+    },
+    {
+      "point": 26,
+      "time": "6:30",
+      "price": 357.26
+    },
+    {
+      "point": 27,
+      "time": "6:45",
+      "price": 357.26
+    },
+    {
+      "point": 28,
+      "time": "7:00",
+      "price": 357.26
+    },
+    {
+      "point": 29,
+      "time": "7:15",
+      "price": 337.04
+    },
+    {
+      "point": 30,
+      "time": "7:30",
+      "price": 337.04
+    },
+    {
+      "point": 31,
+      "time": "7:45",
+      "price": 337.04
+    },
+    {
+      "point": 32,
+      "time": "8:00",
+      "price": 337.04
+    },
+    {
+      "point": 33,
+      "time": "8:15",
+      "price": 315.36
+    },
+    {
+      "point": 34,
+      "time": "8:30",
+      "price": 315.36
+    },
+    {
+      "point": 35,
+      "time": "8:45",
+      "price": 315.36
+    },
+    {
+      "point": 36,
+      "time": "9:00",
+      "price": 315.36
+    },
+    {
+      "point": 37,
+      "time": "9:15",
+      "price": 0.0
+    },
+    {
+      "point": 38,
+      "time": "9:30",
+      "price": 0.0
+    },
+    {
+      "point": 39,
+      "time": "9:45",
+      "price": 0.0
+    },
+    {
+      "point": 40,
+      "time": "10:00",
+      "price": 0.0
+    },
+    {
+      "point": 41,
+      "time": "10:15",
+      "price": 0.0
+    },
+    {
+      "point": 42,
+      "time": "10:30",
+      "price": 0.0
+    },
+    {
+      "point": 43,
+      "time": "10:45",
+      "price": 0.0
+    },
+    {
+      "point": 44,
+      "time": "11:00",
+      "price": 0.0
+    },
+    {
+      "point": 45,
+      "time": "11:15",
+      "price": 0.0
+    },
+    {
+      "point": 46,
+      "time": "11:30",
+      "price": 0.0
+    },
+    {
+      "point": 47,
+      "time": "11:45",
+      "price": 0.0
+    },
+    {
+      "point": 48,
+      "time": "12:00",
+      "price": 0.0
+    },
+    {
+      "point": 49,
+      "time": "12:15",
+      "price": 0.0
+    },
+    {
+      "point": 50,
+      "time": "12:30",
+      "price": 0.0
+    },
+    {
+      "point": 51,
+      "time": "12:45",
+      "price": 0.0
+    },
+    {
+      "point": 52,
+      "time": "13:00",
+      "price": 0.0
+    },
+    {
+      "point": 53,
+      "time": "13:15",
+      "price": 0.0
+    },
+    {
+      "point": 54,
+      "time": "13:30",
+      "price": 0.0
+    },
+    {
+      "point": 55,
+      "time": "13:45",
+      "price": 0.0
+    },
+    {
+      "point": 56,
+      "time": "14:00",
+      "price": 0.0
+    },
+    {
+      "point": 57,
+      "time": "14:15",
+      "price": 283.29
+    },
+    {
+      "point": 58,
+      "time": "14:30",
+      "price": 283.29
+    },
+    {
+      "point": 59,
+      "time": "14:45",
+      "price": 283.29
+    },
+    {
+      "point": 60,
+      "time": "15:00",
+      "price": 283.29
+    },
+    {
+      "point": 61,
+      "time": "15:15",
+      "price": 357.26
+    },
+    {
+      "point": 62,
+      "time": "15:30",
+      "price": 357.26
+    },
+    {
+      "point": 63,
+      "time": "15:45",
+      "price": 357.26
+    },
+    {
+      "point": 64,
+      "time": "16:00",
+      "price": 357.26
+    },
+    {
+      "point": 65,
+      "time": "16:15",
+      "price": 435.66
+    },
+    {
+      "point": 66,
+      "time": "16:30",
+      "price": 435.66
+    },
+    {
+      "point": 67,
+      "time": "16:45",
+      "price": 435.66
+    },
+    {
+      "point": 68,
+      "time": "17:00",
+      "price": 435.66
+    },
+    {
+      "point": 69,
+      "time": "17:15",
+      "price": 435.66
+    },
+    {
+      "point": 70,
+      "time": "17:30",
+      "price": 435.66
+    },
+    {
+      "point": 71,
+      "time": "17:45",
+      "price": 435.66
+    },
+    {
+      "point": 72,
+      "time": "18:00",
+      "price": 435.66
+    },
+    {
+      "point": 73,
+      "time": "18:15",
+      "price": 427.1
+    },
+    {
+      "point": 74,
+      "time": "18:30",
+      "price": 427.1
+    },
+    {
+      "point": 75,
+      "time": "18:45",
+      "price": 427.1
+    },
+    {
+      "point": 76,
+      "time": "19:00",
+      "price": 427.1
+    },
+    {
+      "point": 77,
+      "time": "19:15",
+      "price": 435.66
+    },
+    {
+      "point": 78,
+      "time": "19:30",
+      "price": 435.66
+    },
+    {
+      "point": 79,
+      "time": "19:45",
+      "price": 435.66
+    },
+    {
+      "point": 80,
+      "time": "20:00",
+      "price": 435.66
+    },
+    {
+      "point": 81,
+      "time": "20:15",
+      "price": 427.1
+    },
+    {
+      "point": 82,
+      "time": "20:30",
+      "price": 427.1
+    },
+    {
+      "point": 83,
+      "time": "20:45",
+      "price": 427.1
+    },
+    {
+      "point": 84,
+      "time": "21:00",
+      "price": 427.1
+    },
+    {
+      "point": 85,
+      "time": "21:15",
+      "price": 427.1
+    },
+    {
+      "point": 86,
+      "time": "21:30",
+      "price": 427.1
+    },
+    {
+      "point": 87,
+      "time": "21:45",
+      "price": 427.1
+    },
+    {
+      "point": 88,
+      "time": "22:00",
+      "price": 427.1
+    },
+    {
+      "point": 89,
+      "time": "22:15",
+      "price": 407.73
+    },
+    {
+      "point": 90,
+      "time": "22:30",
+      "price": 407.73
+    },
+    {
+      "point": 91,
+      "time": "22:45",
+      "price": 407.73
+    },
+    {
+      "point": 92,
+      "time": "23:00",
+      "price": 407.73
+    },
+    {
+      "point": 93,
+      "time": "23:15",
+      "price": 407.73
+    },
+    {
+      "point": 94,
+      "time": "23:30",
+      "price": 407.73
+    },
+    {
+      "point": 95,
+      "time": "23:45",
+      "price": 407.73
+    },
+    {
+      "point": 96,
+      "time": "0:00",
+      "price": 407.73
+    }
+  ],
+  "dayAheadPriceComplete": true,
+  "missingDayAheadPricePoints": [],
+  "dayAheadVolumes": [],
+  "dayAheadVolumeComplete": false,
+  "missingDayAheadVolumePoints": [
     1,
     2,
     3,
