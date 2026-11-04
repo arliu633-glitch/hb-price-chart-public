@@ -435,14 +435,14 @@
           ["non_market_forecast_mw", "非市场化机组预测", 0, "dashed", null, false, "nonMarket"],
           ["renewable_forecast_mw", "新能源预测", 0, "dashed", null, false, "renewable"],
           ["external_import_mw", "区外受电计划", 0, "dashed", null, false, "tieLine"],
-          ["bidding_space_forecast_mw", "预测竞价空间", 0, "dashed", null, false, "biddingSpace"],
+          ["bidding_space_forecast_mw", "预测竞价空间", 1, "dashed", null, false, "biddingSpace"],
         ]),
         ...definitions(realtimeWithBiddingSpace, [
           ["actual_load_mw", "实际负荷", 0, "solid", null, false, "load"],
           ["non_market_gen_mw", "非市场化机组出力", 0, "solid", null, false, "nonMarket"],
           ["renewable_gen_mw", "新能源出力", 0, "solid", null, false, "renewable"],
           ["tie_line_mw", "联络线电力", 0, "solid", null, false, "tieLine"],
-          ["bidding_space_actual_mw", "实际竞价空间", 0, "solid", null, false, "biddingSpace"],
+          ["bidding_space_actual_mw", "实际竞价空间", 1, "solid", null, false, "biddingSpace"],
         ]),
       ], chartTimes),
       loadTemperature: buildChartModel([
@@ -913,7 +913,7 @@
     }
     const models = buildOverviewModels(payload);
     const chartSettings = {
-      system: [models.system, ["MW"], {
+      system: [models.system, ["MW", "MW"], {
         highlightBiddingSpace: true,
         pairedBands: ["load", "nonMarket", "renewable", "tieLine"],
       }],
