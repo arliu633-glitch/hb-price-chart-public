@@ -574,6 +574,15 @@
   const chartOptionsByName = {};
   const payloadsByDate = new Map();
   let expandedChart = null;
+  let expandedChartName = null;
+  let systemLegendGroups = [];
+  const systemPairVisibility = {
+    load: true,
+    nonMarket: true,
+    renewable: true,
+    tieLine: true,
+    biddingSpace: false,
+  };
   let manifest = null;
   let currentPayload = null;
   let currentRangeDates = [];
@@ -758,6 +767,69 @@
     });
   }
 
+  function systemPairedLegend() {
+    const selected = {};
+    const rich = {};
+    systemLegendGroups.forEach(({ forecast, actual }, index) => {
+      const visible = systemPairVisibility[forecast.colorKey];
+      selected[forecast.name] = visible;
+      selected[actual.name] = visible;
+      selected[`${forecast.name}与${actual.name}区间`] = visible;
+      rich[`pair${index}`] = {
+        color: visible ? PAIRED_SERIES_COLORS[forecast.colorKey] : "#94a3b8",
+        lineHeight: 17,
+      };
+    });
+    return {
+      type: "scroll",
+      data: systemLegendGroups.map(({ forecast }) => forecast.name),
+      selected,
+      top: 4,
+      left: 12,
+      right: 12,
+      itemWidth: 0,
+      itemHeight: 0,
+      itemGap: 10,
+      formatter(name) {
+        const index = systemLegendGroups.findIndex(({ forecast }) => forecast.name === name);
+        if (index < 0) return name;
+        const { forecast, actual } = systemLegendGroups[index];
+        return `{pair${index}|┄ ${forecast.name}}\n{pair${index}|━ ${actual.name}}`;
+      },
+      textStyle: {
+        fontSize: 11,
+        padding: [3, 6],
+        borderColor: "#d8dee8",
+        borderWidth: 1,
+        borderRadius: 3,
+        rich,
+      },
+    };
+  }
+
+  function handleSystemLegendChange(event) {
+    const group = systemLegendGroups.find(({ forecast }) => forecast.name === event.name);
+    if (!group) return;
+    const key = group.forecast.colorKey;
+    const visible = event.selected[event.name] !== false;
+    if (key === "biddingSpace") {
+      Object.keys(systemPairVisibility).forEach((colorKey) => {
+        systemPairVisibility[colorKey] = colorKey === "biddingSpace" ? visible : !visible;
+      });
+    } else {
+      systemPairVisibility[key] = visible;
+      if (visible) systemPairVisibility.biddingSpace = false;
+    }
+    const option = chartOptionsByName.system;
+    option.legend = systemPairedLegend();
+    option.yAxis = option.yAxis.map((axis, index) => (
+      index === 1 ? { ...axis, show: systemPairVisibility.biddingSpace } : axis
+    ));
+    const update = { legend: option.legend, yAxis: option.yAxis };
+    charts.system.setOption(update);
+    if (expandedChart && expandedChartName === "system") expandedChart.setOption(update);
+  }
+
   function chartOption(model, units, options = {}) {
     const hasValues = model.series.some((series) => series.data.some((value) => value !== null));
     const dualAxis = model.axes.includes(1);
@@ -777,6 +849,15 @@
         ))
         : model.series;
     const renderOrder = new Map(renderSeries.map((series, index) => [series.name, index]));
+    if (options.highlightBiddingSpace) {
+      systemLegendGroups = renderSeries.filter((series) => series.lineType === "dashed")
+        .map((forecast) => ({
+          forecast,
+          actual: renderSeries.find((series) => (
+            series.colorKey === forecast.colorKey && series.lineType === "solid"
+          )),
+        }));
+    }
     return {
       animation: false,
       color: CHART_COLORS,
@@ -806,7 +887,7 @@
           },
         } : {}),
       },
-      legend: {
+      legend: options.highlightBiddingSpace ? systemPairedLegend() : {
         type: "scroll",
         data: renderSeries.map((series) => series.name),
         top: 4,
@@ -815,7 +896,7 @@
         textStyle: { color: "#475569", fontSize: 11 },
       },
       grid: {
-        top: 68,
+        top: options.highlightBiddingSpace ? 90 : 68,
         left: 58,
         right: dualAxis ? 58 : 22,
         bottom: 38,
@@ -845,6 +926,7 @@
           type: "value",
           name: units[1],
           scale: true,
+          ...(options.highlightBiddingSpace ? { show: systemPairVisibility.biddingSpace } : {}),
           nameTextStyle: { color: "#64748b" },
           axisLabel: {
             color: options.highlightBiddingSpace ? PAIRED_SERIES_COLORS.biddingSpace : "#64748b",
@@ -927,7 +1009,10 @@
       weatherCoal: [models.weatherCoal, ["MW"]],
     };
     Object.entries(chartSettings).forEach(([name, [model, units, options]]) => {
-      if (!charts[name]) charts[name] = root.echarts.init(chartElements[name]);
+      if (!charts[name]) {
+        charts[name] = root.echarts.init(chartElements[name]);
+        if (name === "system") charts[name].on("legendselectchanged", handleSystemLegendChange);
+      }
       const option = chartOption(model, units, options);
       chartOptionsByName[name] = option;
       charts[name].setOption(option, true);
@@ -1015,7 +1100,13 @@
     if (!option || !root.echarts) return;
     elements.chartDialogTitle.textContent = chartMetadata[chartName][0];
     elements.chartDialog.hidden = false;
-    if (!expandedChart) expandedChart = root.echarts.init(elements.expandedChart);
+    expandedChartName = chartName;
+    if (!expandedChart) {
+      expandedChart = root.echarts.init(elements.expandedChart);
+      expandedChart.on("legendselectchanged", (event) => {
+        if (expandedChartName === "system") handleSystemLegendChange(event);
+      });
+    }
     expandedChart.setOption({
       ...option,
       grid: { ...option.grid, bottom: 76 },
@@ -1038,6 +1129,7 @@
 
   function closeExpandedChart() {
     elements.chartDialog.hidden = true;
+    expandedChartName = null;
   }
 
   async function loadOverviewManifest() {
