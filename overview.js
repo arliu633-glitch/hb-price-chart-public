@@ -846,7 +846,10 @@
           name: units[1],
           scale: true,
           nameTextStyle: { color: "#64748b" },
-          axisLabel: { color: "#64748b", fontSize: 10 },
+          axisLabel: {
+            color: options.highlightBiddingSpace ? PAIRED_SERIES_COLORS.biddingSpace : "#64748b",
+            fontSize: 10,
+          },
           splitLine: { show: false },
         }] : []),
       ],
@@ -913,7 +916,7 @@
     }
     const models = buildOverviewModels(payload);
     const chartSettings = {
-      system: [models.system, ["MW", "MW"], {
+      system: [models.system, ["MW", "竞价空间（MW）"], {
         highlightBiddingSpace: true,
         pairedBands: ["load", "nonMarket", "renewable", "tieLine"],
       }],
