@@ -771,7 +771,11 @@
       })).sort((left, right) => (
         right.absoluteTotal - left.absoluteTotal || left.index - right.index
       )).map(({ series }) => series)
-      : model.series;
+      : options.highlightBiddingSpace
+        ? model.series.slice().sort((left, right) => (
+          Number(right.colorKey === "biddingSpace") - Number(left.colorKey === "biddingSpace")
+        ))
+        : model.series;
     const renderOrder = new Map(renderSeries.map((series, index) => [series.name, index]));
     return {
       animation: false,
@@ -783,6 +787,7 @@
         borderWidth: 0,
         textStyle: { color: "#ffffff", fontSize: 12 },
         position: tooltipPosition,
+        ...(options.highlightBiddingSpace ? { order: "seriesAsc" } : {}),
         ...(options.stackedArea ? {
           formatter: (params) => {
             const items = Array.isArray(params) ? params : [params];
@@ -849,6 +854,8 @@
         ...buildPairedBandSeries(model, options.pairedBands),
         ...renderSeries.map((series) => {
         const pairedColor = PAIRED_SERIES_COLORS[series.colorKey];
+        const highlighted = options.highlightBiddingSpace && series.colorKey === "biddingSpace";
+        const muted = options.highlightBiddingSpace && !highlighted;
         const originalColor = options.stackedArea
           ? CHART_COLORS[model.series.indexOf(series)]
           : undefined;
@@ -876,7 +883,8 @@
               ? { color: originalColor }
               : undefined,
           lineStyle: {
-            width: 1.7,
+            width: highlighted ? 3 : muted ? 1.2 : 1.7,
+            ...(options.highlightBiddingSpace ? { opacity: highlighted ? 1 : 0.5 } : {}),
             type: series.lineType,
             ...(pairedColor
               ? { color: pairedColor }
@@ -884,8 +892,8 @@
                 ? { color: originalColor }
                 : {}),
           },
-          z: 2,
-          emphasis: { focus: "series", lineStyle: { width: 2.5 } },
+          z: highlighted ? 5 : 2,
+          emphasis: { focus: "series", lineStyle: { width: highlighted ? 3.5 : 2.5, ...(muted ? { opacity: 1 } : {}) } },
         };
         }),
       ],
@@ -906,6 +914,7 @@
     const models = buildOverviewModels(payload);
     const chartSettings = {
       system: [models.system, ["MW"], {
+        highlightBiddingSpace: true,
         pairedBands: ["load", "nonMarket", "renewable", "tieLine"],
       }],
       loadTemperature: [models.loadTemperature, ["MW", "℃"], { pairedBands: ["load"] }],
