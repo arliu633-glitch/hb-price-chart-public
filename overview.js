@@ -104,7 +104,9 @@
     renewable: "#2563eb",
     tieLine: "#d97706",
     temperature: "#7c3aed",
+    biddingSpace: "#9333ea",
   });
+  const BIDDING_SPACE_REGULATION_MW = 150;
 
   function timeSlotValue(timeSlot) {
     const match = /^(\d{1,2}):(\d{2})$/.exec(String(timeSlot || ""));
@@ -385,6 +387,37 @@
     const datasets = payload?.datasets || {};
     const forecast = datasets.forecast || [];
     const realtime = datasets.realtime || [];
+    const biddingSpaceValue = (row, loadField, nonMarketField, renewableField, tieLineField) => {
+      const values = [
+        row?.[loadField],
+        row?.[nonMarketField],
+        row?.[renewableField],
+        row?.[tieLineField],
+      ];
+      return values.every(Number.isFinite)
+        ? values[0] - values[1] - values[2] - BIDDING_SPACE_REGULATION_MW - values[3]
+        : null;
+    };
+    const forecastWithBiddingSpace = forecast.map((row) => ({
+      ...row,
+      bidding_space_forecast_mw: biddingSpaceValue(
+        row,
+        "load_forecast_mw",
+        "non_market_forecast_mw",
+        "renewable_forecast_mw",
+        "external_import_mw",
+      ),
+    }));
+    const realtimeWithBiddingSpace = realtime.map((row) => ({
+      ...row,
+      bidding_space_actual_mw: biddingSpaceValue(
+        row,
+        "actual_load_mw",
+        "non_market_gen_mw",
+        "renewable_gen_mw",
+        "tie_line_mw",
+      ),
+    }));
     const clearing = datasets.clearing || [];
     const rolling = datasets.rollingAuction || [];
     const priceForecast = datasets.priceForecast || [];
@@ -397,17 +430,19 @@
 
     return {
       system: buildChartModel([
-        ...definitions(forecast, [
+        ...definitions(forecastWithBiddingSpace, [
           ["load_forecast_mw", "负荷预测", 0, "dashed", null, false, "load"],
           ["non_market_forecast_mw", "非市场化机组预测", 0, "dashed", null, false, "nonMarket"],
           ["renewable_forecast_mw", "新能源预测", 0, "dashed", null, false, "renewable"],
           ["external_import_mw", "区外受电计划", 0, "dashed", null, false, "tieLine"],
+          ["bidding_space_forecast_mw", "预测竞价空间", 0, "dashed", null, false, "biddingSpace"],
         ]),
-        ...definitions(realtime, [
+        ...definitions(realtimeWithBiddingSpace, [
           ["actual_load_mw", "实际负荷", 0, "solid", null, false, "load"],
           ["non_market_gen_mw", "非市场化机组出力", 0, "solid", null, false, "nonMarket"],
           ["renewable_gen_mw", "新能源出力", 0, "solid", null, false, "renewable"],
           ["tie_line_mw", "联络线电力", 0, "solid", null, false, "tieLine"],
+          ["bidding_space_actual_mw", "实际竞价空间", 0, "solid", null, false, "biddingSpace"],
         ]),
       ], chartTimes),
       loadTemperature: buildChartModel([
