@@ -968,7 +968,7 @@
               ? { color: originalColor }
               : undefined,
           lineStyle: {
-            width: highlighted ? 3 : muted ? 1.2 : 1.7,
+            width: muted ? 1.2 : 1.7,
             ...(options.highlightBiddingSpace ? { opacity: highlighted ? 1 : 0.5 } : {}),
             type: series.lineType,
             ...(pairedColor
@@ -978,7 +978,7 @@
                 : {}),
           },
           z: highlighted ? 5 : 2,
-          emphasis: { focus: "series", lineStyle: { width: highlighted ? 3.5 : 2.5, ...(muted ? { opacity: 1 } : {}) } },
+          emphasis: { focus: "series", lineStyle: { width: 2.5, ...(muted ? { opacity: 1 } : {}) } },
         };
         }),
       ],
@@ -1000,7 +1000,7 @@
     const chartSettings = {
       system: [models.system, ["MW", "竞价空间（MW）"], {
         highlightBiddingSpace: true,
-        pairedBands: ["load", "nonMarket", "renewable", "tieLine"],
+        pairedBands: ["load", "nonMarket", "renewable", "tieLine", "biddingSpace"],
       }],
       loadTemperature: [models.loadTemperature, ["MW", "℃"], { pairedBands: ["load"] }],
       priceForecast: [models.priceForecast, ["元/MWh"]],
