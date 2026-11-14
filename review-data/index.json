@@ -1,7 +1,8 @@
 {
-  "updatedAt": "2026-11-13T08:21:14.366096+00:00",
-  "latestDate": "2026-11-12",
+  "updatedAt": "2026-11-14T06:32:54.364105+00:00",
+  "latestDate": "2026-11-13",
   "availableDates": [
+    "2026-11-13",
     "2026-11-12",
     "2026-11-11",
     "2026-11-10",
@@ -117,6 +118,19 @@
     "2026-07-23"
   ],
   "entries": {
+    "2026-11-13": {
+      "date": "2026-11-13",
+      "reportFile": "复盘信息抓取-20261113.xlsx",
+      "reportUrl": "review-results/复盘信息抓取-20261113.xlsx",
+      "reportExists": true,
+      "platformFile": "河北实时运行及市场出清数据-20261113.xlsx",
+      "platformUrl": "review-results/河北实时运行及市场出清数据-20261113.xlsx",
+      "platformExists": true,
+      "spotPriceUrl": "review-data/2026-11-13.json",
+      "spotPriceComplete": true,
+      "dayAheadPriceUrl": "review-data/2026-11-13.json",
+      "dayAheadPriceComplete": true
+    },
     "2026-11-12": {
       "date": "2026-11-12",
       "reportFile": "复盘信息抓取-20261112.xlsx",
@@ -128,7 +142,8 @@
       "spotPriceUrl": "review-data/2026-11-12.json",
       "spotPriceComplete": true,
       "dayAheadPriceUrl": "review-data/2026-11-12.json",
-      "dayAheadPriceComplete": true
+      "dayAheadPriceComplete": true,
+      "dayAheadVolumeComplete": false
     },
     "2026-11-11": {
       "date": "2026-11-11",
